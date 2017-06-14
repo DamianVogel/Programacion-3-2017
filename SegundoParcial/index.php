@@ -26,7 +26,7 @@ desarrollo para obtener información sobre los errores
 $app = new \Slim\App(["settings" => $config]);
 
 
-$app->put('/modificar/[{id}]', function (Request $request, Response $response,$args) {
+$app->post('/modificar/[{id}]', function (Request $request, Response $response,$args) {
 
 $destino="./fotos/";
 $destinoBackup="./fotos/Backup/";
@@ -43,31 +43,35 @@ $modBike->marca= $ArrayDeParametros['marca'];
 $modBike->archivo = $bike->archivo;
 
 	
-	$archivos = $request->getUploadedFiles();
+$archivos1 = $request->getUploadedFiles();
   	
-
-
-	$nombreAnterior = $archivos['fotoasd']->getClientFilename();
+$nombreAnterior = $archivos1['fotoasd']->getClientFilename();
 	$extension= explode(".", $nombreAnterior);
 	//var_dump($nombreAnterior);
 	$extension=array_reverse($extension);
 
 	$path = $destino.$modBike->marca.".".$extension[0];
 
+	
+
+
 	if($path == $bike->archivo)
 	{
-	  $archivos['fotoasd']->moveTo($destinoBackup.$bike->marca.".".$extension[0]);
+	  
+	  $archivos1['fotoasd']->moveTo($destinoBackup.$bike->marca.".".$extension[0]);
 	}
 		else
 		{
-			$archivos['fotoasd']->moveTo($destino.$modBike->marca.".".$extension[0]);	
+			$archivos1['fotoasd']->moveTo($destino.$modBike->marca.".".$extension[0]);	
 		}
 
 	$modBike->archivo=$path;
 
-		return $modBike->ModificarBike();
+	$modBike->ModificarBike();
 
+	//$update = $modBike->ModificarBike();
 
+	return var_dump($modBike);
 			
 });
 
@@ -142,7 +146,7 @@ $app->post('/alta[/]', function (Request $request, Response $response) {
 
 });
 
-$app->post('/update', function (Request $request, Response $response) {
+$app->put('/update', function (Request $request, Response $response) {
   
   	$destino="./fotos/";
   	$ArrayDeParametros = $request->getParsedBody();

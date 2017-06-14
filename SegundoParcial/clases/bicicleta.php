@@ -21,12 +21,12 @@ class Bicicleta
 	 {
 
 			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta('UPDATE bikes set color=:color, rodado=:rodado, marca=:marca, archivo=:archivo, WHERE id=:id');
-            $consulta->bindParam(':id',$this->id); 
+			$consulta =$objetoAccesoDato->RetornarConsulta('UPDATE bikes set archivo=:archivo, color=:color, rodado=:rodado, marca=:marca WHERE id=:id');
+            $consulta->bindParam(':id',$this->id,PDO::PARAM_INT); 
             $consulta->bindParam(':color',$this->color);
             $consulta->bindParam(':rodado',$this->rodado);
             $consulta->bindParam(':marca',$this->marca);
-            $consulta->bindParam(':archvo',$this->archivo);
+            $consulta->bindParam(':archivo',$this->archivo);
             return $consulta->execute();
      }
 	

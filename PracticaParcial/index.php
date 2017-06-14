@@ -61,44 +61,6 @@ $app->delete('/borrar', function (Request $request, Response $response) {
 		//return $consulta->rowCount();
 });
 
-$app->post('/modificar', function (Request $request, Response $response) {
-
-	$id = $request->getParsedBody(); //ATENCION ES UN ARRAY.
-
-	$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta('SELECT id, titel as titulo, interpret as cantante,jahr as año, archivo as archivo from cds WHERE id = :id');
-			$consulta->bindParam(":id",$id['id']);
-			$consulta->execute();
-			$cdBuscado= $consulta->fetchObject('cd');
-
-	echo "
-        
-		
-		<link href='css/bootstrap.min.css' rel='stylesheet'>
-		<link href=css/ingreso.css rel=stylesheet>
-		
-		<div class=container>
-		<form class='form-ingreso' onsubmit='UpdateCD();return false' enctype=multipart/form-data id=formcd>
-	    <h2 class=form-ingreso-heading>MODIFICACION</h2>
-        <label for=cantante value=natalia class=sr-only>Cantante</label>
-        <input type=text  minlength=6  id=cantante value='".$cdBuscado->cantante."'   class='form-control' placeholder=Cantante required= autofocus=>
-        <label for=titulo value=un titulo class=sr-only>Titulo</label>
-        <input type=text  minlength=6  id=titulo value='".$cdBuscado->titulo."'  class=form-control placeholder=Titulo required= autofocus=>
-        <label for=anio class=sr-only>Año</label>
-        <input type=number value='".$cdBuscado->año."' min=1900  max=2099 id=anio class=form-control placeholder=año required= autofocus=>
-       <input readonly   type=hidden    id=idCD value='".$cdBuscado->id."' class=form-control >
-       <input type=file id=foto name=foto value='".$cdBuscado->archivo."'>
-        <button  class='btn btn-lg btn-success btn-block' type=submit><span class='glyphicon glyphicon-floppy-save'>&nbsp;&nbsp;</span>Modificar </button>
-        
-		 </form>
-
-    	</div>
-		</tr>   ";
-	
-	 	
-	
-			
-});
 
 
 
