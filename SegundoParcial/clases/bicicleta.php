@@ -5,7 +5,7 @@ class Bicicleta
  	public $color;
   	public $rodado;
   	public $marca;
-	public $archivo;
+	
 
   	public static function BorrarBike($id)
 	 {
@@ -34,11 +34,11 @@ class Bicicleta
 	 public function InsertarBike()
 	 {
 				$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-				$consulta =$objetoAccesoDato->RetornarConsulta('INSERT into bikes (color, rodado, marca, archivo) values (:color,:rodado,:marca,:archivo)');
+				$consulta =$objetoAccesoDato->RetornarConsulta('INSERT into bicicletas (color, rodado, marca) values (:color,:rodado,:marca)');
 				$consulta->bindParam(':color',$this->color);
                 $consulta->bindParam(':rodado',$this->rodado);
                 $consulta->bindParam(':marca',$this->marca);
-                $consulta->bindParam(':archivo',$this->archivo);
+              //  $consulta->bindParam(':archivo',$this->archivo);
                 
                 $consulta->execute();
 				return $objetoAccesoDato->RetornarUltimoIdInsertado();

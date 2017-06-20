@@ -77,6 +77,8 @@ $nombreAnterior = $archivos1['fotoasd']->getClientFilename();
 
 
 
+
+//1º punto del segundo parcial.
 $app->post('/validarusuario', function (Request $request, Response $response) {
 
  $ArrayDeParametros = $request->getParsedBody();  
@@ -87,9 +89,9 @@ $app->post('/validarusuario', function (Request $request, Response $response) {
 
 
 			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAcceso->RetornarConsulta('SELECT idusuario, nombre, email, password, tipo FROM usuarios WHERE email=:email and password=:password');
-            $consulta->bindParam("email",$usuario);
-            $consulta->bindParam("password",$clave);
+            $consulta = $objetoAcceso->RetornarConsulta('SELECT idusuario, nombre, mail, clave, tipo FROM usuarios WHERE mail=:mail and clave=:clave');
+            $consulta->bindParam("mail",$usuario);
+            $consulta->bindParam("clave",$clave);
 			
 			$consulta->execute();
 
@@ -110,9 +112,23 @@ $app->post('/validarusuario', function (Request $request, Response $response) {
 			});
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//2º punto del segundo parcial
 $app->post('/alta[/]', function (Request $request, Response $response) {
   
-  	$destino="./fotos/";
+  //	$destino="./fotos/";
   	$ArrayDeParametros = $request->getParsedBody();
   	//var_dump($ArrayDeParametros);
   	$color= $ArrayDeParametros['color'];
@@ -124,21 +140,21 @@ $app->post('/alta[/]', function (Request $request, Response $response) {
   	$miBike->rodado=$rodado;
   	$miBike->marca=$marca;
 
-  	$archivos = $request->getUploadedFiles();
+  	//$archivos = $request->getUploadedFiles();
   	//var_dump($ArrayDeParametros);
   	//var_dump($archivos);
   	//var_dump($archivos['foto']);
 
 
-	$nombreAnterior=$archivos['foto']->getClientFilename();
-	$extension= explode(".", $nombreAnterior)  ;
+	//$nombreAnterior=$archivos['foto']->getClientFilename();
+	//$extension= explode(".", $nombreAnterior)  ;
 	//var_dump($nombreAnterior);
-	$extension=array_reverse($extension);
+	//$extension=array_reverse($extension);
 
-  	$archivos['foto']->moveTo($destino.$marca.".".$extension[0]);
+  	//$archivos['foto']->moveTo($destino.$marca.".".$extension[0]);
     
-	$path = $destino.$marca.".".$extension[0];
-	$miBike->archivo=$path;
+	//$path = $destino.$marca.".".$extension[0];
+	//$miBike->archivo=$path;
 
 	$ultimoId = $miBike->InsertarBike();
 
