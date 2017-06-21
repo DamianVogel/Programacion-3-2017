@@ -1,7 +1,7 @@
 <?php
 class Bicicleta
 {
-	public $id;
+	public $idbicicleta;
  	public $color;
   	public $rodado;
   	public $marca;
@@ -10,7 +10,7 @@ class Bicicleta
   	public static function BorrarBike($id)
 	 {
 	 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta('DELETE from bikes WHERE id=:id');			
+			$consulta =$objetoAccesoDato->RetornarConsulta('DELETE from bicicletas WHERE idbicicleta=:id');			
 			$consulta->bindParam(":id",$id);
             $consulta->execute();
 			return $consulta->rowCount();
@@ -50,7 +50,7 @@ class Bicicleta
   	public static function TraerTodasBike()
 	{
 			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta('SELECT id, color, rodado, marca, archivo from bikes');
+			$consulta =$objetoAccesoDato->RetornarConsulta('SELECT idbicicleta, color, rodado, marca from bicicletas');
 			$consulta->execute();			
 			return $consulta->fetchAll(PDO::FETCH_CLASS, "Bicicleta");		
 	}
@@ -59,7 +59,7 @@ class Bicicleta
 	{
 			//var_dump($id);
 			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta('SELECT id, color, rodado, marca, archivo from bikes where id=:id');
+			$consulta =$objetoAccesoDato->RetornarConsulta('SELECT idbicicleta, color, rodado, marca from bicicletas where idbicicleta=:id');
 			$consulta->bindParam(':id',$id,PDO::PARAM_INT);
             $consulta->execute();
 			$bikeBuscada= $consulta->fetchObject("Bicicleta");
@@ -70,7 +70,7 @@ class Bicicleta
 	public static function TraerBikesColor($color) 
 	{
 			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta('SELECT * from bikes where color=:color');
+			$consulta =$objetoAccesoDato->RetornarConsulta('SELECT * from bicicletas where color=:color');
 		    $consulta->bindParam(':color',$color);
 			$consulta->execute();
 			return $consulta->fetchAll(PDO::FETCH_CLASS, "Bicicleta");				

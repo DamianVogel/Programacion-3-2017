@@ -218,7 +218,7 @@ $app->put('/update', function (Request $request, Response $response) {
 
 
 
-$app->get('/traerbikes', function (Request $request, Response $response) {
+$app->get('/traertodas', function (Request $request, Response $response) {
     
    	$bikes = Bicicleta::TraerTodasBike();
 
@@ -226,7 +226,7 @@ $app->get('/traerbikes', function (Request $request, Response $response) {
 
 });
 
-$app->get('/bikes/[{color}]', function (Request $request, Response $response, $args) {
+$app->get('/traercolor/[{color}]', function (Request $request, Response $response, $args) {
     
    		   
 	$bikes = Bicicleta::TraerBikesColor($args['color']);
@@ -235,7 +235,7 @@ $app->get('/bikes/[{color}]', function (Request $request, Response $response, $a
 
 });
 
-$app->get('/bikeporid/[{id}]', function (Request $request, Response $response, $args) {
+$app->get('/traerid/[{id}]', function (Request $request, Response $response, $args) {
     
    		   
 	$bikes = Bicicleta::TraerUnaBike($args['id']);
@@ -244,7 +244,7 @@ $app->get('/bikeporid/[{id}]', function (Request $request, Response $response, $
 
 });
 
-$app->delete('/deleteporid/[{id}]', function (Request $request, Response $response, $args) {
+$app->delete('/deleteid/[{id}]', function (Request $request, Response $response, $args) {
     
    		   
 	$bikes = Bicicleta::BorrarBike($args['id']);
@@ -253,7 +253,56 @@ $app->delete('/deleteporid/[{id}]', function (Request $request, Response $respon
 
 });
 
+$app->post('/altaventa/[{id}]', function (Request $request, Response $response, $args) {
+  
 
+	$destino="./FotosVentas/";
+
+  	$ArrayDeParametros = $request->getParsedBody();
+  	//var_dump($ArrayDeParametros);
+  	$fecha= $ArrayDeParametros['date'];
+  	$cliente= $ArrayDeParametros['cliente'];
+  	$precio= $ArrayDeParametros['precio'];
+  	
+	//tomar iddebicicleta.
+
+	$biciventa = Bicicleta::TraerUnaBike($args['id']);
+
+  	$archivos = $request->getUploadedFiles();
+  	//var_dump($biciventa);
+  	//var_dump($archivos);
+  	//var_dump($archivos['foto']);
+
+	$nombreAnterior=$archivos['foto']->getClientFilename();
+	$extension= explode(".", $nombreAnterior)  ;
+	//var_dump($nombreAnterior);
+	$extension=array_reverse($extension);
+
+  	$archivos['foto']->moveTo($destino.$biciventa->idbicicleta.".".$extension[0]);
+    
+	$ruta = $destino.$biciventa->idbicicleta.$cliente.".".$extension[0];
+
+	$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+				$consulta =$objetoAccesoDato->RetornarConsulta('INSERT into ventas (idbicicleta, nombrecliente, fecha, precio, archivo) values (:idbicicleta, :nombrecliente, :fecha, :precio, :archivo)');
+				$consulta->bindParam(':idbicicleta',$biciventa->idbicicleta);
+                $consulta->bindParam(':nombrecliente',$cliente);
+                $consulta->bindParam(':fecha',$fecha);
+                $consulta->bindParam(':precio',$precio);
+				$consulta->bindParam(':archivo',$ruta);
+                
+                $consulta->execute();
+				return $objetoAccesoDato->RetornarUltimoIdInsertado();
+	
+	
+	//$path = $destino.$marca.".".$extension[0];
+	//$miBike->archivo=$path;
+
+	//$ultimoId = $miBike->InsertarBike();
+
+	//return $ultimoId;
+
+
+});
 
 
 
