@@ -162,9 +162,12 @@ $app->post('/alta[/]', function (Request $request, Response $response) {
 
 });
 
-$app->put('/update', function (Request $request, Response $response) {
+$app->put('/update', function (Request $request, Response $response, $args) {
   
-  	$destino="./fotos/";
+  	
+	$biciventa = Bicicleta::TraerUnaBike($args['id']);
+	  
+	$destino="./fotos/";
   	$ArrayDeParametros = $request->getParsedBody();
   	
 	//var_dump($ArrayDeParametros);
@@ -259,12 +262,12 @@ $app->post('/altaventa/[{id}]', function (Request $request, Response $response, 
 	$destino="./FotosVentas/";
 
   	$ArrayDeParametros = $request->getParsedBody();
-  	//var_dump($ArrayDeParametros);
+  	
   	$fecha= $ArrayDeParametros['date'];
   	$cliente= $ArrayDeParametros['cliente'];
   	$precio= $ArrayDeParametros['precio'];
   	
-	//tomar iddebicicleta.
+	
 
 	$biciventa = Bicicleta::TraerUnaBike($args['id']);
 
