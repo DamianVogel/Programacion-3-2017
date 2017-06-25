@@ -26,7 +26,7 @@ function MostarLogin()
 {
 		
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/mostrarlogin",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/mostrarlogin",
 		type:"post"
 		//data:{queHacer:"MostarLogin"}
 	});
@@ -49,7 +49,7 @@ function MostrarAltaCd()
 	
 	//alert("llegue");
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/mostraralta",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/mostraralta",
 		type:"post",
 		//data:{queHacer:"que hace"}
 	});
@@ -64,7 +64,7 @@ function MostrarGrilla()
 	
 	//alert("llegue");
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/mostrargrilla",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/mostrargrilla",
 		type:"post",
 		data:{queHacer:"que hace"}
 	});
@@ -79,7 +79,7 @@ function MostrarModificacion()
 	
 	//alert("llegue");
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/mostrarmodificacion",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/mostrarmodificacion",
 		type:"post",
 		//data:{queHacer:"que hace"}
 	});
@@ -106,7 +106,7 @@ function validarLogin()
 	
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/validarusuario",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/validarusuario",
 		type:"post",
 		data:{
 			recordarme:recordar,
@@ -142,7 +142,7 @@ function validarLogin()
 function deslogear()
 {	
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/desloguear",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/desloguear",
 		type:"post"		
 	});
 	funcionAjax.done(function(retorno){

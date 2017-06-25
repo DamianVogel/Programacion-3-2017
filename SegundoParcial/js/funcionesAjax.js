@@ -26,7 +26,7 @@ function MostarLogin()
 {
 		
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/mostrarlogin",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/mostrarlogin",
 		type:"post"
 		//data:{queHacer:"MostarLogin"}
 	});

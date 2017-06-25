@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<title>LOGIN</title>
+<!--<p style="color:brown">ACA SE DEBERIAN LOGEAR</p>
+<br>
+<a href="indexADM.html">ADM</a>
+<br><br>
+<a href="indexEMP.html">EMPLEADO</a>-->
+
+<head>
+  <meta charset="UTF-8">
+  <title>LOGIN</title>
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  <div class="form">
+          <div id="login">   
+          <h1>Inicio de Sesion</h1>
+          
+            <div class="field-wrap">
+            <label>
+              Usuario<span class="req">*</span>
+            </label>
+            <input type="text"required name="usuario" id="usuarioid" autocomplete="on"/>
+          </div>
+          
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input type="text"required name="password" id="passwordid" autocomplete="off"/>
+          </div>
+          <button class="button"  onclick="ValidarUsuario()" value="validar" />Ingresar</button>
+          <br><br>
+          </form>
+
+        </div>
+        
+      </div><!-- tab-content -->
+      
+</div> <!-- /form -->
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+   
+    <script src="js/funciones.js"></script>
+    <script src="js/index.js"></script>
+
+</body>
+</html>

@@ -6,7 +6,7 @@ function BorrarCD(idParametro)
 	//alert("Estoy en Borrar cd y quiero borrar el cd "+idParametro);
 
 		var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/borrar",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/borrar",
 		type:"delete",
 		data:{
 			//queHacer:"BorrarCD",
@@ -28,7 +28,7 @@ function EditarCD(idParametro)
 	//alert("entro al ajax de modificar CD");
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/modificar",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/modificar",
 		type:"post",
 		data:{
 			//queHacer:"TraerCD",
@@ -75,7 +75,7 @@ function GuardarCD()
 		
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/cd",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/cd",
 		type:"post",
 		data:datosDelForm,
 		cache: false,
@@ -130,7 +130,7 @@ function UpdateCD()
 		
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost:8080/Programacion-3-2017/PracticaParcial/update",
+		url:"http://localhost/Programacion-3-2017/PracticaParcial/update",
 		type:"post",
 		data:datosDelForm,
 		cache: false,
