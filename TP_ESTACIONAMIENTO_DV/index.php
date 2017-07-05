@@ -18,63 +18,23 @@ $app->get('/traerunusuario/[{id}]', function ($request, $response, $args) {
           return $response->withJson($uno);
         });
 
-$app->get('/validarusuario', function ($request, $response) {
+$app->get('/validarusuario', function ($request, $response, $args) {
          
-  $ArrayDeParametros = $request->getParsedBody();  
- //parsea lo que viene por html
+      $ArrayDeParametros = $request->getParsedBody();  
+      $usuario=$ArrayDeParametros['usuario'];
+      $clave=$ArrayDeParametros['clave'];
+      $recordar=$ArrayDeParametros['recordarme'];
 
- session_start();
-
- $usuario=$ArrayDeParametros['usuario'];
- $clave=$ArrayDeParametros['clave'];
- $recordar=$ArrayDeParametros['recordarme'];
-
-			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAcceso->RetornarConsulta('SELECT mail as emailbd, password as clavebd FROM usuarios WHERE mail=:mail and password=:password');
-            $consulta->bindParam("mail",$usuario);
-            $consulta->bindParam("password",$clave);
 			
+      
+
+      
 			$consulta->execute();
 
 			$resultado = $consulta->fetchAll();
 			
 			$elementos = count($resultado);
 
-// var_dump($resultado); Da error si quiero ejecutar esto.
-//var_dump($elementos);
-
-//EJEMPLO DE SETEAR COOKIE
-if($elementos>0)
-{
-	if($recordar=="true")
-					{
-						/*
-						La diferencia del + y el - en el time es que el - borra.
-						Entonces, si no es true, osea que no le dio check a Recordarme
-						borra la cookie.
-						*/
-						setcookie("registro",$usuario,  time()+36000 , '/');
-						
-					}else
-					{
-						setcookie("registro",$usuario,  time()-36000 , '/');
-						
-					}
-						$_SESSION['registrado']=$usuario;
-						$retorno="ingreso";
-
-}else
-		{
-			$retorno= "No-esta";
-		}
-
-return $retorno;
-         
-         
-         
-         
-         
-         
          
          
           $obj = isset($_GET['usuario']) ? json_decode(json_encode($_GET['usuario'])) : NULL;

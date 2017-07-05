@@ -83,6 +83,9 @@ class Usuario
 	//ABM
 	public static function Alta($obj)
 	{
+		
+		//DV                                                      ESTO ESTA MAL CORREGIR
+		
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `usuarios`(`nombre`, `Turno`, `Password`, `Tipo`,`Estado`) VALUES ($obj[0],$obj[1],$obj[2],$obj[3],$obj[4])');
 		$consulta->Execute();
@@ -105,6 +108,10 @@ class Usuario
 	//TRAER BD
 	public static function TraerTodosLosusuarios()
 	{
+		
+		
+		//DV                                                      FUNCIONA OK!
+		
 		$arrayRetorno = array();
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 		$consulta = $objetoAcceso->RetornarConsulta('SELECT nombre, `password`, tipo, turno, estado  FROM `usuarios`');
@@ -117,14 +124,18 @@ class Usuario
 		 return $arrayRetorno;
 	}
 
-	public static function TraerUnUsuario($aux)
+
+
+		//DV         											FUNCIONA OK!
+	public static function TraerUnUsuario($id)
     {
         $objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAcceso->RetornarConsulta('SELECT nombre, `password`, tipo, turno, estado FROM usuarios WHERE nombre=:nombre');
-        $consulta->bindParam("nombre", $aux);
+        $consulta = $objetoAcceso->RetornarConsulta('SELECT nombre, password, tipo, turno, estado FROM usuarios WHERE id_empleado=:id');
+        $consulta->bindParam("id", $id);
         $consulta->execute();
-        $uno = $consulta->fetchAll();
-         if($uno == NULL)
+        $uno = $consulta->fetchObject("Usuario");
+        
+		 if($uno == NULL)
           {
               $uno=0;
               return $uno;
@@ -135,6 +146,9 @@ class Usuario
 		  }
         
     }
+
+
+
 
 	//VALIDAR
 	public static function ValidarUsuario($nombre,$password)
