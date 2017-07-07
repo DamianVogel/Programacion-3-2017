@@ -5,6 +5,7 @@ class Usuario
 {
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
+	private $Id;
 	private $Nombre;
  	private $Turno;
   	private $Password;
@@ -58,9 +59,11 @@ class Usuario
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
-	public function __construct( $Nombre=NULL, $Turno=NULL, $Password=NULL, $Tipo=NULL, $Estado=NULL)
+	//DV PROBAR ID -> POSTMAN SIN LUZ -> AGREGADO EL ATRIBUTO ID PARA PODER MODIFICAR.
+	public function __construct( $Id=NULL,$Nombre=NULL, $Turno=NULL, $Password=NULL, $Tipo=NULL, $Estado=NULL)
 	{
 		if($Nombre !== NULL && $Turno !== NULL && $Password !== NULL && $Tipo !== NULL && $Estado !== NULL ){
+			
 			$this->Nombre = $Nombre;
 			$this->Turno = $Turno;
 			$this->Password = $Password;
@@ -81,28 +84,132 @@ class Usuario
 //--METODOS DE CLASE
 
 	//ABM
-	public static function Alta($obj)
+	
+	//DV probar en postman -> Sin Luz
+	public static function AltaEmpleado($empleado)
 	{
-		
-		//DV                                                      ESTO ESTA MAL CORREGIR
+		//var_dump($empleado);
 		
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `usuarios`(`nombre`, `Turno`, `Password`, `Tipo`,`Estado`) VALUES ($obj[0],$obj[1],$obj[2],$obj[3],$obj[4])');
+		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `usuarios`(`nombre`, `Turno`, `Password`, `Tipo`,`Estado`) VALUES (`nombre`=:nombre, `Turno`=:turno, `Password`=:password, `Tipo`=:tipo,`Estado`=:estado)');
+		$consulta->bindvalue(':nombre', $empleado->Nombre, PDO::PARAM_STR);
+		$consulta->bindvalue(':turno', $empleado->Turno , PDO::PARAM_STR);
+		$consulta->bindvalue(':password', $empleado->Password , PDO::PARAM_STR);
+		$consulta->bindvalue(':tipo', $empleado->Tipo , PDO::PARAM_STR);
+		$consulta->bindvalue(':estado', $empleado->Estado , PDO::PARAM_STR);
+
+		$resultado = $consulta->Execute();
+	
+		return $resultado;
+	}
+	
+	
+	
+	
+	
+	
+	//DV probar en postman -> Sin Luz
+	public static function DeshabilitarEmp($id)
+	{
+		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `Estado`=0 WHERE id=:id ');
+		$consulta->bindvalue(':id', $id , PDO::PARAM_INT); //Chequear lo del param INT
 		$consulta->Execute();
 	}
-	public static function Baja($aux)
+	
+	//DV probar en postman -> Sin Luz
+	public static function BajaEmp($id)
 	{
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `Estado`=0 WHERE `Nombre`=:Nombre ');
-		$consulta->bindvalue(':Nombre', $aux , PDO::PARAM_STRING);
+		$consulta = $objetoAcceso->RetornarConsulta('DELETE FROM `usuarios` WHERE id=:id ');
+		$consulta->bindvalue(':id', $id , PDO::PARAM_INT); //Chequear lo del param INT
 		$consulta->Execute();
 	}
-	public static function Modificacion($obj) //PATENTE, nro_cochera, Password 
+
+
+	//DV probar en postman -> Sin Luz
+	public static function Modificacion($empleado) //PATENTE, nro_cochera, Password 
 	{
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `nombre`=$obj[0],`Password`=$obj[1],`Turno`=$obj[2],`Estado`=$obj[3]  WHERE `nombre`=:nombre ');
-		$consulta->bindvalue(':nombre',$obj[0], PDO::PARAM_STRING); //ARREGLAR
+		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `nombre`=:nombre,`Password`=:password,`Turno`=:turno,`Estado`=:estado  WHERE `id`=:id');
+		$consulta->bindvalue(':nombre', $empleado->Nombre, PDO::PARAM_STRING);
+		$consulta->bindvalue(':turno', $empleado->Turno , PDO::PARAM_STRING);
+		$consulta->bindvalue(':password', $empleado->Password , PDO::PARAM_STRING);
+		$consulta->bindvalue(':id', $empleado->Id , PDO::PARAM_INT);
+		$consulta->bindvalue(':estado', $empleado->Estado , PDO::PARAM_STRING);
 		$consulta->Execute();
+	}
+
+	
+
+	//DV probar en postman -> Sin Luz         
+	public static function SignIn($nombre,$password)
+	{
+        
+         	$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+            $consulta = $objetoAcceso->RetornarConsulta('SELECT nombre FROM usuarios WHERE nombre=:nombre');
+            $consulta->bindParam("nombre",$nombre);
+        
+            $consulta->execute();    
+            $uno= $consulta->fetchAll();
+
+            if($uno == NULL)
+            {
+				$response_array['validacion']= 'errorus'; //<- Probar si esta bien hecho.
+			}
+            else if($uno == TRUE )
+            {
+                $objetoAcceso2 = AccesoDatos::DameUnObjetoAcceso();
+                $consulta2 = $objetoAcceso2->RetornarConsulta('SELECT nombre, `password`, turno, tipo, estado FROM usuarios WHERE nombre=:nombre AND `password`=:pass');
+                $consulta2->bindParam("nombre",$nombre);
+                $consulta2->bindParam("pass",$password);
+                $consulta2->execute();
+                $dos= $consulta2->fetchAll();
+                
+                if($dos == TRUE)
+                {
+                    // $rta= "Bienvenido/a $nombre";
+					$response_array['validacion'] = 'ok';
+					$response_array['nombre'] = $nombre; 
+	                $response_array['empleado'] = $consulta2->fetchObject("Usuario"); //DV probar si funciona
+					
+					}
+                else
+                {
+                    // $rta= "Contraseña incorrecta";
+					$response_array['validacion'] = 'error';  
+                }
+            }
+        // return $rta;
+		return $response_array;
+	}
+
+	//DV probar en postman -> Sin Luz
+	public static function ValidarTipoEmp ($nombre)
+	{
+			
+    		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+            $consulta = $objetoAcceso->RetornarConsulta('SELECT tipo FROM usuarios WHERE nombre=:nombre');
+			$consulta->bindParam("nombre",$nombre);  //Probar esto
+            $consulta->execute();
+            $dos= $consulta->fetchObject("Usuario");
+			return $response_array['tipo_empleado']= $dos->tipo;
+	}
+
+	//DV probar en postman -> Sin Luz
+	public static function LogEmp ($nombre)
+	{
+			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+
+            //Inserto en los LOGS generales
+			$hoy = date('Y-m-d');
+				
+	  		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO logs(`NOMBRE_EMPLEADO`,`FECHA`,`HORA_ENTRADA`)  VALUES (:nombre,:hoy,NOW())');
+            $consulta->bindParam("nombre",$nombre); //Probar esto
+			$consulta->bindParam("hoy",$hoy); //Probar esto
+            $consulta->execute();
+		  
+		  	 return true;
 	}
 
 	//TRAER BD
@@ -110,7 +217,7 @@ class Usuario
 	{
 		
 		
-		//DV                                                      FUNCIONA OK!
+		//DV                    FUNCIONA OK!
 		
 		$arrayRetorno = array();
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
@@ -126,7 +233,7 @@ class Usuario
 
 
 
-		//DV         											FUNCIONA OK!
+		//DV       				FUNCIONA OK!
 	public static function TraerUnUsuario($id)
     {
         $objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
@@ -190,18 +297,8 @@ class Usuario
 		return $response_array;
 	}
 
-	//INSERTAR LOGS
-	public static function ValidarTipoEmp ($nombre)
-	{
-			
-    		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAcceso->RetornarConsulta('SELECT tipo FROM usuarios WHERE nombre=:nombre');
-			$consulta->bindParam("nombre",$nombre);
-            $consulta->execute();
-            $dos= $consulta->fetchObject("Usuario");
-			return $response_array['tipo_empleado']= $dos->tipo;
-	}
-
+	
+	
 	public static function InsertarBD ($nombre)
 	{
 			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();

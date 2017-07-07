@@ -1,13 +1,50 @@
 <?php
+
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+
+
 require __DIR__."/clases/AccesoDatos.php";
 require __DIR__.'/vendor/autoload.php';
 require __DIR__.'/clases/usuario.php';
 require __DIR__.'/clases/vehiculo.php';
 require __DIR__.'/clases/cochera.php';
 
-$app = new \Slim\App;
-    
+$config['displayErrorDetails'] = true;
+$config['addContentLengthHeader'] = false;
+
+
+$app = new \Slim\App(["settings" => $config]);
+
+
+
+
 //<---------------------------------USUARIO-------------------------------------->
+
+$app->post('/altaemp',function (Request $request, Response $response,$args) {
+    
+      $ArrayDeParametros = $request->getParsedBody();  
+      
+      $nombre=$ArrayDeParametros['nombre'];
+      $turno=$ArrayDeParametros['turno'];
+      $password=$ArrayDeParametros['password'];
+      $tipo=$ArrayDeParametros['tipo'];
+      $estado=$ArrayDeParametros['estado'];
+      
+      $empleado = new Usuario($nombre,$turno,$password,$tipo,$estado);
+
+      var_dump($empleado);
+
+      $resultado = Usuario::AltaEmpleado($empleado);
+
+      return $response->withJson($resultado);
+      
+});
+
+
+
+
+
 $app->get('/traertodosUsuarios', function ($request, $response) {
     $usuarios = Usuario::TraerTodosLosusuarios();
     return $response->withJson($usuarios);
@@ -24,11 +61,7 @@ $app->get('/validarusuario', function ($request, $response, $args) {
       $usuario=$ArrayDeParametros['usuario'];
       $clave=$ArrayDeParametros['clave'];
       $recordar=$ArrayDeParametros['recordarme'];
-
-			
-      
-
-      
+  
 			$consulta->execute();
 
 			$resultado = $consulta->fetchAll();

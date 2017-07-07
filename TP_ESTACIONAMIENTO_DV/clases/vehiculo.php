@@ -68,13 +68,23 @@ class Vehiculo
 //--------------------------------------------------------------------------------//
 //--METODOS DE CLASE
 
+	//--METODOS DE CLASE
+
+
+	//Corregir
 	public static function Alta($obj)
 	{
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `vehiculos`(`Patente`, `Color`, `Marca`,`Estado`) VALUES ($obj[0],$obj[1],$obj[2],`HABILITADO`)');
+		//Falta parametro
+		
 		$consulta->Execute();
+	
+	
+	
 	}
 
+	//Probar estado=DESHABILITADO??
 	public static function Baja($aux)
 	{
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
@@ -83,11 +93,15 @@ class Vehiculo
 		$consulta->Execute();
 	}
 
+
+	//Corregir ->Faltan los parametros
 	public static function Modificacion($obj) //PATENTE, MARCA, COLOR 
 	{
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `vehiculos` SET `patente`=$obj[0],`marca`=$obj[1],`color`=$obj[2] WHERE `patente`=:patente ');
 		$consulta->bindvalue(':patente',$obj[0], PDO::PARAM_STRING);
+		//Faltan los parametros de modificacion
+			
 		$consulta->Execute();
 	}
 
@@ -96,8 +110,11 @@ class Vehiculo
 		$arrayRetorno = array();
 		//Este Metodo esta creado por nosotros este.
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('SELECT *  FROM `vehiculos`');
+		$consulta = $objetoAcceso->RetornarConsulta('SELECT *  FROM `vehiculos`'); //Chequear si debe traer los vehiculos que estan estacionados.
 		$consulta->Execute();
+		
+		
+		//Probar esto.. no se si flashearon.
 		while ($fila = $consulta->fetchObject("Vehiculo")) //devuelve true o false depende si encuentra o no el objeto. 
 		 {
 			 array_push($arrayRetorno,$fila);
@@ -106,16 +123,18 @@ class Vehiculo
 		 return $arrayRetorno;
 	}
 
+
+	//DV probar en postman -> Sin Luz
 	public static function TraerUnVehiculo($aux)
     {
         $objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
         $consulta = $objetoAcceso->RetornarConsulta('SELECT patente , marca, color, estado FROM vehiculos WHERE patente=:patente');
-        $consulta->bindParam("patente", $aux);
+        $consulta->bindParam("patente", $aux); //Probar esto tal vez no funciona
         $consulta->execute();
-        $uno = $consulta->fetchAll();
+        $uno = $consulta->fetchObject("Vehiculo");
          if($uno == NULL)
           {
-			  $uno='NO';
+			  $uno="No se encontro vehiculo";
               return $uno;
           }
 		return $uno;
@@ -140,7 +159,7 @@ class Vehiculo
 				AND   v.PATENTE= :patente');
         $consulta->bindParam("patente", $aux);
         $consulta->execute();
-        $uno = $consulta->fetchAll();
+        $uno = $consulta->fetchAll(); // CHEQUEAR SI TIENE QUE SER LA OPERACION TIENE QUE SER UN OBJETO... 
          if($uno == NULL)
           {
 			  $uno = "SIN OPERACIONES";
