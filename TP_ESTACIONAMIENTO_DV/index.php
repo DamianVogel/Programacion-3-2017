@@ -193,7 +193,15 @@ $app->post('/mostrarlogin', function (Request $request, Response $response) {
    
 });
 
+$app->post('/desloguear', function (Request $request, Response $response) {
+    
+   	session_start();
 
+  	$_SESSION['registrado']=null;
+
+  	session_destroy();
+   
+});
 
 
 

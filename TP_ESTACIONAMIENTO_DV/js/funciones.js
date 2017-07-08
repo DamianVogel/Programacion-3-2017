@@ -66,7 +66,22 @@ function validarLogin()
 	
 }
 
-
+function deslogear()
+{	
+	var funcionAjax=$.ajax({
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/desloguear",
+		type:"post"		
+	});
+	funcionAjax.done(function(retorno){
+			//MostarBotones();
+			MostarLogin();
+			$("#usuario").val("Sin usuario.");
+			$("#BotonLogin").html("Login<br>-Sesión-");
+			$("#BotonLogin").removeClass("btn-danger");
+			$("#BotonLogin").addClass("btn-primary");
+			
+	});
+}
 
 
 

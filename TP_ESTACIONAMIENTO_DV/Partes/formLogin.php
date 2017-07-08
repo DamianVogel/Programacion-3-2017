@@ -36,9 +36,38 @@ if(!isset($_SESSION['registrado'])){  ?>
 
     </div> <!-- /container -->
 
-  <?php }else{    echo"<h3>Usted '".$_SESSION['registrado']."' esta logeado. </h3>";?>         
-    <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button"><span class="glyphicon glyphicon-off">&nbsp;</span>Deslogearme</button>
- 
-  <?php  }  ?>
-    
+  <?php }else if($_SESSION['registrado'] == "LEANDRO")
   
+        {    echo"<h3>Usted '".$_SESSION['registrado']."' esta logeado. </h3>";?>         
+
+			  
+        <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Gestion Empleados<br> 
+        <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Reportes<br>
+			  <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button"><span class="glyphicon glyphicon-off">&nbsp;</span>Deslogearme</button>
+	
+
+			<form id="searchform">
+			<input type="search" id="usuario" readonly placeholder="Sin Usuario"> 
+  
+  
+ 
+ 
+  <?php  }else{ 
+    
+              echo"<h3>Usted '".$_SESSION['registrado']."' esta logeado. </h3>";?>         
+
+			  
+        <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Ingreso Vehiculos<br> 
+        <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Salida Vehiculos<br>
+			  <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button"><span class="glyphicon glyphicon-off">&nbsp;</span>Deslogearme</button>
+	
+
+			<form id="searchform">
+			<input type="search" id="usuario" readonly placeholder="Sin Usuario"> 
+  
+
+
+
+
+  
+ <?php  }  ?>
