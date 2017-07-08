@@ -176,39 +176,60 @@ class Usuario
 
 			$elementos = count($resultado);
 
-		
-             
-            $uno= $consulta->fetchAll();
+			if($elementos>0)
+            {
+              if($arrayParametros['recordarme']=="true")
+                      {
+                        setcookie("registro",$arrayParametros['nombre'],  time()+36000 , '/');
+                        
+                      }else
+                      {
+                        setcookie("registro",$arrayParametros['nombre'],  time()-36000 , '/');
+                        
+                      }
+					  	session_start();
+					    $_SESSION['registrado']=$arrayParametros['nombre'];
+                        $retorno="ingreso";
 
-            if($uno == NULL)
-            {
-				$response_array['validacion']= 'errorus'; //<- Probar si esta bien hecho.
-			}
-            else if($uno == TRUE )
-            {
-                $objetoAcceso2 = AccesoDatos::DameUnObjetoAcceso();
-                $consulta2 = $objetoAcceso2->RetornarConsulta('SELECT nombre, `password`, turno, tipo, estado FROM usuarios WHERE nombre=:nombre AND `password`=:pass');
-                $consulta2->bindParam("nombre",$nombre);
-                $consulta2->bindParam("pass",$password);
-                $consulta2->execute();
-                $dos= $consulta2->fetchAll();
-                
-                if($dos == TRUE)
+            }else
                 {
-                    // $rta= "Bienvenido/a $nombre";
-					$response_array['validacion'] = 'ok';
-					$response_array['nombre'] = $nombre; 
-	                $response_array['empleado'] = $consulta2->fetchObject("Usuario"); //DV probar si funciona
-					
-					}
-                else
-                {
-                    // $rta= "Contraseña incorrecta";
-					$response_array['validacion'] = 'error';  
+                  $retorno= "No-esta";
                 }
-            }
-        // return $rta;
-		return $response_array;
+
+            return $retorno;
+
+             
+        //     $uno= $consulta->fetchAll();
+
+        //     if($uno == NULL)
+        //     {
+		// 		$response_array['validacion']= 'errorus'; //<- Probar si esta bien hecho.
+		// 	}
+        //     else if($uno == TRUE )
+        //     {
+        //         $objetoAcceso2 = AccesoDatos::DameUnObjetoAcceso();
+        //         $consulta2 = $objetoAcceso2->RetornarConsulta('SELECT nombre, `password`, turno, tipo, estado FROM usuarios WHERE nombre=:nombre AND `password`=:pass');
+        //         $consulta2->bindParam("nombre",$nombre);
+        //         $consulta2->bindParam("pass",$password);
+        //         $consulta2->execute();
+        //         $dos= $consulta2->fetchAll();
+                
+        //         if($dos == TRUE)
+        //         {
+        //             // $rta= "Bienvenido/a $nombre";
+		// 			$response_array['validacion'] = 'ok';
+		// 			$response_array['nombre'] = $nombre; 
+	    //             $response_array['empleado'] = $consulta2->fetchObject("Usuario"); //DV probar si funciona
+					
+		// 			}
+        //         else
+        //         {
+        //             // $rta= "Contraseña incorrecta";
+		// 			$response_array['validacion'] = 'error';  
+        //         }
+        //     }
+        // // return $rta;
+		// return $response_array;
 	}
 
 	//DV probar en postman -> Sin Luz

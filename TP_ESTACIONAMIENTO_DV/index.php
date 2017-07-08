@@ -31,34 +31,6 @@ $app->post('/validarusuario', function ($request, $response, $args) {
           return $response->withJson($resultado);
 
 
-          if($elementos>0)
-            {
-              if($recordar=="true")
-                      {
-                        setcookie("registro",$usuario,  time()+36000 , '/');
-                        
-                      }else
-                      {
-                        setcookie("registro",$usuario,  time()-36000 , '/');
-                        
-                      }
-                        $_SESSION['registrado']=$usuario;
-                        $retorno="ingreso";
-
-            }else
-                {
-                  $retorno= "No-esta";
-                }
-
-            return $retorno;
-
-
-
-
-
-
-
-
         });
       
 

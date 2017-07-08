@@ -3,7 +3,7 @@
 //LOGIN DV
 function MostarLogin()
 {
-	alert("estoy en mostrar");
+	//alert("estoy en mostrar");
 	var funcionAjax=$.ajax({
 		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/mostrarlogin",
 		type:"post"
@@ -55,7 +55,7 @@ function validarLogin()
 					}else
 						{
 							alert("Usuario o clave incorrecta");
-							$("#informe").html("usuario o clave incorrecta");	
+							$("#informe").html(retorno);	
 							$("#formLogin").addClass("animated bounceInLeft");
 						}
 	});
