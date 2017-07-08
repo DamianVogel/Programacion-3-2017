@@ -14,7 +14,7 @@ if(isset($_SESSION['registrado']))
 <table class="table"  style=" background-color: beige;">
 	<thead>
 		<tr>
-			<th>Editar</th><th>Borrar</th><th>cantante</th><th>disco</th><th>año</th>
+			<th>Editar</th><th>Borrar</th><th>Nombre</th><th>Turno</th><th>Estado</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -22,14 +22,18 @@ if(isset($_SESSION['registrado']))
 		<?php 
 
 foreach ($arrayDeEmp as $emp) {
+	if($emp->tipo == "EMPLEADO")
+	{
 	echo"<tr>
-			<td><a onclick='BorrarEmp($emp->id_empleado)' class='btn btn-warning'> <span class='glyphicon glyphicon-pencil'>&nbsp;</span>Editar</a></td>
-			<td><a onclick='BorrarCD($emp->id_empleado)' class='btn btn-danger'>   <span class='glyphicon glyphicon-trash'>&nbsp;</span>  Borrar</a></td>
+			<td><a onclick='EditarEmp($emp->id_empleado)' class='btn btn-warning'> <span class='glyphicon glyphicon-pencil'>&nbsp;</span>Editar</a></td>
+			<td><a onclick='BorrarEmp($emp->id_empleado)' class='btn btn-danger'>   <span class='glyphicon glyphicon-trash'>&nbsp;</span>  Borrar</a></td>
 			<td>$emp->nombre</td>
-			<td>$emp->tipo</td>
+			<td>$emp->turno</td>
 			<td>$emp->estado</td>
 			
 		</tr>   ";
+
+	}
 }
 		 ?>
 	</tbody>

@@ -78,25 +78,53 @@ $app->post('/validarusuario', function ($request, $response, $args) {
 
 //Modificar empleado
 
-//VER SI SE PUEDE USAR PUT Y COMO SI NO POST Y A LA MIERDA
- $app->put('/modemp/{id}',function (Request $request, Response $response,$args) {
+
+ $app->post('/update',function (Request $request, Response $response,$args) {
             
               $ArrayDeParametros = $request->getParsedBody();  
             
-              $id = $args['id'];
-              array_push($ArrayDeParametros,$id);
-              
-
               $resultado = Usuario::ModEmp($ArrayDeParametros);
 
               return $response->withJson($resultado);
               
        });
 
+$app->post('/modEmp/{id}',function (Request $request, Response $response,$args) {
 
+               
+ 
+		        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+			$consulta =$objetoAccesoDato->RetornarConsulta('SELECT id_empleado,nombre, turno, estado  FROM `usuarios` WHERE id_empleado = :id');
+			$consulta->bindParam(":id",$args['id']);
+			$consulta->execute();
+			
+                        $empBuscado= $consulta->fetchObject("Usuario");
+ 
+		echo "
+        
+		
+		<link href='css/bootstrap.min.css' rel='stylesheet'>
+		<link href=css/ingreso.css rel=stylesheet>
+		
+		<div class=container>
+		<form class='form-ingreso' onsubmit='UpdateEmp();return false' enctype=multipart/form-data id=formEmp>
+	        <h2 class=form-ingreso-heading>MODIFICACION DE EMPLEADO</h2>
+                <label for=cantante value=natalia class=sr-only>Cantante</label>
+                <input type=text    id=nombre value='".$empBuscado->nombre."'   class='form-control' placeholder=Cantante required= autofocus=>
+                <label for=titulo value=un titulo class=sr-only>Titulo</label>
+                <input type=text   id=turno value='".$empBuscado->turno."'  class=form-control placeholder=Titulo required= autofocus=>
+                <label for=anio class=sr-only>Año</label>
+                <input type=text value='".$empBuscado->estado."' id=estado class=form-control placeholder=año required= autofocus=>
+                <input readonly   type=hidden value='".$empBuscado->id_empleado."'   id=idEmp class=form-control >
+                <button  class='btn btn-lg btn-success btn-block' type=submit><span class='glyphicon glyphicon-floppy-save'>&nbsp;&nbsp;</span>Modificar </button>
+                
+                 </form>
 
+    	        </div>
+		</tr>   ";
+	
 
-
+  });
 
 
 

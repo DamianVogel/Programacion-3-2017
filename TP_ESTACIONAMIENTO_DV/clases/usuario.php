@@ -150,18 +150,25 @@ class Usuario
 	{
 		//query
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `nombre`=:nombre,`Password`=:password,`Turno`=:turno,`Estado`=:estado  WHERE `id_empleado`=:id');
+		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `nombre`=:nombre,`Turno`=:turno,`Estado`=:estado  WHERE `id_empleado`=:id');
 		
 		//parametros
-		$consulta->bindvalue(':id', $empleado[5], PDO::PARAM_INT);
+		$consulta->bindvalue(':id', $empleado['id'], PDO::PARAM_INT);
 		$consulta->bindvalue(':nombre', $empleado['nombre'], PDO::PARAM_STR);
 		$consulta->bindvalue(':turno', $empleado['turno'] , PDO::PARAM_STR);
-		$consulta->bindvalue(':password', $empleado['password'] , PDO::PARAM_STR);
 		$consulta->bindvalue(':estado', $empleado['estado'] , PDO::PARAM_STR);
 		
 		$resultado = $consulta->Execute();
 	
-		return $resultado;
+		if($resultado==TRUE)
+		{
+			$resultado = "Modifico";
+		}
+			else
+				$resultado = "No se modifico";
+				
+		return $resultado; //vuelve a /update en slim
+	
 	}
 
 	

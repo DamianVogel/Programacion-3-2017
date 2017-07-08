@@ -23,12 +23,15 @@ function BorrarEmp(idParametro)
 	});	
 }
 
-function EditarCD(idParametro)
+function EditarEmp(idParametro)
 {
-	//alert("entro al ajax de modificar CD");
+	
+	var aux = "http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/modEmp/"
+	
+	var destino = aux.concat(idParametro);	
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/PracticaParcial/modificar",
+		url:destino,
 		type:"post",
 		data:{
 			//queHacer:"TraerCD",
@@ -102,35 +105,26 @@ function GuardarCD()
 	
 }
 
-function UpdateCD()
+function UpdateEmp()
 {
 
-	//alert("estoy en ajax de updateCD");
-	
-	
-	var inputFileImage = document.getElementById("foto");
-	var file = inputFileImage.files[0];
-	var datosDelForm = new FormData("formcd");
-	//console.info(file);
-
-	
-	var titulo=$("#titulo").val();
-	var id=$("#idCD").val();
-	var cantante=$("#cantante").val();
-	var anio=$("#anio").val();
-
-	//alert(titulo);
-
-	datosDelForm.append("foto",file);
-	datosDelForm.append("titulo",titulo);
-	datosDelForm.append("id",id);
-	datosDelForm.append("cantante",cantante);
-	datosDelForm.append("anio",anio);		
 		
+	var datosDelForm = new FormData("formEmp");
+		
+	var nombre=$("#nombre").val();
+	var id=$("#idEmp").val();
+	var turno=$("#turno").val();
+	var estado=$("#estado").val();
+
+
+	datosDelForm.append("nombre",nombre);
+	datosDelForm.append("id",id);
+	datosDelForm.append("turno",turno);
+	datosDelForm.append("estado",estado);		
 		
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/PracticaParcial/update",
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/update",
 		type:"post",
 		data:datosDelForm,
 		cache: false,
@@ -138,15 +132,11 @@ function UpdateCD()
     	processData: false
 
 	}).then(function(respuesta){
+
 		alert("Modificado correctamente");
+		GestionEmp();
+		$("#informe").html(respuesta);	
 		
-		//$("#informe").html("cantidad de agregados "+ respuesta);	
-		
-		$("#cantante").val("");
-		$("#titulo").val("");
-		$("#anio").val("");
-		$("#foto").val("");
-		//console.log("guardar cd");
 
 	},function(error){
 
