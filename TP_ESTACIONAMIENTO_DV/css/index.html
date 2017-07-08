@@ -6,7 +6,7 @@
 <!-- disable iPhone inital scale -->
 <meta name="viewport" content=" initial-scale=1.0">
 
-<title>Damian Vogel</title>
+<title>UTN FRA</title>
 
 <!-- main css -->
 <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -16,8 +16,9 @@
 <link href="css/media-queries.css" rel="stylesheet" type="text/css">
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
  <link rel="icon" href="http://www.octavio.com.ar/favicon.ico">
-<script type="text/javascript" src="js/funciones.js"></script>
-
+<script type="text/javascript" src="js/funcionesAjax.js"></script>
+<script type="text/javascript" src="js/funcionesLogin.js"></script>
+<script type="text/javascript" src="js/funcionesABM.js"></script>
 
 </head>
 
@@ -28,27 +29,25 @@
 	<header id="header">
 
 		<hgroup>
-			<h1 id="site-logo"><a href="#">Trabajo Practico Estacionamiento</a></h1>
-			
+			<h1 id="site-logo"><a href="#">Principal</a></h1>
+			<h2 id="site-description">formato ajustable</h2>
 		</hgroup>
 
 		<nav>
 			<ul id="main-nav" class="clearfix">
-				<li><a onclick="MostrarAltaCd()" class="btn">Ingreso de Vehiculo<br> </a></li>
-				<li><a onclick="MostrarGrilla()" class="btn">Salida de Vehiculo<br></a> </li>
-			<!--	<li><a onclick="Mostrar('foto')" class="btn">Foto<br>(parametros y POST) </a> </li>
+				<li><a onclick="MostrarError()" class="btn">Ajax<br> Error!!!</a></li>
+				<li><a onclick="MostrarSinParametros()" class="btn">Ajax<br>Sin Parametros</a> </li>
+				<li><a onclick="Mostrar('foto')" class="btn">Foto<br>(parametros y POST) </a> </li>
 				<li><a onclick="Mostrar('video')" class="btn">Video<br>(parametros y POST)</a> </li>
-				<li><a onclick="Mostrar('MostrarGrilla')" class="btn">Mostrar Grilla<br>-Sesión-</a> </li> -->
-				<li><a onclick="MostarLogin()"  class="btn btn-primary"id="BotonLogin" >Conectarse<br>-Sesión-</a> </li>
+				<li><a onclick="Mostrar('MostrarGrilla')" class="btn">Mostrar Grilla<br>-Sesión-</a> </li>
+				<li><a onclick="MostarLogin()"  class="btn btn-primary"id="BotonLogin" >Login<br>-Sesión-</a> </li>
 			</ul>
-			<! /#main-nav --> 
+			<!-- /#main-nav --> 
 		</nav>
 
-			<form id="searchform">
+		<form id="searchform">
 			<input type="search" id="usuario" readonly placeholder="Sin Usuario">
 		</form>
-	
-
 
 	</header>
 	<!-- /#header -->
@@ -57,7 +56,10 @@
 
 		<article  class="post clearfix">
 
-			
+			<header  >
+				<h1 class="post-title"><a href="#">Ejemplos de ajax</a></h1>
+				<p class="post-meta"><time class="post-date" datetime="2011-05-08" pubdate>2015</time> <em>en</em> <a href="#">UTN FRA</a></p>
+			</header>
 			<hr>
 			<div id="principal">
 
@@ -90,7 +92,12 @@
 	</aside>
 	<!-- /#sidebar -->
 
+	<footer id="footer">
 	
+		<p>templete by <a href="http://www.octavio.com.ar">Octavio Villegas</a></p>
+
+	</footer>
+	<!-- /#footer --> 
 	
 </div>
 <!-- /#pagewrap -->

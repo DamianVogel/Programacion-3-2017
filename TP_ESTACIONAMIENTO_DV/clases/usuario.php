@@ -161,14 +161,23 @@ class Usuario
 	
 
 	//DV probar en postman -> Sin Luz         
-	public static function SignIn($nombre,$password)
+	public static function SignIn($arrayParametros)
 	{
         
-         	$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAcceso->RetornarConsulta('SELECT nombre FROM usuarios WHERE nombre=:nombre');
-            $consulta->bindParam("nombre",$nombre);
-        
-            $consulta->execute();    
+         	
+			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+            $consulta = $objetoAcceso->RetornarConsulta('SELECT nombre, `password`, tipo, turno, estado  FROM `usuarios` WHERE nombre=:nombre and password=:password');
+            $consulta->bindvalue(':nombre', $arrayParametros['nombre'], PDO::PARAM_STR);
+			$consulta->bindvalue(':password', $arrayParametros['password'] , PDO::PARAM_STR);
+			
+			$consulta->execute();
+
+			$resultado = $consulta->fetchAll();
+
+			$elementos = count($resultado);
+
+		
+             
             $uno= $consulta->fetchAll();
 
             if($uno == NULL)

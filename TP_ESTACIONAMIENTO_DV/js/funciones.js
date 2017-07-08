@@ -1,79 +1,79 @@
 //<----------------------------------------USUARIO------------------------>
 //VALIDO USUARIO Y PASSWORDS
-// function ValidarUsuario()
-// {
-//     var paginaValid = "http://localhost:8080/Programacion3-2017/TP_ESTACIONAMIENTO/index.php/validarusuario";
+//LOGIN DV
+function MostarLogin()
+{
+	alert("estoy en mostrar");
+	var funcionAjax=$.ajax({
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/mostrarlogin",
+		type:"post"
+		//data:{queHacer:"MostarLogin"}
+	});
+	funcionAjax.done(function(retorno){
+		$("#principal").html(retorno);
+		$("#informe").html("Form Login");	
+	});
+	funcionAjax.fail(function(retorno){
+		$("#botonesABM").html("volvio por el fail");
+		$("#informe").html(retorno.responseText);	
+	});
+	funcionAjax.always(function(retorno){
+		//alert("siempre "+retorno.statusText);
 
-// 	var usuarioid = $("#usuarioid").val();
-// 	var passwordid = $("#passwordid").val();
+	});
+}
+
+function validarLogin()
+{
+		var varUsuario=$("#nombre").val();
+		var varClave=$("#clave").val();
+		var recordar=$("#recordarme").is(':checked');
+		
+//$("#informe").html("<img src='imagenes/ajax-loader.gif' style='width: 30px;'/>");
 	
-// 	var usuario = {};
 
-// 	usuario.usuarioid = usuarioid;
-// 	usuario.passwordid = passwordid;
-   
-//   //PRIMER AJAX ENCAPSULA USUARIO
-//   $.ajax({
-//         type: 'GET',
-//         url: paginaValid,
-//         dataType: "json",
-//         data: {
-// 			usuario : usuario
-// 		},
-
-// 		success:
-// 		function(data, textStatus, jqXHR)
-// 		{
-// 			if(data.validacion == 'ok')
-// 			{
-				
-// 				var paginaTipoEmp = "http://localhost:8080/Programacion3-2017/TP_ESTACIONAMIENTO/index.php/tipoempleado";
-// 				var usuarioTipo = {};
-// 				usuarioTipo.usuarionombre = data.nombre;
-// 				//SEGUNDO AJAX - VERIFICA TIPO_EMPLEADO
-// 				$.ajax({
-// 					type: 'GET',
-// 					url: paginaTipoEmp,
-// 				data: {
-// 					usuarioTipo : usuarioTipo
-// 					},
-// 					//SUCCES 2DO AJAX
-// 					success:
-// 						function(data, textStatus, jqXHR)
-// 						{	
-// 							if(data=="ADMIN")
-// 							{
-// 								window.location.href = "./ADM_index.html"; 
-// 							}
-// 							else if (data == "EMPLEADO")
-// 							{
-								
-// 								window.location.href = "./EMP_index.php?name=" + usuarioTipo.usuarionombre;  
-// 							}
-// 						}
-// 				});
+	var funcionAjax=$.ajax({
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/validarusuario",
+		type:"post",
+		data:{
+			recordarme:recordar,
+			nombre:varUsuario,
+			password:varClave
+		}
+	});
 
 
-// 			}
-// 			else if(data.validacion == 'error')
-// 			{
-// 				alert("Error en contraseña");
-// 				window.location.href = "./login.html"; 
-// 			}
-// 			else if(data.validacion == 'errorus')
-// 			{
-// 				alert("Error en el usuario");
-// 				window.location.href = "./login.html"; 
-// 			}
-// 		},
-// 		error: function(jqXHR, textStatus, errorThrown){
-// 			alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
+	funcionAjax.done(function(retorno){
 			
-// 		}
-//     });
+			if(retorno=="ingreso"){	
+				MostarLogin();
 
-// }
+				$("#BotonLogin").html("Ir a salir<br>-Sesión-");
+				$("#BotonLogin").addClass("btn btn-danger");				
+				$("#usuario").val("Conectado");
+				//$("#informe").html("Bienvenido.. los botones de Alta y Grilla se encuentran operativos");
+					}else
+						{
+							alert("Usuario o clave incorrecta");
+							$("#informe").html("usuario o clave incorrecta");	
+							$("#formLogin").addClass("animated bounceInLeft");
+						}
+	});
+	funcionAjax.fail(function(retorno){
+		$("#botonesABM").html(":(");
+		$("#informe").html(retorno.responseText);	
+	});
+	
+}
 
+
+
+
+
+
+
+
+//TP DE LOS CHICOS!
 //INSERTO EN LOS LOGS
 function LoginBD()
 {
@@ -99,6 +99,16 @@ function LoginBD()
 
 	});
 }
+
+
+
+
+
+
+
+
+
+
 
 //ACCIONES - LOGIN DE USUARIO
 function AccionesIngreso ()

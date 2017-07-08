@@ -21,6 +21,55 @@ $app = new \Slim\App(["settings" => $config]);
 
 //<---------------------------------USUARIO-------------------------------------->
 
+//conectarse=ajax+slim
+$app->post('/validarusuario', function ($request, $response, $args) {
+         
+          $ArrayDeParametros = $request->getParsedBody();    
+                
+          $resultado = Usuario::SignIn($ArrayDeParametros);
+
+          return $response->withJson($resultado);
+
+
+          if($elementos>0)
+            {
+              if($recordar=="true")
+                      {
+                        setcookie("registro",$usuario,  time()+36000 , '/');
+                        
+                      }else
+                      {
+                        setcookie("registro",$usuario,  time()-36000 , '/');
+                        
+                      }
+                        $_SESSION['registrado']=$usuario;
+                        $retorno="ingreso";
+
+            }else
+                {
+                  $retorno= "No-esta";
+                }
+
+            return $retorno;
+
+
+
+
+
+
+
+
+        });
+      
+
+
+
+
+
+
+
+
+
 //Alta de empleado
     $app->post('/altaemp',function (Request $request, Response $response,$args) {
         
@@ -93,26 +142,16 @@ $app->get('/traerunusuario/[{id}]', function ($request, $response, $args) {
           return $response->withJson($uno);
         });
 
-$app->get('/validarusuario', function ($request, $response, $args) {
-         
-      $ArrayDeParametros = $request->getParsedBody();  
-      $usuario=$ArrayDeParametros['usuario'];
-      $clave=$ArrayDeParametros['clave'];
-      $recordar=$ArrayDeParametros['recordarme'];
-  
-			$consulta->execute();
 
-			$resultado = $consulta->fetchAll();
-			
-			$elementos = count($resultado);
 
-         
-         
-          $obj = isset($_GET['usuario']) ? json_decode(json_encode($_GET['usuario'])) : NULL;
-          $rta = Usuario::ValidarUsuario($obj->usuarioid,$obj->passwordid);
-          return $response->withJson($rta);
-        });
-      
+
+
+
+
+
+
+
+
 $app->get('/tipoempleado', function ($request, $response) {
           $obj = isset($_GET['usuarioTipo']) ? json_decode(json_encode($_GET['usuarioTipo'])) : NULL;
           $rta = Usuario::ValidarTipoEmp($obj->usuarionombre);
@@ -173,6 +212,19 @@ $app->get('/insertarOperacion', function ($request, $response) {
 //         //  return $response->withJson($uno);
 //         return ($obj1);
 //         });
+
+//TRANSACCIONES PARA FRONT END
+
+$app->post('/mostrarlogin', function (Request $request, Response $response) {
+    
+   	include ("Partes/formLogin.php"); //abre el formulario de login
+   
+});
+
+
+
+
+
 
 $app->run();
 

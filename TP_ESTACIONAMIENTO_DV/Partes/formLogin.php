@@ -15,18 +15,18 @@ if(!isset($_SESSION['registrado'])){  ?>
       <form  class="form-ingreso " onsubmit="validarLogin();return false;">
         <!--Gracias a los script que estan en el html index.html llega al validarLogin que esta en funcionesAjax -->
         <h2 class="form-ingreso-heading">Ingrese sus datos</h2>
-        <label for="correo" class="sr-only">Correo electrónico</label>
-                <input type="email" id="correo" class="form-control" placeholder="Correo electrónico" required="" autofocus="" value="<?php  if(isset($_COOKIE["registro"])){echo $_COOKIE["registro"];}?>">
+        <label for="correo" class="sr-only">Nombre</label>
+        <input type="text" id="nombre" class="form-control" placeholder="Nombre" required="" autofocus="" value="<?php  if(isset($_COOKIE["registro"])){echo $_COOKIE["registro"];}?>">
         <label for="clave" class="sr-only">Clave</label>
-        <input type="password" id="clave" minlength="4" class="form-control" placeholder="clave" required="">
+        <input type="password" id="clave" minlength="4" class="form-control" placeholder="Clave" required="">
         <div class="checkbox">
           <label>
             <input type="checkbox" id="recordarme" checked> Recordame
           </label>
           <br>
           Ejemplo:
-          mail: asd@asd.com
-          password: 123456
+          mail: LEANDRO
+          password: 1234
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
       
