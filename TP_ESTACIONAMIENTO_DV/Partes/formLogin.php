@@ -36,9 +36,9 @@ if(!isset($_SESSION['registrado'])){  ?>
 
     </div> <!-- /container -->
 
-  <?php }else if($_SESSION['registrado'] == "LEANDRO")
+  <?php }else if($_SESSION['registrado'] == "ADMIN")
   
-        {    echo"<h3>Usted '".$_SESSION['registrado']."' esta logeado. </h3>";?>         
+        {    echo"<h3>Bienvenido '".$_SESSION['registrado']."' </h3>";?>         
 
 			  
         <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Gestion Empleados<br> 
@@ -54,7 +54,7 @@ if(!isset($_SESSION['registrado'])){  ?>
  
   <?php  }else{ 
     
-              echo"<h3>Usted '".$_SESSION['registrado']."' esta logeado. </h3>";?>         
+              echo"<h3>A laburar '".$_SESSION['registrado']."'  </h3>";?>         
 
 			  
         <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Ingreso Vehiculos<br> 
