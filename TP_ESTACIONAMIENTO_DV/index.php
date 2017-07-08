@@ -53,7 +53,27 @@ $app = new \Slim\App(["settings" => $config]);
 
               return $response->withJson($resultado);
               
-        });
+       });
+
+//Modificar empleado
+
+//VER SI SE PUEDE USAR PUT Y COMO SI NO POST Y A LA MIERDA
+ $app->put('/modemp/{id}',function (Request $request, Response $response,$args) {
+            
+              $ArrayDeParametros = $request->getParsedBody();  
+            
+              $id = $args['id'];
+              array_push($ArrayDeParametros,$id);
+              
+
+              $resultado = Usuario::ModEmp($ArrayDeParametros);
+
+              return $response->withJson($resultado);
+              
+       });
+
+
+
 
 
 

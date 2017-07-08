@@ -139,17 +139,23 @@ class Usuario
 	}
 
 
-	//DV probar en postman -> Sin Luz
-	public static function Modificacion($empleado) //PATENTE, nro_cochera, Password 
+	//DV Probar con metodo post
+	public static function ModEmp($empleado)
 	{
+		//query
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `nombre`=:nombre,`Password`=:password,`Turno`=:turno,`Estado`=:estado  WHERE `id`=:id');
-		$consulta->bindvalue(':nombre', $empleado->Nombre, PDO::PARAM_STRING);
-		$consulta->bindvalue(':turno', $empleado->Turno , PDO::PARAM_STRING);
-		$consulta->bindvalue(':password', $empleado->Password , PDO::PARAM_STRING);
-		$consulta->bindvalue(':id', $empleado->Id , PDO::PARAM_INT);
-		$consulta->bindvalue(':estado', $empleado->Estado , PDO::PARAM_STRING);
-		$consulta->Execute();
+		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `nombre`=:nombre,`Password`=:password,`Turno`=:turno,`Estado`=:estado  WHERE `id_empleado`=:id');
+		
+		//parametros
+		$consulta->bindvalue(':id', $empleado[5], PDO::PARAM_INT);
+		$consulta->bindvalue(':nombre', $empleado['nombre'], PDO::PARAM_STR);
+		$consulta->bindvalue(':turno', $empleado['turno'] , PDO::PARAM_STR);
+		$consulta->bindvalue(':password', $empleado['password'] , PDO::PARAM_STR);
+		$consulta->bindvalue(':estado', $empleado['estado'] , PDO::PARAM_STR);
+		
+		$resultado = $consulta->Execute();
+	
+		return $resultado;
 	}
 
 	
