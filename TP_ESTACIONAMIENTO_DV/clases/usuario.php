@@ -85,45 +85,57 @@ class Usuario
 
 	//ABM
 	
-	//DV probar en postman -> Sin Luz
+	//DV                    FUNCIONA OK!
 	public static function AltaEmpleado($empleado)
 	{
-		//var_dump($empleado);
 		
+	
+		//query
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `usuarios`(`nombre`, `Turno`, `Password`, `Tipo`,`Estado`) VALUES (`nombre`=:nombre, `Turno`=:turno, `Password`=:password, `Tipo`=:tipo,`Estado`=:estado)');
-		$consulta->bindvalue(':nombre', $empleado->Nombre, PDO::PARAM_STR);
-		$consulta->bindvalue(':turno', $empleado->Turno , PDO::PARAM_STR);
-		$consulta->bindvalue(':password', $empleado->Password , PDO::PARAM_STR);
-		$consulta->bindvalue(':tipo', $empleado->Tipo , PDO::PARAM_STR);
-		$consulta->bindvalue(':estado', $empleado->Estado , PDO::PARAM_STR);
+		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO usuarios(NOMBRE,TURNO,PASSWORD,TIPO,ESTADO) VALUES (:nombre,:turno,:password,:tipo,:estado)');
+		
+			//parametros
+			$consulta->bindvalue(':nombre', $empleado['nombre'], PDO::PARAM_STR);
+			$consulta->bindvalue(':turno', $empleado['turno'] , PDO::PARAM_STR);
+			$consulta->bindvalue(':password', $empleado['password'] , PDO::PARAM_STR);
+			$consulta->bindvalue(':tipo', $empleado['tipo'], PDO::PARAM_STR);
+			$consulta->bindvalue(':estado', $empleado['estado'] , PDO::PARAM_STR);
 
+		
+		$resultado = $consulta->Execute();
+	
+		return $resultado;
+	}
+
+	
+	//DV                    FUNCIONA OK!
+	public static function DeshabilitarEmp($id)
+	{
+		//query
+		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `Estado`=0 WHERE id_empleado=:id ');
+		
+		//parametros
+		$consulta->bindvalue(':id', $id , PDO::PARAM_INT); 
 		$resultado = $consulta->Execute();
 	
 		return $resultado;
 	}
 	
-	
-	
-	
-	
-	
-	//DV probar en postman -> Sin Luz
-	public static function DeshabilitarEmp($id)
-	{
-		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `Estado`=0 WHERE id=:id ');
-		$consulta->bindvalue(':id', $id , PDO::PARAM_INT); //Chequear lo del param INT
-		$consulta->Execute();
-	}
-	
-	//DV probar en postman -> Sin Luz
+	//DV                    FUNCIONA OK!
 	public static function BajaEmp($id)
 	{
+		
+		//query
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('DELETE FROM `usuarios` WHERE id=:id ');
-		$consulta->bindvalue(':id', $id , PDO::PARAM_INT); //Chequear lo del param INT
-		$consulta->Execute();
+		$consulta = $objetoAcceso->RetornarConsulta('DELETE FROM `usuarios` WHERE id_empleado=:id ');
+		
+		//parametros
+		$consulta->bindvalue(':id', $id , PDO::PARAM_INT); 
+		
+		$resultado = $consulta->Execute();
+	
+		return $resultado;
 	}
 
 

@@ -21,25 +21,43 @@ $app = new \Slim\App(["settings" => $config]);
 
 //<---------------------------------USUARIO-------------------------------------->
 
-$app->post('/altaemp',function (Request $request, Response $response,$args) {
-    
-      $ArrayDeParametros = $request->getParsedBody();  
-      
-      $nombre=$ArrayDeParametros['nombre'];
-      $turno=$ArrayDeParametros['turno'];
-      $password=$ArrayDeParametros['password'];
-      $tipo=$ArrayDeParametros['tipo'];
-      $estado=$ArrayDeParametros['estado'];
-      
-      $empleado = new Usuario($nombre,$turno,$password,$tipo,$estado);
+//Alta de empleado
+    $app->post('/altaemp',function (Request $request, Response $response,$args) {
+        
+          $ArrayDeParametros = $request->getParsedBody();  
+        
+          $resultado = Usuario::AltaEmpleado($ArrayDeParametros);
 
-      var_dump($empleado);
+          return $response->withJson($resultado);
+          
+    });
 
-      $resultado = Usuario::AltaEmpleado($empleado);
+//Deshabilitar empleado
+    $app->post('/deshabemp',function (Request $request, Response $response,$args) {
+            
+              $ArrayDeParametros = $request->getParsedBody();  
+            
+              $resultado = Usuario::DeshabilitarEmp($ArrayDeParametros['id']);
 
-      return $response->withJson($resultado);
-      
-});
+              return $response->withJson($resultado);
+              
+        });
+
+
+//Borrar empleado
+    $app->delete('/borraremp',function (Request $request, Response $response,$args) {
+            
+              $ArrayDeParametros = $request->getParsedBody();  
+            
+              $resultado = Usuario::BajaEmp($ArrayDeParametros['id']);
+
+              return $response->withJson($resultado);
+              
+        });
+
+
+
+
 
 
 
