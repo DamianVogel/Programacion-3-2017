@@ -1,5 +1,36 @@
 //<----------------------------------------USUARIO------------------------>
 //VALIDO USUARIO Y PASSWORDS
+
+//Administracion empleados
+function GestionEmp()
+{
+	//alert("estoy en gestion empleados");
+	var funcionAjax=$.ajax({
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/gestionemp",
+		type:"post"
+		//data:{queHacer:"MostarLogin"}
+	});
+	funcionAjax.done(function(retorno){
+		$("#principal").html(retorno);
+		$("#informe").html("Formulario Gestion Empleados");	
+	});
+	funcionAjax.fail(function(retorno){
+		$("#botonesABM").html("volvio por el fail");
+		$("#informe").html(retorno.responseText);	
+	});
+	funcionAjax.always(function(retorno){
+		//alert("siempre "+retorno.statusText);
+
+	});
+}
+
+
+
+
+
+
+
+
 //LOGIN DV
 function MostarLogin()
 {
@@ -28,11 +59,8 @@ function validarLogin()
 		var varUsuario=$("#nombre").val();
 		var varClave=$("#clave").val();
 		var recordar=$("#recordarme").is(':checked');
-		
-//$("#informe").html("<img src='imagenes/ajax-loader.gif' style='width: 30px;'/>");
-	
 
-	var funcionAjax=$.ajax({
+		var funcionAjax=$.ajax({
 		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/validarusuario",
 		type:"post",
 		data:{
@@ -322,80 +350,3 @@ function AccionesEgresoVehic ()
 
 
 
-//TP DAMIAN!
-function ValidarUsuario()
-{
-    
-	alert("estoy en validar usuario");
-	
-	var paginaValid = "http://localhost/Programacion3-2017/TP_ESTACIONAMIENTO/index.php/validarusuario";
-
-	var usuarioid = $("#usuarioid").val();
-	var passwordid = $("#passwordid").val();
-	
-	var usuario = {};
-
-	usuario.usuarioid = usuarioid;
-	usuario.passwordid = passwordid;
-   
-  //PRIMER AJAX ENCAPSULA USUARIO
-  $.ajax({
-        type: 'GET',
-        url: paginaValid,
-        dataType: "json",
-        data: {
-			usuario : usuario
-		},
-
-		success:
-		function(data, textStatus, jqXHR)
-		{
-			if(data.validacion == 'ok')
-			{
-				
-				var paginaTipoEmp = "http://localhost:8080/Programacion3-2017/TP_ESTACIONAMIENTO/index.php/tipoempleado";
-				var usuarioTipo = {};
-				usuarioTipo.usuarionombre = data.nombre;
-				//SEGUNDO AJAX - VERIFICA TIPO_EMPLEADO
-				$.ajax({
-					type: 'GET',
-					url: paginaTipoEmp,
-				data: {
-					usuarioTipo : usuarioTipo
-					},
-					//SUCCES 2DO AJAX
-					success:
-						function(data, textStatus, jqXHR)
-						{	
-							if(data=="ADMIN")
-							{
-								window.location.href = "./ADM_index.html"; 
-							}
-							else if (data == "EMPLEADO")
-							{
-								
-								window.location.href = "./EMP_index.php?name=" + usuarioTipo.usuarionombre;  
-							}
-						}
-				});
-
-
-			}
-			else if(data.validacion == 'error')
-			{
-				alert("Error en contraseña");
-				window.location.href = "./login.html"; 
-			}
-			else if(data.validacion == 'errorus')
-			{
-				alert("Error en el usuario");
-				window.location.href = "./login.html"; 
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown){
-			alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
-			
-		}
-    });
-
-}

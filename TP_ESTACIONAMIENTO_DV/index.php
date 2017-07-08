@@ -193,6 +193,17 @@ $app->post('/mostrarlogin', function (Request $request, Response $response) {
    
 });
 
+
+
+$app->post('/gestionemp', function (Request $request, Response $response) {
+    
+   	include ("Partes/formGestionEmp.php"); //abre el formulario de gestionemp
+   
+});
+
+
+
+
 $app->post('/desloguear', function (Request $request, Response $response) {
     
    	session_start();

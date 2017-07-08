@@ -41,7 +41,7 @@ if(!isset($_SESSION['registrado'])){  ?>
         {    echo"<h3>Bienvenido '".$_SESSION['registrado']."' </h3>";?>         
 
 			  
-        <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Gestion Empleados<br> 
+        <button onclick="GestionEmp()" class="btn btn-lg btn-danger btn-block" type="button">Gestion Empleados<br> 
         <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Reportes<br>
 			  <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button"><span class="glyphicon glyphicon-off">&nbsp;</span>Deslogearme</button>
 	

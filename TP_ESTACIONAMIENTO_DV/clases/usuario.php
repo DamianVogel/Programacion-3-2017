@@ -13,6 +13,11 @@ class Usuario
 	private $Estado;
 //--------------------------------------------------------------------------------//
 //--GETTERS Y SETTERS
+	public function GetId()
+	{
+		return $this->Id;
+	}
+	
 	public function GetNombre()
 	{
 		return $this->Nombre;
@@ -269,7 +274,7 @@ class Usuario
 		
 		$arrayRetorno = array();
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('SELECT nombre, `password`, tipo, turno, estado  FROM `usuarios`');
+		$consulta = $objetoAcceso->RetornarConsulta('SELECT id_empleado, nombre, `password`, tipo, turno, estado  FROM `usuarios`');
 		$consulta->Execute();
 		while ($fila = $consulta->fetchObject("Usuario"))
 		{
