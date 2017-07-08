@@ -66,7 +66,7 @@ $app->post('/validarusuario', function ($request, $response, $args) {
 
 
 //Borrar empleado
-    $app->delete('/borraremp',function (Request $request, Response $response,$args) {
+    $app->delete('/borrarEmp',function (Request $request, Response $response,$args) {
             
               $ArrayDeParametros = $request->getParsedBody();  
             

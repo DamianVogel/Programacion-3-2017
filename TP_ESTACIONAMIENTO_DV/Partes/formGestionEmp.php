@@ -1,3 +1,4 @@
+<script type="text/javascript" src="js/funcionesABM.js"></script>
 <?php 
 session_start();
 if(isset($_SESSION['registrado']))
@@ -22,7 +23,7 @@ if(isset($_SESSION['registrado']))
 
 foreach ($arrayDeEmp as $emp) {
 	echo"<tr>
-			<td><a onclick='EditarCD($emp->id_empleado)' class='btn btn-warning'> <span class='glyphicon glyphicon-pencil'>&nbsp;</span>Editar</a></td>
+			<td><a onclick='BorrarEmp($emp->id_empleado)' class='btn btn-warning'> <span class='glyphicon glyphicon-pencil'>&nbsp;</span>Editar</a></td>
 			<td><a onclick='BorrarCD($emp->id_empleado)' class='btn btn-danger'>   <span class='glyphicon glyphicon-trash'>&nbsp;</span>  Borrar</a></td>
 			<td>$emp->nombre</td>
 			<td>$emp->tipo</td>

@@ -137,8 +137,9 @@ class Usuario
 		
 		//parametros
 		$consulta->bindvalue(':id', $id , PDO::PARAM_INT); 
+		$consulta->Execute();
 		
-		$resultado = $consulta->Execute();
+		$resultado = $consulta->rowCount();
 	
 		return $resultado;
 	}

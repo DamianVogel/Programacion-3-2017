@@ -25,12 +25,6 @@ function GestionEmp()
 }
 
 
-
-
-
-
-
-
 //LOGIN DV
 function MostarLogin()
 {
@@ -116,6 +110,15 @@ function deslogear()
 
 
 
+
+
+
+
+
+
+
+
+
 //TP DE LOS CHICOS!
 //INSERTO EN LOS LOGS
 function LoginBD()
@@ -142,15 +145,6 @@ function LoginBD()
 
 	});
 }
-
-
-
-
-
-
-
-
-
 
 
 //ACCIONES - LOGIN DE USUARIO

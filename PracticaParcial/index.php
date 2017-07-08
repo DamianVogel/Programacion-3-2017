@@ -56,9 +56,9 @@ $app->delete('/borrar', function (Request $request, Response $response) {
 			$consulta->bindParam(":id",$id['id']);		
 			$consulta->execute();
 				
-		var_dump($consulta->rowCount());
+		//var_dump($consulta->rowCount());
 		
-		//return $consulta->rowCount();
+		return $consulta->rowCount();
 });
 
 
