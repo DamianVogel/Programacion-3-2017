@@ -1,4 +1,5 @@
 <script type="text/javascript" src="js/funcionesABM.js"></script>
+<script type="text/javascript" src="js/funciones.js"></script>
 <?php 
 session_start();
 if(isset($_SESSION['registrado']))
@@ -11,6 +12,7 @@ if(isset($_SESSION['registrado']))
  ?>
 
 
+<button onclick="FormAltaEmp()" class='btn btn-lg btn-success btn-block' > <span class='glyphicon glyphicon-floppy-save'>&nbsp;&nbsp;</span>ALTA DE NUEVOS EMPLEADOS </button>
 <table class="table"  style=" background-color: beige;">
 	<thead>
 		<tr>

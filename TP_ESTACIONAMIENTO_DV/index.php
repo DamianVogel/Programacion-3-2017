@@ -43,7 +43,7 @@ $app->post('/validarusuario', function ($request, $response, $args) {
 
 
 //Alta de empleado
-    $app->post('/altaemp',function (Request $request, Response $response,$args) {
+    $app->post('/altaEmp',function (Request $request, Response $response,$args) {
         
           $ArrayDeParametros = $request->getParsedBody();  
         
@@ -229,6 +229,11 @@ $app->post('/gestionemp', function (Request $request, Response $response) {
    
 });
 
+$app->post('/formaltaemp', function (Request $request, Response $response) {
+    
+   	include ("Partes/formAltaEmp.php"); //abre el formulario de gestionemp
+   
+});
 
 
 

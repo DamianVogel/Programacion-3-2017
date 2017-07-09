@@ -103,7 +103,7 @@ class Usuario
 			$consulta->bindvalue(':nombre', $empleado['nombre'], PDO::PARAM_STR);
 			$consulta->bindvalue(':turno', $empleado['turno'] , PDO::PARAM_STR);
 			$consulta->bindvalue(':password', $empleado['password'] , PDO::PARAM_STR);
-			$consulta->bindvalue(':tipo', $empleado['tipo'], PDO::PARAM_STR);
+			$consulta->bindvalue(':tipo', "EMPLEADO", PDO::PARAM_STR);
 			$consulta->bindvalue(':estado', $empleado['estado'] , PDO::PARAM_STR);
 
 		

@@ -2,6 +2,32 @@
 //VALIDO USUARIO Y PASSWORDS
 
 //Administracion empleados
+function FormAltaEmp()
+{
+	
+	
+	var funcionAjax=$.ajax({
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/formaltaemp",
+		type:"post"
+		//data:{queHacer:"MostarLogin"}
+	});
+	funcionAjax.done(function(retorno){
+		$("#principal").html(retorno);
+		$("#informe").html("Formulario de Alta de Empleados");	
+	});
+	funcionAjax.fail(function(retorno){
+		$("#botonesABM").html("volvio por el fail");
+		$("#informe").html(retorno.responseText);	
+	});
+	funcionAjax.always(function(retorno){
+		//alert("siempre "+retorno.statusText);
+
+	});
+}
+
+
+
+
 function GestionEmp()
 {
 	//alert("estoy en gestion empleados");

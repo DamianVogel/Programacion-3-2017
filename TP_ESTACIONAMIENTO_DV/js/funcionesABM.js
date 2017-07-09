@@ -52,33 +52,29 @@ function EditarEmp(idParametro)
 
 }
 
-function GuardarCD()
+function AltaEmp()
 {
 
-	//alert("estoy en ajax de guardarCD");
+	alert("estoy en el alta de empleado");
 	
-	
-	var inputFileImage = document.getElementById("foto");
-	var file = inputFileImage.files[0];
-	var datosDelForm = new FormData("formcd");
+	var datosDelForm = new FormData("formAltaEmp");
 	//console.info(file);
 
 	
-	var titulo=$("#titulo").val();
-	var id=$("#idCD").val();
-	var cantante=$("#cantante").val();
-	var anio=$("#anio").val();
+	var nombre=$("#nombre").val();
+	var turno=$("#turno").val();
+	var password=$("#password").val();
+	var estado=$("#estado").val();
 
-	datosDelForm.append("foto",file);
-	datosDelForm.append("titulo",titulo);
-	datosDelForm.append("id",id);
-	datosDelForm.append("cantante",cantante);
-	datosDelForm.append("anio",anio);		
-		
+	
+	datosDelForm.append("nombre",nombre);
+	datosDelForm.append("turno",turno);
+	datosDelForm.append("estado",estado);		
+	datosDelForm.append("password",password);		
 		
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/PracticaParcial/cd",
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/altaEmp",
 		type:"post",
 		data:datosDelForm,
 		cache: false,
@@ -87,14 +83,10 @@ function GuardarCD()
 
 	}).then(function(respuesta){
 		alert("Agregado correctamente");
+		GestionEmp();
 		
-		//$("#informe").html("cantidad de agregados "+ respuesta);	
 		
-		$("#cantante").val("");
-		$("#titulo").val("");
-		$("#anio").val("");
-		$("#foto").val("");
-		//console.log("guardar cd");
+		
 
 	},function(error){
 
