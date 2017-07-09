@@ -173,6 +173,7 @@ function IngVehBD()
     	processData: false
 
 	}).then(function(respuesta){
+		
 		alert(respuesta);
 		
 		$("#patente").val("");

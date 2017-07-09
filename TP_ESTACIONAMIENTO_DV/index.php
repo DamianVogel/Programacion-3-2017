@@ -154,7 +154,7 @@ $app->post('/IngVehBD', function ($request, $response) {
          //Chequeo que el vehiculo no se encuentre estacionado.   
          $resultadoTraer = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);
         
-                
+          
 
          
          if($resultadoTraer == "No se encontro vehiculo")//Si la patente no se encuentra, lo doy de alta en el sistema.
@@ -172,27 +172,34 @@ $app->post('/IngVehBD', function ($request, $response) {
 
                         $hora = $ArrayDeParametros['hora'];
                 
-                        $resultadoOp = Vehiculo::InsertoOperacion ($cocheraDisponible,$hora,$ultimaPatente->id_vehiculo,$idEmpleado);
+                        $resultadoOp = Vehiculo::InsertoOperacion ($cocheraDisponible,$hora,$ultimaPatente->GetId(),$idEmpleado);
 
+                       
                         
-                        if($resultadoOp==TRUE)
+                        if($resultadoOp==1)
                                 {
                                         $resultadoAlta = "Se agrego el vehiculo a operaciones";
                                 }        
-                                $resultadoAlta="No se agrego el vehiculo a operaciones";
-               
-               
+                                else
+                                        {
+                                                $resultadoAlta="No se agrego el vehiculo a operaciones";
+                                        }
+                                
+                         return $response->withJson($resultadoAlta);               
                 }           
-                else if($resultadoTraer->estado==1)//Si la patente esta, informo que ya se encuentra en el estacionamiento
+                else if($resultadoTraer->GetEstado()==1)//Si la patente esta, informo que ya se encuentra en el estacionamiento
                 {
                         $resultadoAlta = "No se dio de alta el vehiculo, porque el mismo ya se encuentra estacionado";
+                        return $response->withJson($resultadoAlta);
                 }
                 else
+                        {
                         $resultadoAlta = "No se dio de alta el vehiculo, consulte con Sistemas";//Si por alguna razon no se completo la transaccion lo informo.
+                        return $response->withJson($resultadoAlta);               
+                        }
 
 
-
-         return $response->withJson($resultadoAlta);
+         
         });
 
 
@@ -231,6 +238,7 @@ $app->get('/traertodosVehiculos', function ($request, $response) {
   
 $app->get('/traerunVehiculo/[{id}]', function ($request, $response, $args) {
           
+          $
           $uno = Vehiculo::TraerUnVehiculo($args['id']);
           return $response->withJson($uno);
         });

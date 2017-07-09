@@ -4,57 +4,69 @@ class Vehiculo
 {
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
-	
-	private $Marca;
- 	private $Patente;
-  	private $Color;
-	private $Estado;
+	private $id_vehiculo;
+	private $marca;
+ 	private $patente;
+  	private $color;
+	private $estado;
 //--------------------------------------------------------------------------------//
 //--GETTERS Y SETTERS
+	public function GetId()
+	{
+		return $this->id_vehiculo;
+	}
+	
 	public function GetMarca()
 	{
-		return $this->Marca;
+		return $this->marca;
 	}
 	public function GetPatente()
 	{
-		return $this->Patente;
+		return $this->patente;
 	}
 	public function GetColor()
 	{
-		return $this->Color;
+		return $this->color;
 	}
 	public function GetEstado()
 	{
-		return $this->Estado;
+		return $this->estado;
 	}
 
+	public function SetId_vehiculo($valor)
+	{
+		$this->id_vehiculo = $valor;
+	}
+	
 	public function SetMarca($valor)
 	{
-		$this->Marca = $valor;
+		$this->marca = $valor;
 	}
 	public function SetPatente($valor)
 	{
-		$this->Patente = $valor;
+		$this->patente = $valor;
 	}
 	public function SetColor($valor)
 	{
-		$this->Color = $valor;
+		$this->color = $valor;
 	}
 	public function SetEstado($valor)
 	{
-		$this->Estado = $valor;
+		$this->estado = $valor;
 	}
 
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
-	public function __construct($Marca=NULL, $Patente=NULL, $Color=NULL, $Estado=NULL)
+	public function __construct($id_vehiculo=NULL, $marca=NULL, $patente=NULL, $color=NULL, $estado=NULL)
 	{
-		if($Marca !== NULL && $Patente !== NULL && $Color !== NULL && $Estado !== NULL ){
-			$this->Marca = $Marca;
-			$this->Patente = $Patente;
-			$this->Color = $Color;
-			$this->Estado = $Estado;
+		if($id_vehiculo !== NULL && $marca !== NULL && $patente !== NULL && $color !== NULL && $estado !== NULL ){
+			
+			$this->id_vehiculo = $id_vehiculo;
+			$this->marca = $marca;
+			$this->patente = $patente;
+			$this->color = $color;
+			$this->estado = $estado;
 		}
 	}
 
@@ -62,7 +74,7 @@ class Vehiculo
 //--TOSTRING	
   	public function ToString()
 	{
-	  	return $this->Marca." - ".$this->Patente." - ".$this->Color."\r\n";
+	  	return $this->marca." - ".$this->patente." - ".$this->color."\r\n";
 	}
 //--------------------------------------------------------------------------------//
 
@@ -139,13 +151,17 @@ class Vehiculo
 	//DV probar en postman -> Sin Luz
 	public static function TraerUnVehiculo($aux)
     {
-        $objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAcceso->RetornarConsulta('SELECT Id_vehiculo, patente , marca, color, estado FROM vehiculos WHERE patente=:patente');
-        $consulta->bindParam("patente", $aux,PDO::PARAM_STR); //Probar esto tal vez no funciona
-        $consulta->execute();
-       
+    
+		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+        $consulta = $objetoAcceso->RetornarConsulta('SELECT id_vehiculo, patente,  color, marca, estado FROM vehiculos WHERE patente=:patente');
+        $consulta->bindParam("patente", $aux);
+		
+		$consulta->execute();
+
 	    $uno = $consulta->fetchObject("Vehiculo");
-         if($uno == NULL)
+        
+		
+		 if($uno == NULL)
           {
 			  $uno="No se encontro vehiculo";
               return $uno;
@@ -153,6 +169,8 @@ class Vehiculo
 		return $uno;
     }
 
+	
+	
 	public static function TraerUnVehiculoOperaciones($aux)
     {
         $objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
@@ -183,18 +201,22 @@ class Vehiculo
 
 	public static function InsertoOperacion ($nro_cochera,$hora,$idVehiculo,$idEmpleado)
 	{
+			
+			
+			
 			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 			//Ver que este estacionado (Hora salida)
 			//Traer datos del vehiculo, con hora salida dsp del insert
-	  		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO operaciones(`ID_COCHERA`,`ID_VEHICULO`,`ID_EMPLEADO`,`HORA_INGRESO`)  VALUES (:idcochera,:idvehiculo,:idempleado,:horaingreso)');
+	  		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO operaciones(`ID_COCHERA`,`ID_VEHICULO`,`ID_EMPLEADO`,`HORA_INGRESO`)  VALUES  (:idcochera,:idvehiculo,:idempleado,:horaingreso)');
             
-			$consulta->bindvalue(':idcochera', $nro_cochera, PDO::PARAM_INT);
+			$consulta->bindvalue(':idcochera', $nro_cochera->GetNroCochera(), PDO::PARAM_INT);
 			$consulta->bindvalue(':idvehiculo', $idVehiculo, PDO::PARAM_INT);
 			$consulta->bindvalue(':idempleado', $idEmpleado, PDO::PARAM_INT);
 			$consulta->bindvalue(':horaingreso', $hora , PDO::PARAM_STR);
-						
-            $resultado = $consulta->execute();
+						//VALUES (:idcochera,:idvehiculo,:idempleado,:horaingreso)
+            $consulta->execute();
 			
+			$resultado = $consulta->rowCount();
 			//$obj = $consulta->fetchAll();
 			
 			return $resultado;

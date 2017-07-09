@@ -13,6 +13,7 @@ function FormIngVeh()
 		//data:{queHacer:"MostarLogin"}
 	});
 	funcionAjax.done(function(retorno){
+		
 		$("#principal").html(retorno);
 		$("#informe").html("Formulario de Ingreso de vehiculos");	
 	});

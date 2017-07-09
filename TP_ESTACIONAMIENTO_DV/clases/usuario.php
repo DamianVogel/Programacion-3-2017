@@ -5,7 +5,7 @@ class Usuario
 {
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
-	private $Id;
+	private $Id_empleado;
 	private $Nombre;
  	private $Turno;
   	private $Password;
@@ -13,9 +13,9 @@ class Usuario
 	private $Estado;
 //--------------------------------------------------------------------------------//
 //--GETTERS Y SETTERS
-	public function GetId()
+	public function GetId_empleado()
 	{
-		return $this->Id;
+		return $this->Id_empleado;
 	}
 	
 	public function GetNombre()
@@ -65,10 +65,11 @@ class Usuario
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
 	//DV PROBAR ID -> POSTMAN SIN LUZ -> AGREGADO EL ATRIBUTO ID PARA PODER MODIFICAR.
-	public function __construct( $Id=NULL,$Nombre=NULL, $Turno=NULL, $Password=NULL, $Tipo=NULL, $Estado=NULL)
+	public function __construct( $Id_empleado=NULL,$Nombre=NULL, $Turno=NULL, $Password=NULL, $Tipo=NULL, $Estado=NULL)
 	{
-		if($Nombre !== NULL && $Turno !== NULL && $Password !== NULL && $Tipo !== NULL && $Estado !== NULL ){
+		if( $Id_empleado !== NULL && $Nombre !== NULL && $Turno !== NULL && $Password !== NULL && $Tipo !== NULL && $Estado !== NULL ){
 			
+			$this->Id_empleado = $Id_empleado;
 			$this->Nombre = $Nombre;
 			$this->Turno = $Turno;
 			$this->Password = $Password;
@@ -179,7 +180,7 @@ class Usuario
         
          	
 			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAcceso->RetornarConsulta('SELECT id_empleado,nombre, password, tipo, turno, estado  FROM `usuarios` WHERE nombre=:nombre and password=:password');
+            $consulta = $objetoAcceso->RetornarConsulta('SELECT id_empleado, nombre, password, tipo, turno, estado  FROM `usuarios` WHERE nombre=:nombre and password=:password');
             $consulta->bindvalue(':nombre', $arrayParametros['nombre'], PDO::PARAM_STR);
 			$consulta->bindvalue(':password', $arrayParametros['password'] , PDO::PARAM_STR);
 			
@@ -188,6 +189,8 @@ class Usuario
 			
 			$uno = $consulta->fetchObject("Usuario");
 			
+		
+
 			if($uno==true)
             {
               if($arrayParametros['recordarme']=="true")

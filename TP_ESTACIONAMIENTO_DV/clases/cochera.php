@@ -4,67 +4,60 @@ class Cochera
 {
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
-	private $NroCochera;
- 	private $Tipo;
-  	private $Reservado;
-	private $Estado_Actual;
-	private $Habilitada;
+	private $id_cochera;
+	private $nro_cochera;
+	private $reservado;
+	private $habilitada;
 //--------------------------------------------------------------------------------//
 //--GETTERS Y SETTERS
+	public function GetId_Cochera()
+	{
+		return $this->id_cochera;
+	}
+	
 	public function GetNroCochera()
 	{
-		return $this->NroCochera;
+		return $this->nro_cochera;
 	}
-	public function GetTipo()
-	{
-		return $this->Tipo;
-	}
+	
 	public function GetReservado()
 	{
-		return $this->Reservado;
+		return $this->reservado;
 	}
-	public function GetEstado_Actual()
-	{
-		return $this->Estado_Actual;
-	}
+	
 	public function GetHabilitada()
 	{
-		return $this->Habilitada;
+		return $this->habilitada;
 	}
 
 
 	public function SetNroCochera($valor)
 	{
-		$this->NroCochera = $valor;
+		$this->nro_cochera = $valor;
 	}
-	public function SetTipo($valor)
-	{
-		$this->Tipo = $valor;
-	}
+	
 	public function SetReservado($valor)
 	{
-		$this->Reservado = $valor;
+		$this->reservado = $valor;
 	}
-	public function SetEstado_Actual($valor)
-	{
-		$this->Estado_Actual = $valor;
-	}
+	
 	public function SetHabilitada($valor)
 	{
-		$this->Habilitada = $valor;
+		$this->habilitada = $valor;
 	}
 
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
-	public function __construct( $NroCochera=NULL, $Tipo=NULL, $Reservado=NULL, $Estado_Actual=NULL, $Habilitada=NULL)
+	public function __construct( $nro_cochera=NULL,  $reservado=NULL,  $habilitada=NULL)
 	{
-		if($NroCochera !== NULL && $Tipo !== NULL && $Reservado !== NULL && $Estado_Actual !== NULL && $Habilitada !== NULL ){
-			$this->NroCochera = $NroCochera;
-			$this->Tipo = $Tipo;
-			$this->Reservado = $Reservado;
-			$this->Estado_Actual = $Estado_Actual;
-			$this->Habilitada = $Habilitada;
+		if($nro_cochera !== NULL &&  $reservado !== NULL &&  $habilitada !== NULL ){
+		
+			$this->nro_cochera = $nro_cochera;
+			
+			$this->reservado = $reservado;
+			
+			$this->habilitada = $habilitada;
 		}
 	}
 
@@ -72,7 +65,7 @@ class Cochera
 //--TOSTRING	
   	public function ToString()
 	{
-	  	return $this->NroCochera." - ".$this->Tipo." - ".$this->Reservado."\r\n";
+	  	return $this->nro_cochera." - ".$this->reservado." - ".$this->habilitada."\r\n";
 	}
 //--------------------------------------------------------------------------------//
 
@@ -131,14 +124,18 @@ class Cochera
         $consulta = $objetoAcceso->RetornarConsulta('SELECT nro_cochera FROM cocheras WHERE habilitada=1 and reservado=0');
 		$consulta->execute();
         
-		$uno = $consulta->fetchAll();
+		$uno = $consulta->fetchObject("Cochera");
          if($uno == NULL)
           {
               $uno="NO HAY";
               return $uno;
           }
-        return $uno;
-    }
+		  else
+		  	{
+					return $uno;
+			}					
+	
+	}
 
 	public static function TraerUnaCocheraVaciaReservadas()
     {
