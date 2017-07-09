@@ -36,9 +36,9 @@ if(!isset($_SESSION['registrado'])){  ?>
 
     </div> <!-- /container -->
 
-  <?php }else if($_SESSION['registrado'] == "ADMIN")
+  <?php }else if($_SESSION['registrado']->tipo == "ADMIN")
   
-        {    echo"<h3>Bienvenido '".$_SESSION['registrado']."' </h3>";?>         
+        {    echo"<h3>Bienvenido '".$_SESSION['registrado']->nombre."' </h3>";?>         
 
 			  
         <button onclick="GestionEmp()" class="btn btn-lg btn-danger btn-block" type="button">Gestion Empleados<br> 

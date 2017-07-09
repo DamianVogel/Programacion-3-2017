@@ -163,9 +163,9 @@ $app->post('/IngVehBD', function ($request, $response) {
                        
                         $ultimaPatente = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);//Traigo el ultimo vehiculo para tomar el id para insertar en operaciones.
                         
+                        $cocheraDisponible = Vehiculo::TraerUnaCocheraVaciaNormales();
+
                         
-
-
 
                 
                 

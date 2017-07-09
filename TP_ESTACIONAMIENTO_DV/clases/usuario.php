@@ -200,9 +200,11 @@ class Usuario
                         
                       }
 					  	session_start();
-					    						
-						$_SESSION['registrado']=$uno->tipo;
-                        $retorno="ingreso";
+
+						$_SESSION['registrado']=Array();						
+						$_SESSION['registrado']['tipo']=$uno->tipo;
+                        
+						$retorno="ingreso";
 
             }else
                 {
