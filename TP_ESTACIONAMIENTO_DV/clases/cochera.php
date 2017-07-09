@@ -125,14 +125,13 @@ class Cochera
 		 return $arrayRetorno;
 	}
 
-	public static function TraerUnaCocheraVacia()
+	public static function TraerUnaCocheraVaciaNormales()
     {
         $objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAcceso->RetornarConsulta('SELECT nro_cochera FROM cocheras WHERE estado_actual=:estado ');
-        $estado = 'Libre';
-		$consulta->bindParam("estado",$estado );
+        $consulta = $objetoAcceso->RetornarConsulta('SELECT nro_cochera FROM cocheras WHERE habilitada=1 and reservado=0');
 		$consulta->execute();
-        $uno = $consulta->fetchAll();
+        
+		$uno = $consulta->fetchAll();
          if($uno == NULL)
           {
               $uno="NO HAY";
@@ -140,5 +139,22 @@ class Cochera
           }
         return $uno;
     }
+
+	public static function TraerUnaCocheraVaciaReservadas()
+    {
+        $objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+        $consulta = $objetoAcceso->RetornarConsulta('SELECT nro_cochera FROM cocheras WHERE habilitada=1');
+		$consulta->execute();
+        
+		$uno = $consulta->fetchAll();
+         if($uno == NULL)
+          {
+              $uno="NO HAY";
+              return $uno;
+          }
+        return $uno;
+    }
+
+
 //--------------------------------------------------------------------------------//
 }

@@ -143,6 +143,45 @@ $app->get('/traerunusuario/[{id}]', function ($request, $response, $args) {
         });
 
 
+//<---------------------------------VEHICULO-------------------------------------->
+
+//DV
+$app->post('/IngVehBD', function ($request, $response) {
+         
+         $ArrayDeParametros = $request->getParsedBody();  
+
+
+         //Chequeo que el vehiculo no se encuentre estacionado.   
+         $resultadoTraer = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);
+        
+                
+
+         
+         if($resultadoTraer == "No se encontro vehiculo")//Si la patente no se encuentra, lo doy de alta en el sistema.
+                {
+                        $resultadoAlta = Vehiculo::Alta($ArrayDeParametros);         
+                       
+                        $ultimaPatente = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);//Traigo el ultimo vehiculo para tomar el id para insertar en operaciones.
+                        
+                        
+
+
+
+                
+                
+                }           
+                else if($resultadoTraer->estado==1)//Si la patente esta, informo que ya se encuentra en el estacionamiento
+                {
+                        $resultadoAlta = "No se dio de alta el vehiculo, porque el mismo ya se encuentra estacionado";
+                }
+                else
+                        $resultadoAlta = "No se dio de alta el vehiculo, consulte con Sistemas";//Si por alguna razon no se completo la transaccion lo informo.
+
+
+
+         return $response->withJson($resultadoAlta);
+        });
+
 
 
 
@@ -194,11 +233,8 @@ $app->get('/cocheravacia', function ($request, $response) {
           return  $response->withJson($cocheravacia);
         });
 
-$app->get('/insertarOperacion', function ($request, $response) {
-          $obj = isset($_GET['datosOperacion']) ? json_decode(json_encode($_GET['datosOperacion'])) : NULL;
-          $rta = Vehiculo::InsertoOperacion($obj->nrocochera, $obj->hora, $obj->patente, $obj->nombre);
-          return $response->withJson($rta);
-        });
+
+
 
 
 // $app->get('/traerunVehiculo', function ($request, $response) {
@@ -212,6 +248,10 @@ $app->get('/insertarOperacion', function ($request, $response) {
 //         //  return $response->withJson($uno);
 //         return ($obj1);
 //         });
+
+
+
+
 
 //TRANSACCIONES PARA FRONT END
 

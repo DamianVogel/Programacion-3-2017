@@ -6,7 +6,7 @@ session_start();
 if(isset($_SESSION['registrado'])){  ?>
     <div class="container">
 
-      <form class="form-ingreso" onsubmit="AltaEmp();return false" enctype="multipart/form-data" id="formAltaEmp">
+      <form class="form-ingreso" onsubmit="IngVehBD();return false" enctype="multipart/form-data" id="formIngVeh">
         <h2 class="form-ingreso-heading">ALTA DE VEHICULO</h2>
         
         <label for="patente"  class="sr-only">Patente</label>

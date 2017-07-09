@@ -354,6 +354,7 @@ function AccionesIngresoVehic ($nombre)
 	d = Date().split(" ");
  	var hora = d[4]
 	
+	
 	//Conversion de variables
 	$hora = hora;
 	nro_cochera = $nro_cochera;
@@ -369,6 +370,9 @@ function AccionesIngresoVehic ($nombre)
 		alert("El vehiculo fue ingresado al  sistema");
 	}
 }
+
+
+
 //EGRESO DEL VEHICULO
 
 function AccionesEgresoVehic ()

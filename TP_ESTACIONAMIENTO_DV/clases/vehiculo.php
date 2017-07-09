@@ -4,6 +4,7 @@ class Vehiculo
 {
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
+	
 	private $Marca;
  	private $Patente;
   	private $Color;
@@ -71,16 +72,26 @@ class Vehiculo
 	//--METODOS DE CLASE
 
 
-	//Corregir
-	public static function Alta($obj)
-	{
-		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `vehiculos`(`Patente`, `Color`, `Marca`,`Estado`) VALUES ($obj[0],$obj[1],$obj[2],`HABILITADO`)');
-		//Falta parametro
+	//Probar
+	public static function Alta($ArrayDeParametros)
+	{				
 		
-		$consulta->Execute();
-	
-	
+		
+		
+		//query de alta
+		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `vehiculos`(`Patente`, `Color`, `Marca`,`Estado`) VALUES (:patente,:turno,:password,:estado)');
+		
+			//parametros
+			$consulta->bindvalue(':patente', $ArrayDeParametros['patente'], PDO::PARAM_STR);
+			$consulta->bindvalue(':turno', $ArrayDeParametros['color'] , PDO::PARAM_STR);
+			$consulta->bindvalue(':password', $ArrayDeParametros['marca'] , PDO::PARAM_STR);
+			$consulta->bindvalue(':estado', 1 , PDO::PARAM_STR);
+
+			$consulta->Execute();
+							
+			return $resultado;
+		
 	
 	}
 
@@ -128,10 +139,11 @@ class Vehiculo
 	public static function TraerUnVehiculo($aux)
     {
         $objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAcceso->RetornarConsulta('SELECT patente , marca, color, estado FROM vehiculos WHERE patente=:patente');
+        $consulta = $objetoAcceso->RetornarConsulta('SELECT Id_vehiculo, patente , marca, color, estado FROM vehiculos WHERE patente=:patente');
         $consulta->bindParam("patente", $aux); //Probar esto tal vez no funciona
         $consulta->execute();
-        $uno = $consulta->fetchObject("Vehiculo");
+       
+	    $uno = $consulta->fetchObject("Vehiculo");
          if($uno == NULL)
           {
 			  $uno="No se encontro vehiculo";

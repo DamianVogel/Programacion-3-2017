@@ -141,27 +141,28 @@ function UpdateEmp()
 
 
 //VEHICULOS
-function Alta()
+
+
+//DV
+function IngVehBD()
 {
 
-	var datosDelForm = new FormData("formAltaEmp");
+	var datosDelForm = new FormData("formIngVeh");
 	//console.info(file);
 
 	
-	var nombre=$("#nombre").val();
-	var turno=$("#turno").val();
-	var password=$("#password").val();
-	var estado=$("#estado").val();
-
+	var patente=$("#patente").val();
+	var color=$("#color").val();
+	var marca=$("#marca").val();
 	
-	datosDelForm.append("nombre",nombre);
-	datosDelForm.append("turno",turno);
-	datosDelForm.append("estado",estado);		
-	datosDelForm.append("password",password);		
+	datosDelForm.append("patente",patente);
+	datosDelForm.append("color",color);
+	datosDelForm.append("marca",marca);		
+	
 		
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/altaEmp",
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/IngVehBD",
 		type:"post",
 		data:datosDelForm,
 		cache: false,
