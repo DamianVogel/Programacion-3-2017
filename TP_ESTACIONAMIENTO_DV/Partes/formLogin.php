@@ -54,7 +54,7 @@ if(!isset($_SESSION['registrado'])){  ?>
  
   <?php  }else{ 
     
-              echo"<h3>A laburar '".$_SESSION['registrado']."'  </h3>";?>         
+              echo"<h3>A laburar '".$_SESSION['registrado']->nombre."'  </h3>";?>         
 
 			  
         <button onclick="FormIngVeh()" class="btn btn-lg btn-danger btn-block" type="button">Ingreso Vehiculos<br> 

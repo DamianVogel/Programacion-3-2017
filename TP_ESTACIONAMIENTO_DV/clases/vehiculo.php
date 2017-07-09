@@ -88,8 +88,9 @@ class Vehiculo
 			$consulta->bindvalue(':password', $ArrayDeParametros['marca'] , PDO::PARAM_STR);
 			$consulta->bindvalue(':estado', 1 , PDO::PARAM_STR);
 
-			$consulta->Execute();
+			$resultado = $consulta->Execute();
 							
+			
 			return $resultado;
 		
 	
@@ -140,7 +141,7 @@ class Vehiculo
     {
         $objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
         $consulta = $objetoAcceso->RetornarConsulta('SELECT Id_vehiculo, patente , marca, color, estado FROM vehiculos WHERE patente=:patente');
-        $consulta->bindParam("patente", $aux); //Probar esto tal vez no funciona
+        $consulta->bindParam("patente", $aux,PDO::PARAM_STR); //Probar esto tal vez no funciona
         $consulta->execute();
        
 	    $uno = $consulta->fetchObject("Vehiculo");
@@ -180,20 +181,23 @@ class Vehiculo
 		return $uno;
     }
 
-	public static function InsertoOperacion ($nro_cochera,$hora,$patente,$nombre)
+	public static function InsertoOperacion ($nro_cochera,$hora,$idVehiculo,$idEmpleado)
 	{
 			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 			//Ver que este estacionado (Hora salida)
 			//Traer datos del vehiculo, con hora salida dsp del insert
-	  		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO operaciones(`ID_COCHERA`,`PATENTE`,`ID_EMPLEADO`,`HORA_INGRESO`)  VALUES (:idcochera,:patente,:nombre,:hora)');
-            $consulta->bindParam("idcochera",$nro_cochera);
-			$consulta->bindParam("patente",$patente);
-			$consulta->bindParam("nombre",$nombre);
-			$consulta->bindParam("hora",$hora);
-            $consulta->execute();
-			$obj = $consulta->fetchAll();
+	  		$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO operaciones(`ID_COCHERA`,`ID_VEHICULO`,`ID_EMPLEADO`,`HORA_INGRESO`)  VALUES (:idcochera,:idvehiculo,:idempleado,:horaingreso)');
+            
+			$consulta->bindvalue(':idcochera', $nro_cochera, PDO::PARAM_INT);
+			$consulta->bindvalue(':idvehiculo', $idVehiculo, PDO::PARAM_INT);
+			$consulta->bindvalue(':idempleado', $idEmpleado, PDO::PARAM_INT);
+			$consulta->bindvalue(':horaingreso', $hora , PDO::PARAM_STR);
+						
+            $resultado = $consulta->execute();
 			
-			return true;
+			//$obj = $consulta->fetchAll();
+			
+			return $resultado;
 		   
 	}
 //--------------------------------------------------------------------------------//

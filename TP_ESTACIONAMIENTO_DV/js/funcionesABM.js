@@ -151,6 +151,7 @@ function IngVehBD()
 	//console.info(file);
 
 	
+
 	var patente=$("#patente").val();
 	var color=$("#color").val();
 	var marca=$("#marca").val();
@@ -159,7 +160,9 @@ function IngVehBD()
 	datosDelForm.append("color",color);
 	datosDelForm.append("marca",marca);		
 	
-		
+	d = Date().split(" ");
+ 	var hora = d[4]	
+	datosDelForm.append("hora",hora);
 
 	var funcionAjax=$.ajax({
 		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/IngVehBD",
@@ -170,8 +173,12 @@ function IngVehBD()
     	processData: false
 
 	}).then(function(respuesta){
-		alert("Agregado correctamente");
-		GestionEmp();
+		alert(respuesta);
+		
+		$("#patente").val("");
+		$("#color").val("");
+		$("#marca").val("");
+		
 		
 		
 		

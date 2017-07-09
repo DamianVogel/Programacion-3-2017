@@ -179,7 +179,7 @@ class Usuario
         
          	
 			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAcceso->RetornarConsulta('SELECT nombre, password, tipo, turno, estado  FROM `usuarios` WHERE nombre=:nombre and password=:password');
+            $consulta = $objetoAcceso->RetornarConsulta('SELECT id_empleado,nombre, password, tipo, turno, estado  FROM `usuarios` WHERE nombre=:nombre and password=:password');
             $consulta->bindvalue(':nombre', $arrayParametros['nombre'], PDO::PARAM_STR);
 			$consulta->bindvalue(':password', $arrayParametros['password'] , PDO::PARAM_STR);
 			
@@ -201,9 +201,13 @@ class Usuario
                       }
 					  	session_start();
 
-						$_SESSION['registrado']=Array();						
-						$_SESSION['registrado']['tipo']=$uno->tipo;
+						$_SESSION['registrado']=$uno;						
+					//	$_SESSION['registrado']['tipo']=$uno->tipo;
                         
+						// $_SESSION['registrado']=Array();						
+						// $_SESSION['registrado']['tipo']=$uno->tipo;
+
+
 						$retorno="ingreso";
 
             }else

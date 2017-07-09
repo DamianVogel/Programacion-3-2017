@@ -159,16 +159,29 @@ $app->post('/IngVehBD', function ($request, $response) {
          
          if($resultadoTraer == "No se encontro vehiculo")//Si la patente no se encuentra, lo doy de alta en el sistema.
                 {
+                        //Alta de vehiculo
                         $resultadoAlta = Vehiculo::Alta($ArrayDeParametros);         
                        
+                        
                         $ultimaPatente = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);//Traigo el ultimo vehiculo para tomar el id para insertar en operaciones.
                         
-                        $cocheraDisponible = Vehiculo::TraerUnaCocheraVaciaNormales();
+                        $cocheraDisponible = Cochera::TraerUnaCocheraVaciaNormales();
+
+                        session_start();
+                        $idEmpleado = $_SESSION['registrado']->id_empleado;
+
+                        $hora = $ArrayDeParametros['hora'];
+                
+                        $resultadoOp = Vehiculo::InsertoOperacion ($cocheraDisponible,$hora,$ultimaPatente->id_vehiculo,$idEmpleado);
 
                         
-
-                
-                
+                        if($resultadoOp==TRUE)
+                                {
+                                        $resultadoAlta = "Se agrego el vehiculo a operaciones";
+                                }        
+                                $resultadoAlta="No se agrego el vehiculo a operaciones";
+               
+               
                 }           
                 else if($resultadoTraer->estado==1)//Si la patente esta, informo que ya se encuentra en el estacionamiento
                 {

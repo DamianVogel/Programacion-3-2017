@@ -2,12 +2,12 @@
 <script type="text/javascript" src="js/funciones.js"></script>
 <?php 
 session_start();
-if(isset($_SESSION['registrado']))
+if(isset($_SESSION['registrado']) && $_SESSION['registrado']->tipo=="ADMIN")
 {
 	
 	
 	$arrayDeEmp=Usuario::TraerTodosLosusuarios();
-	echo "<h2> Bienvenido: ". $_SESSION['registrado']."</h2>";
+	echo "<h2> Bienvenido: ". $_SESSION['registrado']->nombre."</h2>";
 
  ?>
 
@@ -42,7 +42,7 @@ foreach ($arrayDeEmp as $emp) {
 </table>
 
 <?php 	}else	{
-		echo "<h4 class='widgettitle'>No estas registrado</h4>";
+		echo "<h4 class='widgettitle'>No estas registrado como ADMINISTRADOR</h4>";
 	}
 
 	 ?>
