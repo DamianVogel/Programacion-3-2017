@@ -57,7 +57,7 @@ if(!isset($_SESSION['registrado'])){  ?>
               echo"<h3>A laburar '".$_SESSION['registrado']."'  </h3>";?>         
 
 			  
-        <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Ingreso Vehiculos<br> 
+        <button onclick="FormIngVeh()" class="btn btn-lg btn-danger btn-block" type="button">Ingreso Vehiculos<br> 
         <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Salida Vehiculos<br>
 			  <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button"><span class="glyphicon glyphicon-off">&nbsp;</span>Deslogearme</button>
 	

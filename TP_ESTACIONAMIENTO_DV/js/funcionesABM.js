@@ -55,7 +55,7 @@ function EditarEmp(idParametro)
 function AltaEmp()
 {
 
-	alert("estoy en el alta de empleado");
+	
 	
 	var datosDelForm = new FormData("formAltaEmp");
 	//console.info(file);
@@ -138,3 +138,51 @@ function UpdateEmp()
 	});
 	
 }
+
+
+//VEHICULOS
+function Alta()
+{
+
+	var datosDelForm = new FormData("formAltaEmp");
+	//console.info(file);
+
+	
+	var nombre=$("#nombre").val();
+	var turno=$("#turno").val();
+	var password=$("#password").val();
+	var estado=$("#estado").val();
+
+	
+	datosDelForm.append("nombre",nombre);
+	datosDelForm.append("turno",turno);
+	datosDelForm.append("estado",estado);		
+	datosDelForm.append("password",password);		
+		
+
+	var funcionAjax=$.ajax({
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/altaEmp",
+		type:"post",
+		data:datosDelForm,
+		cache: false,
+    	contentType: false,
+    	processData: false
+
+	}).then(function(respuesta){
+		alert("Agregado correctamente");
+		GestionEmp();
+		
+		
+		
+
+	},function(error){
+
+			$("#informe").html(error.responseText);
+			console.info("error", error);
+
+	});
+	
+}
+
+
+

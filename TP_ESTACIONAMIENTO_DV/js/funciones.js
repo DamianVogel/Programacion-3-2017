@@ -1,6 +1,33 @@
 //<----------------------------------------USUARIO------------------------>
 //VALIDO USUARIO Y PASSWORDS
 
+//Formularios Vehiculos
+
+function FormIngVeh()
+{
+	
+	
+	var funcionAjax=$.ajax({
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/formIngVeh",
+		type:"post"
+		//data:{queHacer:"MostarLogin"}
+	});
+	funcionAjax.done(function(retorno){
+		$("#principal").html(retorno);
+		$("#informe").html("Formulario de Ingreso de vehiculos");	
+	});
+	funcionAjax.fail(function(retorno){
+		$("#botonesABM").html("volvio por el fail");
+		$("#informe").html(retorno.responseText);	
+	});
+	funcionAjax.always(function(retorno){
+		//alert("siempre "+retorno.statusText);
+
+	});
+}
+
+
+
 //Administracion empleados
 function FormAltaEmp()
 {

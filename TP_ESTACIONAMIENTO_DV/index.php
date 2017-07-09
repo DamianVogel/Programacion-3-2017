@@ -237,6 +237,16 @@ $app->post('/formaltaemp', function (Request $request, Response $response) {
 
 
 
+$app->post('/formIngVeh', function (Request $request, Response $response) {
+    
+   	include ("Partes/formAltaVeh.php"); //abre el formulario de gestionemp
+   
+});
+
+
+
+
+
 $app->post('/desloguear', function (Request $request, Response $response) {
     
    	session_start();
