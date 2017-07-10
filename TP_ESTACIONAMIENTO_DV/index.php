@@ -34,14 +34,6 @@ $app->post('/validarusuario', function ($request, $response, $args) {
         });
       
 
-
-
-
-
-
-
-
-
 //Alta de empleado
     $app->post('/altaEmp',function (Request $request, Response $response,$args) {
         
@@ -165,20 +157,28 @@ $app->post('/IngVehBD', function ($request, $response) {
                         
                         $ultimaPatente = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);//Traigo el ultimo vehiculo para tomar el id para insertar en operaciones.
                         
+                       
                         $cocheraDisponible = Cochera::TraerUnaCocheraVaciaNormales();
+
+                       // var_dump($cocheraDisponible);
 
                         session_start();
                         $idEmpleado = $_SESSION['registrado']->id_empleado;
 
                         $hora = $ArrayDeParametros['hora'];
                 
-                        $resultadoOp = Vehiculo::InsertoOperacion ($cocheraDisponible,$hora,$ultimaPatente->GetId(),$idEmpleado);
+                        $resultadoOp = Vehiculo::InsertoOperacion ($cocheraDisponible,$hora,$ultimaPatente->id_vehiculo,$idEmpleado);
 
                        
                         
                         if($resultadoOp==1)
                                 {
-                                        $resultadoAlta = "Se agrego el vehiculo a operaciones";
+                                        //Ingreso el vehiculo a la operacion, la cochera se tiene que deshabilitar
+                                       
+                                        $cocheraDesh = Cochera::BajaCochera($cocheraDisponible);
+
+                                        $resultadoAlta = $cocheraDesh;        
+                                       // $resultadoAlta = "Se agrego el vehiculo a operaciones";
                                 }        
                                 else
                                         {
@@ -238,7 +238,7 @@ $app->get('/traertodosVehiculos', function ($request, $response) {
   
 $app->get('/traerunVehiculo/[{id}]', function ($request, $response, $args) {
           
-          $
+          
           $uno = Vehiculo::TraerUnVehiculo($args['id']);
           return $response->withJson($uno);
         });
@@ -304,7 +304,11 @@ $app->post('/formIngVeh', function (Request $request, Response $response) {
    
 });
 
-
+$app->post('/FormSalidaVeh', function (Request $request, Response $response) {
+    
+   	include ("Partes/formSalidaVeh.php"); //abre el formulario de gestionemp
+   
+});
 
 
 

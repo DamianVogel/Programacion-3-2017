@@ -6,7 +6,9 @@ session_start();
 if(isset($_SESSION['registrado'])){  ?>
     <div class="container">
 
+        
       <form class="form-ingreso" onsubmit="IngVehBD();return false" enctype="multipart/form-data" id="formIngVeh">
+        <button onclick="FormSalidaVeh()" class='btn btn-lg btn-success btn-block' > <span class='glyphicon'></span>VEHICULOS ESTACIONADOS</button>
         <h2 class="form-ingreso-heading">ALTA DE VEHICULO</h2>
         
         <label for="patente"  class="sr-only">Patente</label>

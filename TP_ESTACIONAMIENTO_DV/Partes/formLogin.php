@@ -58,7 +58,7 @@ if(!isset($_SESSION['registrado'])){  ?>
 
 			  
         <button onclick="FormIngVeh()" class="btn btn-lg btn-danger btn-block" type="button">Ingreso Vehiculos<br> 
-        <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button">Salida Vehiculos<br>
+        <button onclick="FormSalidaVeh()" class="btn btn-lg btn-danger btn-block" type="button">Salida Vehiculos<br>
 			  <button onclick="deslogear()" class="btn btn-lg btn-danger btn-block" type="button"><span class="glyphicon glyphicon-off">&nbsp;</span>Deslogearme</button>
 	
 

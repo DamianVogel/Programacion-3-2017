@@ -82,9 +82,14 @@ class Cochera
 	public static function BajaCochera($aux)
 	{
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `cocheras` SET `habilitada`=0 WHERE `nrocochera`=:nrocochera ');
-		$consulta->bindvalue(':nrocochera', $aux , PDO::PARAM_INT);
+		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `cocheras` SET HABILITADA = 0 WHERE `nro_cochera`=:nrocochera');
+		$consulta->bindvalue(':nrocochera', $aux->nro_cochera, PDO::PARAM_INT);
+	
 		$consulta->Execute();
+		
+		$resultado = $consulta->rowCount();
+	
+		return $resultado;
 	}
 
 	public static function BajaEstadoCochera($aux)

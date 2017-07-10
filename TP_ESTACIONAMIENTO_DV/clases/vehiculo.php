@@ -4,38 +4,56 @@ class Vehiculo
 {
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
-	private $id_vehiculo;
-	private $marca;
- 	private $patente;
-  	private $color;
-	private $estado;
+	private $Id_vehiculo;
+	private $Marca;
+ 	private $Patente;
+  	private $Color;
+	private $Estado;
 //--------------------------------------------------------------------------------//
-//--GETTERS Y SETTERS
-	public function GetId()
+//--------------------------------------------------------------------------------//
+//--CONSTRUCTOR
+	public function __construct($Id_vehiculo=NULL, $Marca=NULL, $Patente=NULL, $Color=NULL, $Estado=NULL)
 	{
-		return $this->id_vehiculo;
+		if($Id_vehiculo !== NULL && $Marca !== NULL && $Patente !== NULL && $Color !== NULL && $Estado !== NULL ){
+			
+			$this->Id_vehiculo = $Id_vehiculo;
+			$this->Marca = $Marca;
+			$this->Patente = $Patente;
+			$this->Color = $Color;
+			$this->Estado = $Estado;
+		}
+	}
+
+//--------------------------------------------------------------------------------//
+
+
+
+//--GETTERS Y SETTERS
+	public function GetId_vehiculo()
+	{
+		return $this->Id_vehiculo;
 	}
 	
 	public function GetMarca()
 	{
-		return $this->marca;
+		return $this->Marca;
 	}
 	public function GetPatente()
 	{
-		return $this->patente;
+		return $this->Patente;
 	}
 	public function GetColor()
 	{
-		return $this->color;
+		return $this->Color;
 	}
 	public function GetEstado()
 	{
-		return $this->estado;
+		return $this->Estado;
 	}
 
 	public function SetId_vehiculo($valor)
 	{
-		$this->id_vehiculo = $valor;
+		$this->Id_vehiculo = $valor;
 	}
 	
 	public function SetMarca($valor)
@@ -56,21 +74,7 @@ class Vehiculo
 	}
 
 
-//--------------------------------------------------------------------------------//
-//--CONSTRUCTOR
-	public function __construct($id_vehiculo=NULL, $marca=NULL, $patente=NULL, $color=NULL, $estado=NULL)
-	{
-		if($id_vehiculo !== NULL && $marca !== NULL && $patente !== NULL && $color !== NULL && $estado !== NULL ){
-			
-			$this->id_vehiculo = $id_vehiculo;
-			$this->marca = $marca;
-			$this->patente = $patente;
-			$this->color = $color;
-			$this->estado = $estado;
-		}
-	}
 
-//--------------------------------------------------------------------------------//
 //--TOSTRING	
   	public function ToString()
 	{

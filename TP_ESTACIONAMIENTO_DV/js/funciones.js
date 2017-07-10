@@ -27,6 +27,43 @@ function FormIngVeh()
 	});
 }
 
+function FormSalidaVeh()
+{
+	
+	
+	var funcionAjax=$.ajax({
+		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/FormSalidaVeh",
+		type:"post"
+		//data:{queHacer:"MostarLogin"}
+	});
+	funcionAjax.done(function(retorno){
+		
+		$("#principal").html(retorno);
+		$("#informe").html("Formulario de Ingreso de vehiculos");	
+	});
+	funcionAjax.fail(function(retorno){
+		$("#botonesABM").html("volvio por el fail");
+		$("#informe").html(retorno.responseText);	
+	});
+	funcionAjax.always(function(retorno){
+		//alert("siempre "+retorno.statusText);
+
+	});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //Administracion empleados
