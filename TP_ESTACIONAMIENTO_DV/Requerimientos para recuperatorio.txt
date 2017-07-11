@@ -1,0 +1,20 @@
+-En caso de usar front-> cambiar las rutas de los ajaxs
+
+
+-Solo BACK END.
+-terminar.. ver tema de base de datos // probar SQL con inner join.
+-Ver tema de burbujeo // excepciones
+-Session con JWT
+
+
+
+
+
+
+-Pide listado de usuarios con logins y cantidad de operaciones.
+-Pide listado de cocheras las mas usadas, las menos usadas, las que nunca fueron usadas.
+-Pedir listado de cocheras entre lapso de tiempo. Dia//hora
+-Pide probar que funcionen los autos
+-Pide autos facturados durante los ultimos 7 dias
+-Pide ver cuantas veces se uso una patente
+-Probar diferente host por el problema con javascript

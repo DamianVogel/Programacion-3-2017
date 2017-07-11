@@ -8,7 +8,7 @@ function FormIngVeh()
 	
 	
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/formIngVeh",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/formIngVeh",
 		type:"post"
 		//data:{queHacer:"MostarLogin"}
 	});
@@ -32,7 +32,7 @@ function FormSalidaVeh()
 	
 	
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/FormSalidaVeh",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/FormSalidaVeh",
 		type:"post"
 		//data:{queHacer:"MostarLogin"}
 	});
@@ -72,7 +72,7 @@ function FormAltaEmp()
 	
 	
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/formaltaemp",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/formaltaemp",
 		type:"post"
 		//data:{queHacer:"MostarLogin"}
 	});
@@ -97,7 +97,7 @@ function GestionEmp()
 {
 	//alert("estoy en gestion empleados");
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/gestionemp",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/gestionemp",
 		type:"post"
 		//data:{queHacer:"MostarLogin"}
 	});
@@ -121,7 +121,7 @@ function MostarLogin()
 {
 	//alert("estoy en mostrar");
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/mostrarlogin",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/mostrarlogin",
 		type:"post"
 		//data:{queHacer:"MostarLogin"}
 	});
@@ -146,7 +146,7 @@ function validarLogin()
 		var recordar=$("#recordarme").is(':checked');
 
 		var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/validarusuario",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/validarusuario",
 		type:"post",
 		data:{
 			recordarme:recordar,
@@ -182,7 +182,7 @@ function validarLogin()
 function deslogear()
 {	
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/desloguear",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/desloguear",
 		type:"post"		
 	});
 	funcionAjax.done(function(retorno){
@@ -215,7 +215,7 @@ function deslogear()
 function LoginBD()
 {
 	var usuarioid = $("#usuarioid").val();
-    var paginaLogin = "http://localhost:8080/Programacion3-2017/TP_ESTACIONAMIENTO/index.php/loginbd/";
+    var paginaLogin = "http://localhost:8080/p3/TP_ESTACIONAMIENTO/index.php/loginbd/";
 	var paginaFinal = paginaLogin.concat(usuarioid);
 
 	var usuarioLogin = {};

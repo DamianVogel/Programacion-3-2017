@@ -6,7 +6,7 @@ function BorrarEmp(idParametro)
 	alert("Estoy en Borrar Emp y quiero borrar el emp "+idParametro);
 
 		var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/borrarEmp",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/borrarEmp",
 		type:"delete",
 		data:{
 			//queHacer:"BorrarCD",
@@ -26,7 +26,7 @@ function BorrarEmp(idParametro)
 function EditarEmp(idParametro)
 {
 	
-	var aux = "http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/modEmp/"
+	var aux = "http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/modEmp/"
 	
 	var destino = aux.concat(idParametro);	
 
@@ -74,7 +74,7 @@ function AltaEmp()
 		
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/altaEmp",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/altaEmp",
 		type:"post",
 		data:datosDelForm,
 		cache: false,
@@ -116,7 +116,7 @@ function UpdateEmp()
 		
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/update",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/update",
 		type:"post",
 		data:datosDelForm,
 		cache: false,
@@ -165,7 +165,7 @@ function IngVehBD()
 	datosDelForm.append("hora",hora);
 
 	var funcionAjax=$.ajax({
-		url:"http://localhost/Programacion-3-2017/TP_ESTACIONAMIENTO_DV/IngVehBD",
+		url:"http://localhost:8080/p3/TP_ESTACIONAMIENTO_DV/IngVehBD",
 		type:"post",
 		data:datosDelForm,
 		cache: false,
