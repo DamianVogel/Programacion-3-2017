@@ -53,6 +53,19 @@ function FormSalidaVeh()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Administracion empleados
 function FormAltaEmp()
 {
