@@ -18,10 +18,68 @@ $app = new \Slim\App(["settings" => $config]);
 
 
 
-
 //<---------------------------------USUARIO-------------------------------------->
 
-//conectarse=ajax+slim
+//Traer todos los usuarios - Funciona 16-07 ok!
+$app->get('/traertodosUsuarios', function ($request, $response) {
+    $usuarios = Usuario::TraerTodosLosusuarios();
+    return $response->withJson($usuarios);
+});
+
+//Trear un Usuario - Funciona 16-07 ok!
+$app->get('/traerunusuario/[{id}]', function ($request, $response, $args) {
+          $uno = Usuario::TraerUnUsuario($args['id']);
+          return $response->withJson($uno);
+        });
+
+//Alta de empleado - Funciona 16-07 ok! 
+    $app->post('/altaEmp',function (Request $request, Response $response,$args) {
+        
+          $ArrayDeParametros = $request->getParsedBody();  
+        
+          $resultado = Usuario::AltaEmpleado($ArrayDeParametros);
+
+          return $response->withJson($resultado);
+          
+    });
+
+//Deshabilitar empleado - Funciona 16-07 ok! 
+    $app->post('/deshabemp',function (Request $request, Response $response,$args) {
+            
+              $ArrayDeParametros = $request->getParsedBody();  
+            
+              $resultado = Usuario::DeshabilitarEmp($ArrayDeParametros['id']);
+
+              return $response->withJson($resultado);
+              
+        });
+
+//Modificar empleado - Funciona 16-07 ok! 
+ $app->post('/update',function (Request $request, Response $response,$args) {
+            
+             $ArrayDeParametros = $request->getParsedBody();
+            
+               // var_dump($ArrayDeParametros);
+             $resultado = Usuario::ModEmp($ArrayDeParametros);
+
+             return $response->withJson($resultado);
+              
+       });
+//Borrar empleado - Funciona 16-07 ok! 
+    $app->delete('/borrarEmp',function (Request $request, Response $response,$args) {
+            
+              $ArrayDeParametros = $request->getParsedBody();  
+            
+              $resultado = Usuario::BajaEmp($ArrayDeParametros['id']);
+
+              return $response->withJson($resultado);
+              
+       });
+
+
+
+
+
 $app->post('/validarusuario', function ($request, $response, $args) {
          
           $ArrayDeParametros = $request->getParsedBody();    
@@ -34,53 +92,14 @@ $app->post('/validarusuario', function ($request, $response, $args) {
         });
       
 
-//Alta de empleado
-    $app->post('/altaEmp',function (Request $request, Response $response,$args) {
-        
-          $ArrayDeParametros = $request->getParsedBody();  
-        
-          $resultado = Usuario::AltaEmpleado($ArrayDeParametros);
-
-          return $response->withJson($resultado);
-          
-    });
-
-//Deshabilitar empleado
-    $app->post('/deshabemp',function (Request $request, Response $response,$args) {
-            
-              $ArrayDeParametros = $request->getParsedBody();  
-            
-              $resultado = Usuario::DeshabilitarEmp($ArrayDeParametros['id']);
-
-              return $response->withJson($resultado);
-              
-        });
 
 
-//Borrar empleado
-    $app->delete('/borrarEmp',function (Request $request, Response $response,$args) {
-            
-              $ArrayDeParametros = $request->getParsedBody();  
-            
-              $resultado = Usuario::BajaEmp($ArrayDeParametros['id']);
-
-              return $response->withJson($resultado);
-              
-       });
-
-//Modificar empleado
 
 
- $app->post('/update',function (Request $request, Response $response,$args) {
-            
-              $ArrayDeParametros = $request->getParsedBody();  
-            
-              $resultado = Usuario::ModEmp($ArrayDeParametros);
 
-              return $response->withJson($resultado);
-              
-       });
 
+
+//FRONT
 $app->post('/modEmp/{id}',function (Request $request, Response $response,$args) {
 
                
@@ -124,15 +143,7 @@ $app->post('/modEmp/{id}',function (Request $request, Response $response,$args) 
 
 
 
-$app->get('/traertodosUsuarios', function ($request, $response) {
-    $usuarios = Usuario::TraerTodosLosusuarios();
-    return $response->withJson($usuarios);
-});
 
-$app->get('/traerunusuario/[{id}]', function ($request, $response, $args) {
-          $uno = Usuario::TraerUnUsuario($args['id']);
-          return $response->withJson($uno);
-        });
 
 
 //<---------------------------------VEHICULO-------------------------------------->

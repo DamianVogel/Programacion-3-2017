@@ -146,12 +146,14 @@ class Usuario
 	}
 
 
-	//DV Probar con metodo post
+	//DV                    FUNCIONA OK!
 	public static function ModEmp($empleado)
 	{
 		//query
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` SET `nombre`=:nombre,`Turno`=:turno,`Estado`=:estado  WHERE `id_empleado`=:id');
+		$consulta = $objetoAcceso->RetornarConsulta('UPDATE `usuarios` 
+													 SET `nombre`=:nombre,`Turno`=:turno,`Estado`=:estado  
+													 WHERE `id_empleado`=:id');
 		
 		//parametros
 		$consulta->bindvalue(':id', $empleado['id'], PDO::PARAM_INT);
@@ -161,14 +163,16 @@ class Usuario
 		
 		$resultado = $consulta->Execute();
 	
-		if($resultado==TRUE)
-		{
+		
+
+		 if($resultado==TRUE)
+		 {
 			$resultado = "Modifico";
-		}
+		 }
 			else
 				$resultado = "No se modifico";
 				
-		return $resultado; //vuelve a /update en slim
+		return $resultado; 
 	
 	}
 
