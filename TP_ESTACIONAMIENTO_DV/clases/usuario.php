@@ -215,7 +215,7 @@ class Usuario
 						// $_SESSION['registrado']['tipo']=$uno->tipo;
 
 
-						$retorno="ingreso";
+						$retorno="ingreso y es de tipo:".$uno->tipo;
 
             }else
                 {
@@ -225,48 +225,23 @@ class Usuario
             return $retorno;
 
              
-        //     $uno= $consulta->fetchAll();
-
-        //     if($uno == NULL)
-        //     {
-		// 		$response_array['validacion']= 'errorus'; //<- Probar si esta bien hecho.
-		// 	}
-        //     else if($uno == TRUE )
-        //     {
-        //         $objetoAcceso2 = AccesoDatos::DameUnObjetoAcceso();
-        //         $consulta2 = $objetoAcceso2->RetornarConsulta('SELECT nombre, `password`, turno, tipo, estado FROM usuarios WHERE nombre=:nombre AND `password`=:pass');
-        //         $consulta2->bindParam("nombre",$nombre);
-        //         $consulta2->bindParam("pass",$password);
-        //         $consulta2->execute();
-        //         $dos= $consulta2->fetchAll();
-                
-        //         if($dos == TRUE)
-        //         {
-        //             // $rta= "Bienvenido/a $nombre";
-		// 			$response_array['validacion'] = 'ok';
-		// 			$response_array['nombre'] = $nombre; 
-	    //             $response_array['empleado'] = $consulta2->fetchObject("Usuario"); //DV probar si funciona
-					
-		// 			}
-        //         else
-        //         {
-        //             // $rta= "Contraseña incorrecta";
-		// 			$response_array['validacion'] = 'error';  
-        //         }
-        //     }
-        // // return $rta;
-		// return $response_array;
+       
 	}
 
 	//DV probar en postman -> Sin Luz
-	public static function ValidarTipoEmp ($nombre)
+	public static function ValidarTipoEmp ($id_empleado)
 	{
 			
     		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAcceso->RetornarConsulta('SELECT tipo FROM usuarios WHERE nombre=:nombre');
-			$consulta->bindParam("nombre",$nombre);  //Probar esto
+            $consulta = $objetoAcceso->RetornarConsulta('SELECT tipo FROM usuarios WHERE id_empleado=:id');
+			$consulta->bindParam("id",$id_empleado);  //Probar esto
             $consulta->execute();
             $dos= $consulta->fetchObject("Usuario");
+			
+			//return $dos;
+
+
+			//antes
 			return $response_array['tipo_empleado']= $dos->tipo;
 	}
 
@@ -297,10 +272,10 @@ class Usuario
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 		$consulta = $objetoAcceso->RetornarConsulta('SELECT id_empleado, nombre, `password`, tipo, turno, estado  FROM `usuarios`');
 		$consulta->Execute();
-		while ($fila = $consulta->fetchObject("Usuario"))
-		{
-			 array_push($arrayRetorno,$fila);
-		 }
+		// while ($fila = $consulta->fetchObject("Usuario"))
+		// {
+		// 	 array_push($arrayRetorno,$fila);
+		//  }
 		 
 		 return $arrayRetorno;
 	}

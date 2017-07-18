@@ -17,4 +17,4 @@
 -Pide probar que funcionen los autos
 -Pide autos facturados durante los ultimos 7 dias
 -Pide ver cuantas veces se uso una patente
--Probar diferente host por el problema con javascript
+-imprimir en pdf y excel
