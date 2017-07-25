@@ -14,6 +14,9 @@ abstract class RegexBasedAbstract implements Dispatcher {
         if (isset($this->staticRouteMap[$httpMethod][$uri])) {
             $handler = $this->staticRouteMap[$httpMethod][$uri];
             return [self::FOUND, $handler, []];
+        } else if ($httpMethod === 'HEAD' && isset($this->staticRouteMap['GET'][$uri])) {
+            $handler = $this->staticRouteMap['GET'][$uri];
+            return [self::FOUND, $handler, []];
         }
 
         $varRouteData = $this->variableRouteData;
@@ -22,29 +25,8 @@ abstract class RegexBasedAbstract implements Dispatcher {
             if ($result[0] === self::FOUND) {
                 return $result;
             }
-        }
-
-        // For HEAD requests, attempt fallback to GET
-        if ($httpMethod === 'HEAD') {
-            if (isset($this->staticRouteMap['GET'][$uri])) {
-                $handler = $this->staticRouteMap['GET'][$uri];
-                return [self::FOUND, $handler, []];
-            }
-            if (isset($varRouteData['GET'])) {
-                $result = $this->dispatchVariableRoute($varRouteData['GET'], $uri);
-                if ($result[0] === self::FOUND) {
-                    return $result;
-                }
-            }
-        }
-
-        // If nothing else matches, try fallback routes
-        if (isset($this->staticRouteMap['*'][$uri])) {
-            $handler = $this->staticRouteMap['*'][$uri];
-            return [self::FOUND, $handler, []];
-        }
-        if (isset($varRouteData['*'])) {
-            $result = $this->dispatchVariableRoute($varRouteData['*'], $uri);
+        } else if ($httpMethod === 'HEAD' && isset($varRouteData['GET'])) {
+            $result = $this->dispatchVariableRoute($varRouteData['GET'], $uri);
             if ($result[0] === self::FOUND) {
                 return $result;
             }

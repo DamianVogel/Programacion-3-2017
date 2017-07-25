@@ -197,35 +197,36 @@ class Usuario
 
 			if($uno==true)
             {
-              if($arrayParametros['recordarme']=="true")
-                      {
-                        setcookie("registro",$arrayParametros['nombre'],  time()+36000 , '/');
-                        
-                      }else
-                      {
-                        setcookie("registro",$arrayParametros['nombre'],  time()-36000 , '/');
-                        
-                      }
-					  	session_start();
+              	if(isset($arrayParametros['recordarme']))
+			  	{
+					if($arrayParametros['recordarme']=="true")
+					{
+								setcookie("registro",$arrayParametros['nombre'],  time()+36000 , '/');
+								
+					}
+					else
+					{
+						setcookie("registro",$arrayParametros['nombre'],  time()-36000 , '/');
+						
+					}
+					
+				
+				
+				}
+			
+				session_start();
 
-						$_SESSION['registrado']=$uno;						
-					//	$_SESSION['registrado']['tipo']=$uno->tipo;
-                        
-						// $_SESSION['registrado']=Array();						
-						// $_SESSION['registrado']['tipo']=$uno->tipo;
-
-
-						$retorno="ingreso y es de tipo:".$uno->tipo;
-
-            }else
-                {
-                  $retorno= "No-esta";
-                }
-
+				$_SESSION['registrado']=$uno;						
+				
+				$retorno="ingreso y es de tipo:".$uno->tipo;			
+			}
+			else
+			{
+				$retorno= "No-esta";
+			}			
+			
             return $retorno;
-
-             
-       
+   
 	}
 
 	//DV probar en postman -> Sin Luz

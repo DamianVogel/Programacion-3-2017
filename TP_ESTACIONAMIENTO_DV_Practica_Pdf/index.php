@@ -10,6 +10,7 @@ require __DIR__.'/clases/usuario.php';
 require __DIR__.'/clases/vehiculo.php';
 require __DIR__.'/clases/cochera.php';
 require __DIR__.'/clases/fpdf181/fpdf.php';
+require __DIR__.'/clases/MWparaAutentificar.php';
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -74,7 +75,7 @@ $app->get('/traertodosUsuariosPDF', function ($request, $response) {
 		
 		return $response;
 //    return $response->withJson($usuarios);
-});
+})->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
 
 
@@ -94,32 +95,19 @@ $app->get('/traertodosUsuariosPDF', function ($request, $response) {
 //<---------------------------------USUARIO-------------------------------------->
 
 
-//Traer todos los usuarios - Funciona 16-07 ok!
-$app->get('/traertodosUsuarios', function ($request, $response) {
-    $usuarios = Usuario::TraerTodosLosusuarios();
-
-
-    return $response->withJson($usuarios);
-});
-
-
-
-//Trear un Usuario - Funciona 16-07 ok!
-$app->get('/traerunusuario/[{id}]', function ($request, $response, $args) {
-          $uno = Usuario::TraerUnUsuario($args['id']);
-          return $response->withJson($uno);
-        });
-
 //Alta de empleado - Funciona 16-07 ok! 
     $app->post('/altaEmp',function (Request $request, Response $response,$args) {
         
-          $ArrayDeParametros = $request->getParsedBody();  
-        
-          $resultado = Usuario::AltaEmpleado($ArrayDeParametros);
+        $ArrayDeParametros = $request->getParsedBody();  
 
-          return $response->withJson($resultado);
+        $resultado = Usuario::AltaEmpleado($ArrayDeParametros);
+
+        return $response->withJson($resultado);
           
-    });
+    })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+
+
+
 
 //Deshabilitar empleado - Funciona 16-07 ok! 
     $app->post('/deshabemp',function (Request $request, Response $response,$args) {
@@ -130,19 +118,11 @@ $app->get('/traerunusuario/[{id}]', function ($request, $response, $args) {
 
               return $response->withJson($resultado);
               
-        });
+        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
-//Modificar empleado - Funciona 16-07 ok! 
- $app->post('/update',function (Request $request, Response $response,$args) {
-            
-             $ArrayDeParametros = $request->getParsedBody();
-            
-               // var_dump($ArrayDeParametros);
-             $resultado = Usuario::ModEmp($ArrayDeParametros);
+/
 
-             return $response->withJson($resultado);
-              
-       });
+
 //Borrar empleado - Funciona 16-07 ok! 
     $app->delete('/borrarEmp',function (Request $request, Response $response,$args) {
             
@@ -152,7 +132,11 @@ $app->get('/traerunusuario/[{id}]', function ($request, $response, $args) {
 
               return $response->withJson($resultado);
               
-       });
+       })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+
+
+
+
 
 //Loggearse e indica que tipo es - Funciona 16-07 ok! 
 $app->post('/validarusuario', function ($request, $response, $args) {
@@ -162,34 +146,9 @@ $app->post('/validarusuario', function ($request, $response, $args) {
           $resultado = Usuario::SignIn($ArrayDeParametros);
 
           return $response->withJson($resultado);
-
-
         });
       
 
-
-//Indica que tipo es - Funciona 17-07 ok! 
-$app->get('/tipoempleado/[{id}]', function ($request, $response, $args) {
-         
-          $nombre = $args["id"];
-         
-          $rta = Usuario::ValidarTipoEmp($nombre);
-
-          $respuesta = "El usuario es de tipo: ".$rta;      
-
-          return $response->withJson($respuesta);
-        });
-
-
-
-
-
-$app->get('/loginbd/[{id}]', function ($request, $response, $args) {
-         
-          $nombre = $args["id"];
-          $rta = Usuario::InsertarBD($nombre);
-          return $response->withJson($rta);
-        });
 
 
 
@@ -199,33 +158,33 @@ $app->get('/loginbd/[{id}]', function ($request, $response, $args) {
 //<---------------------------------VEHICULOS-------------------------------------->
 
 
-//Funciona 17-07 ok! 
-$app->get('/traertodosVehiculos', function ($request, $response) {
-    $Vehiculos = Vehiculo::TraerTodosLosVehiculos();
-    return $response->withJson($Vehiculos);
-});
-
-//Funciona 17-07 ok!  
-$app->get('/traerunVehiculo/[{id}]', function ($request, $response, $args) {
-          
-          
-          $uno = Vehiculo::TraerUnVehiculo($args['id']);
-          return $response->withJson($uno);
-        });
-  
-
-
-
-$app->get('/vehiculoEstacionado/[{id}]', function ($request, $response, $args) {
-          $uno = Vehiculo::TraerUnVehiculoOperaciones($args['id']);
-          return $response->withJson($uno);
+        //Funciona 17-07 ok! 
+        $app->get('/traertodosVehiculos', function ($request, $response) {
+        $Vehiculos = Vehiculo::TraerTodosLosVehiculos();
+        return $response->withJson($Vehiculos);
         });
 
-  
-$app->get('/cocheravacia', function ($request, $response) {
-          $cocheravacia = Cochera::TraerUnaCocheraVacia();
-          return  $response->withJson($cocheravacia);
-        });
+        //Funciona 17-07 ok!  
+        $app->get('/traerunVehiculo/[{id}]', function ($request, $response, $args) {
+                
+                
+                $uno = Vehiculo::TraerUnVehiculo($args['id']);
+                return $response->withJson($uno);
+                });
+        
+
+
+
+        $app->get('/vehiculoEstacionado/[{id}]', function ($request, $response, $args) {
+                $uno = Vehiculo::TraerUnVehiculoOperaciones($args['id']);
+                return $response->withJson($uno);
+                });
+
+        
+        $app->get('/cocheravacia', function ($request, $response) {
+                $cocheravacia = Cochera::TraerUnaCocheraVacia();
+                return  $response->withJson($cocheravacia);
+                });
 
 
 
@@ -234,96 +193,94 @@ $app->get('/cocheravacia', function ($request, $response) {
 
 
 //<--------------------------------- OPERACIONES -------------------------------------->
-//DV
-$app->post('/IngVehBD', function ($request, $response) {
-         
-         $ArrayDeParametros = $request->getParsedBody();  
-
-
-         //Chequeo que el vehiculo no se encuentre estacionado.   
-         $resultadoTraer = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);
-        
-          
-
-         
-         if($resultadoTraer == "No se encontro vehiculo")//Si la patente no se encuentra, lo doy de alta en el sistema.
-                {
-                        //Alta de vehiculo
-                        $resultadoAlta = Vehiculo::Alta($ArrayDeParametros);         
-                       
-                        
-                        $ultimaPatente = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);//Traigo el ultimo vehiculo para tomar el id para insertar en operaciones.
-                        
-                       
-                        $cocheraDisponible = Cochera::TraerUnaCocheraVaciaNormales();//chequear que viene - Viene un objeto?
-
-                       // var_dump($cocheraDisponible);
-
-                        session_start();
-                        $idEmpleado = $_SESSION['registrado']->id_empleado;
-
-                        $hora = $ArrayDeParametros['hora'];
+        $app->post('/IngVehBD', function ($request, $response) {
                 
-                        $resultadoOp = Vehiculo::InsertoOperacion ($cocheraDisponible,$hora,$ultimaPatente->id_vehiculo,$idEmpleado);
+                $ArrayDeParametros = $request->getParsedBody();  
 
-                       
-                        
-                        if($resultadoOp==1)
-                                {
-                                        //Ingreso el vehiculo a la operacion, la cochera se tiene que deshabilitar
-                                       
-                                        $cocheraDesh = Cochera::BajaCochera($cocheraDisponible);
 
-                                        $resultadoAlta = $cocheraDesh;        
-                                        $resultadoAlta = "Se agrego el vehiculo a operaciones y se deshabilito la cochera: ".$nro_cochera->GetNroCochera();
-                                }        
-                                else
-                                        {
-                                                $resultadoAlta="No se agrego el vehiculo a operaciones";
-                                        }
-                                
-                         return $response->withJson($resultadoAlta);//Si se concreta la transaccion va por esta via.          
-                }           
-                else if($resultadoTraer->GetEstado()==1)//Si la patente esta, informo que ya se encuentra en el estacionamiento
-                {
-                        $resultadoAlta = "No se dio de alta el vehiculo, porque el mismo ya se encuentra estacionado";
-                        return $response->withJson($resultadoAlta);
-                }
-                else
+                //Chequeo que el vehiculo no se encuentre estacionado.   
+                $resultadoTraer = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);
+                
+                
+
+                
+                if($resultadoTraer == "No se encontro vehiculo")//Si la patente no se encuentra, lo doy de alta en el sistema.
                         {
-                        $resultadoAlta = "No se dio de alta el vehiculo, consulte con Sistemas";//Si por alguna razon no se completo la transaccion lo informo.
-                        return $response->withJson($resultadoAlta);               
+                                //Alta de vehiculo
+                                $resultadoAlta = Vehiculo::Alta($ArrayDeParametros);         
+                        
+                                
+                                $ultimaPatente = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);//Traigo el ultimo vehiculo para tomar el id para insertar en operaciones.
+                                
+                        
+                                $cocheraDisponible = Cochera::TraerUnaCocheraVaciaNormales();//chequear que viene - Viene un objeto?
+
+                        // var_dump($cocheraDisponible);
+
+                                session_start();
+                                $idEmpleado = $_SESSION['registrado']->id_empleado;
+
+                                $hora = $ArrayDeParametros['hora'];
+                        
+                                $resultadoOp = Vehiculo::InsertoOperacion ($cocheraDisponible,$hora,$ultimaPatente->id_vehiculo,$idEmpleado);
+
+                        
+                                
+                                if($resultadoOp==1)
+                                        {
+                                                //Ingreso el vehiculo a la operacion, la cochera se tiene que deshabilitar
+                                        
+                                                $cocheraDesh = Cochera::BajaCochera($cocheraDisponible);
+
+                                                $resultadoAlta = $cocheraDesh;        
+                                                $resultadoAlta = "Se agrego el vehiculo a operaciones y se deshabilito la cochera: ".$nro_cochera->GetNroCochera();
+                                        }        
+                                        else
+                                                {
+                                                        $resultadoAlta="No se agrego el vehiculo a operaciones";
+                                                }
+                                        
+                                return $response->withJson($resultadoAlta);//Si se concreta la transaccion va por esta via.          
+                        }           
+                        else if($resultadoTraer->GetEstado()==1)//Si la patente esta, informo que ya se encuentra en el estacionamiento
+                        {
+                                $resultadoAlta = "No se dio de alta el vehiculo, porque el mismo ya se encuentra estacionado";
+                                return $response->withJson($resultadoAlta);
                         }
+                        else
+                                {
+                                $resultadoAlta = "No se dio de alta el vehiculo, consulte con Sistemas";//Si por alguna razon no se completo la transaccion lo informo.
+                                return $response->withJson($resultadoAlta);               
+                                }
 
 
-         
+                
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $app->post('/desloguear', function (Request $request, Response $response) {
+        
+                session_start();
+
+                $_SESSION['registrado']=null;
+
+                session_destroy();
+        
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$app->post('/desloguear', function (Request $request, Response $response) {
-    
-   	session_start();
-
-  	$_SESSION['registrado']=null;
-
-  	session_destroy();
-   
-});
-
 
 
 
