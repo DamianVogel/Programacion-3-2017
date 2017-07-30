@@ -91,7 +91,8 @@ class Vehiculo
 	//--METODOS DE CLASE
 	public static function Alta($ArrayDeParametros)
 	{			
-		if( sizeof($ArrayDeParametros) ==3 ||sizeof($ArrayDeParametros) ==4  )
+		//if( sizeof($ArrayDeParametros) ==3 ||sizeof($ArrayDeParametros) ==4  )
+		if(!is_null($ArrayDeParametros['patente']) && !is_null($ArrayDeParametros['color']) && !is_null($ArrayDeParametros['marca']))
 		{	
 			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 			$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `vehiculos`(`Patente`, `Color`, `Marca`,`Estado`) VALUES (:patente,:color,:marca,:estado)');

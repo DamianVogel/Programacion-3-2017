@@ -57,8 +57,7 @@ $app = new \Slim\App(["settings" => $config]);
 					$rta = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
 				}
                         
-                        return $response->withJson($rta);
-
+                                return $response->withJson($rta);
                         })->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
                 //Modificar empleado //NO FUNCIONA SI NO EXISTE 
@@ -256,7 +255,7 @@ $app = new \Slim\App(["settings" => $config]);
                                         $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
                                 }
                                 return $response->withJson($resultado);
-                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                         })->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
 
                 //Borrar vehiculo //VA POR FORM URLENCODED //NO ANDA SI NO EXISTE 
@@ -285,7 +284,7 @@ $app = new \Slim\App(["settings" => $config]);
                                 
                                 // var_dump($ArrayDeParametros);
                                 return $response->withJson($resultado);
-                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
                 //Modificar vehiculos
                         $app->post('/updateVehic',function (Request $request, Response $response,$args) {

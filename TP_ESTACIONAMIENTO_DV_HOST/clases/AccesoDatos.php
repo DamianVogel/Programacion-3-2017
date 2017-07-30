@@ -9,7 +9,7 @@ class AccesoDatos
     {
         try {
             //Dentro del contructor le paso los parametros. Lo particular es que es privado para que nadie lo vea. 
-            $this->_objetoPDO = new PDO('mysql:host=localhost;dbname=id2356315_tp_estacionamiento;charset=utf8', 'id2356315_root', 'Tpesta', array(PDO::ATTR_EMULATE_PREPARES => false,PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $this->_objetoPDO = new PDO('mysql:host=localhost;dbname=id2357769_tp_estacionamiento;charset=utf8', 'id2357769_damian', '17811781', array(PDO::ATTR_EMULATE_PREPARES => false,PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
  
             $this->_objetoPDO->exec("SET CHARACTER SET utf8");
  
