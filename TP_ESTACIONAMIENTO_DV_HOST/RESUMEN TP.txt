@@ -1,0 +1,93 @@
+1 - WEB hosting -- REQUISITO EXCLUYENTE
+	
+2 - ABM - WEB SERVICE -POO- PDO (Administrador - Empleados)	
+
+
+					USUARIOS		VEHICULOS
+	ALTA			OK				OK
+	BAJA			OK				OK		
+	MODIFICACION	OK				OK
+	
+3 - ABM - API Rest - PDO (resto de las acciones).
+					USUARIOS		VEHICULOS
+	TRAER 
+		UNO				OK				OK
+		TODOS			OK				OK
+	OPERACIONES
+		TRAERUNO		N/A				OK
+	LOGUEARSE/TIPO		OK				N/A
+	INGRESO
+		LOGINBD			OK				N/A
+		LOGOUTBD		OK				N/A
+	INGRESOESTA			N/A				OK		
+	SALIDAESTA			N/A				OK
+
+5 - LISTADO - EMPLEADOS (fecha logueo - cant. Operaciones - suspensión - borrado)
+	
+		DIAS Y HORARIOS DE LOGUEO		OK
+		CANTIDAD DE OPERACIONES			OK
+		
+		ACCIONES
+			DAR DE ALTA NUEVOS			OK
+			SUSPENDERLOS				OK
+			BORRARLOS					OK
+
+6 - LISTADO - COCHERAS (+ usada; - usada; sin usar)
+//ver en caso de que venga mas de uno
+		MAS USADA 						OK
+		MENOS USADA						OK
+		SIN USAR						OK
+7 - LISTADO - AUTOS (cochera?; hora ini; hora fin; importe).
+		
+		TODOS							OK
+
+8- (2pt) puntos extras:
+	a-0.50%MANEJO DE ERRORES
+		USUARIOS - VEHICULOS
+			ABM							USUARIOS	VEHICULOS	
+				ALTA					OK			OK
+				BAJA					OK			OK //validar si ya se encuentra deshabilitado.
+				MODIFICACION			OK			OK
+			ACCIONES
+				DESHABILITAR			OK			N/A
+				LOGUEARSE/TIPO			OK			N/A
+				TRAER 
+					UNO					OK			OK
+					TODOS				OK			OK
+				OPERACIONES	
+					TRAERUNO			N/A			OK
+				INGRESO	
+					LOGINBD				OK			N/A //validar si se encuentra logueado
+					LOGOUTBD			OK			N/A //validar si se encuentra logueado	//VALIDAR QUE ESTE SIN HORA FIN AL SALIR
+				DESLOGUEARSE			OK			N/A
+				INGRESOESTA				N/A			OK		
+				SALIDAESTA				N/A			OK
+	b-0.75%Archivos Excel o PDF
+		ARCHIVOS PDF OK
+		ARCHIVO EXCEL OK
+	c-100% archivos Excel y PDF
+ w
+9- (2pt)jwt :
+	a-0.50%logeo
+	b-100%Perfiles
+
+--------------------------------------------------------------------------------------------------
+
+10- (2pt)datos entre FECHAS :
+	a-0.50% facturación - cantidad de vehiculo
+	b-0.75% usos de cocheras para discapacitados y no .
+	c-100% cantidades de veces que vino el mismo vehículo, cuántos vehículos
+			sin repetir(distintos se estacionaron)
+			
+11- (2pt)Promedio mensual de datos:
+	a-0,50% importe
+	b-0,75% patente
+	c-100% cochera y usuario .
+12- (2pt)Manejo de archivo e imágenes:
+	a-0,50% Cambiar nombre, Guardar backup
+	b-0,75% Ponerle marca de agua a las imágenes
+	c-100% modificar el tamaño para guardarlas a no más de 0,5 MB.
+	
+	
+
+	

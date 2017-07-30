@@ -23,6 +23,7 @@ class AccesoDatos
  
     public function RetornarConsulta($sql)
     {
+
         return $this->_objetoPDO->prepare($sql);
     }
  
