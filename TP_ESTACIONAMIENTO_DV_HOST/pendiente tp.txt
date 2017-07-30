@@ -1,0 +1,6 @@
+Cosas pendientes del TP
+	- Probar bien Webtoken relacionado a 
+		/deslooguear
+		/altaVehic
+	
+	- Probar traer un vehiculo estacionado

@@ -307,30 +307,38 @@ class Vehiculo
 						$consulta1= $objetoAcceso->RetornarConsulta('UPDATE operaciones
 																	SET FECHA_HORA_SALIDA=NOW()  
 																	WHERE id_operacion = :idOperacion');
+					
+						$consulta1->bindvalue(':idOperacion', $idOperacion, PDO::PARAM_INT);
+						$consulta1->execute();
+					
 					//CALCULAR TIEMPO
 						$consulta2= $objetoAcceso->RetornarConsulta('UPDATE operaciones
 																	SET CANT_HORAS=TIMESTAMPDIFF(MINUTE,FECHA_HORA_INGRESO,FECHA_HORA_SALIDA)/60   
 																	WHERE id_operacion = :idOperacion');
+						$consulta2->bindvalue(':idOperacion', $idOperacion, PDO::PARAM_INT);
+						
+						$consulta2->execute();
+					
 					//HABILITAR LA COCHERA
 						$consulta3= $objetoAcceso->RetornarConsulta('UPDATE cocheras
 																	SET HABILITADA=1   
 																	WHERE id_cochera = :idCochera');
-				//SQL - PARAMETROS
-					$consulta1->bindvalue(':idOperacion', $idOperacion, PDO::PARAM_INT);
-					$consulta2->bindvalue(':idOperacion', $idOperacion, PDO::PARAM_INT);
-					$consulta3->bindvalue(':idCochera', $nroCochera, PDO::PARAM_INT);
+				
+						$consulta3->bindvalue(':idCochera', $nroCochera, PDO::PARAM_INT);
+						$consulta3->execute();
+				
 
-				//SQL - EJECUCIONES
-					$consulta1->execute();
-					$consulta2->execute();
-					$consulta3->execute();
+				
+					
+					
+					
 			
 			//LOGICAS
                                 
 				//CALCULO IMPORTE
 				 	$tarifas = $objetoAcceso -> RetornarConsulta('SELECT IMPORTE FROM tarifas');
 					$tarifas->Execute();
-sleep(5);
+
 					while ($fila = $tarifas->fetchAll())
 					{	
 						$arrayRetorno = [];
@@ -342,7 +350,7 @@ sleep(5);
 					$tarifaFijaComplEST = 	$arrayRetorno[0][2]["IMPORTE"];
 
 					$cantHoras = ceil(Vehiculo::TraerCantHoras($idOperacion)); 
- sleep(5);
+
 					switch ($cantHoras)
 					{
 						case ($cantHoras<=8):
@@ -359,14 +367,14 @@ sleep(5);
 							break;
 					}
 				//UPDATE de IMPORTE
-					 $consulta4 = $objetoAcceso -> RetornarConsulta('UPDATE OPERACIONES
-				 												 	 SET	IMPORTE=:importe
+					 $consulta4 = $objetoAcceso -> RetornarConsulta('UPDATE operaciones
+				 												 	 SET	importe=:importe
 																 	 WHERE 	id_operacion = :idOperacion 
 				 								');
 					 $consulta4->bindvalue(':idOperacion', $idOperacion, PDO::PARAM_INT);
 					 $consulta4->bindvalue(':importe', $importe, PDO::PARAM_STR);
 					 $consulta4->execute();
-sleep(5);
+
 			return $importe; 
 	}
 

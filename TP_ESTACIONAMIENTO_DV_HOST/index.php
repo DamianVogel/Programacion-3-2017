@@ -343,7 +343,7 @@ $app = new \Slim\App(["settings" => $config]);
                         })->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
                         $app->get('/cocheravacia', function ($request, $response) {
-                                $cocheravacia = Cochera::TraerUnaCocheraVacia();
+                                $cocheravacia = Cochera::TraerUnaCocheraVaciaNormales();
                                 return  $response->withJson($cocheravacia);
                         })->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
@@ -356,6 +356,7 @@ $app = new \Slim\App(["settings" => $config]);
                                 
                                 $ArrayDeParametros = $request->getParsedBody();  
                                 //VEO SI EL AUTO ESTA EN LA BASE 
+                                
                                 $resultadoTraer = Vehiculo::TraerUnVehiculo($ArrayDeParametros['patente']);//si existe en tabla vehiculos
 
                                 if(!$resultadoTraer)//Si la patente no se encuentra, lo doy de alta en el sistema.
@@ -372,7 +373,7 @@ $app = new \Slim\App(["settings" => $config]);
 
                                 if($estadoVehiculo=="SIN OPERACIONES")
                                 {
-                                        $cocheraDisponible = Cochera::TraerUnaCocheraVaciaNormales();//chequear que viene - Viene un objeto?
+                                        $cocheraDisponible = Cochera::TraerUnaCocheraVaciaNormales();
                                         if($cocheraDisponible != NULL)
                                         {         
                                                 $idCocheraDisponible= $cocheraDisponible[0]["id_cochera"];
@@ -414,15 +415,19 @@ $app = new \Slim\App(["settings" => $config]);
                                 {
                                         //VEO SI ESTA ESTACIONADO
                                         $estadoVehiculo = Vehiculo::TraerUnVehiculoOperaciones($ArrayDeParametros['patente']); 
+                                       
                                         if($estadoVehiculo=="SIN OPERACIONES")
                                         {
                                                 $respuestaBaja = "El Vehiculo no esta ESTACIONADO";               
                                         }
                                         else 
                                         {
-                                                $resultadoOp = Vehiculo::BajaOperacion ( $estadoVehiculo);   
+                                                $resultadoOp = Vehiculo::BajaOperacion ($estadoVehiculo);   
+                                                
                                                 $vehiculo_obj = Vehiculo::ConstruirVehiculo($ArrayDeParametros['patente']);
+                                                
                                                 $datosVehic   = $vehiculo_obj->ToString();
+                                                
                                                 $respuestaBaja= $datosVehic . '<br />'. "El importe a pagar es: ". $resultadoOp ;                  
                                         }
                                 }   
@@ -493,92 +498,92 @@ $app = new \Slim\App(["settings" => $config]);
                                 return $response;
                 })->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
-        //REPORTES
-                //USUARIO
-                        //DIAS Y HORAS LOGUEO
-                                $app->get('/ReportLogEmpleadosPDF', function ($request, $response) {
-                                        $pdf = new TablaPDF();
-                                        // Títulos de las columnas
-                                        $header = array('Empleado', 'Turno', 'Estado', 'Fecha','H_Entrada','H_Salida','Cant_HS');
-                                        // Carga de datos
-                                        $data = $pdf->LoadDataReportLog();
-                                        $pdf->SetFont('Arial','',9);
-                                        $pdf->AddPage();
-                                        $pdf->TablaReportLogEmp($header,$data);
-                                        $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
-                                        
-                                        $pdf->Output();
-                                        return $response;
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                //REPORTES
+                        //USUARIO
+                                //DIAS Y HORAS LOGUEO
+                                        $app->get('/ReportLogEmpleadosPDF', function ($request, $response) {
+                                                $pdf = new TablaPDF();
+                                                // Títulos de las columnas
+                                                $header = array('Empleado', 'Turno', 'Estado', 'Fecha','H_Entrada','H_Salida','Cant_HS');
+                                                // Carga de datos
+                                                $data = $pdf->LoadDataReportLog();
+                                                $pdf->SetFont('Arial','',9);
+                                                $pdf->AddPage();
+                                                $pdf->TablaReportLogEmp($header,$data);
+                                                $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
+                                                
+                                                $pdf->Output();
+                                                return $response;
+                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
 
-                        //CANTIDAD DE OPERACIONES POR EMPLEADO
-                                $app->get('/ReportSumOpEmpleadosPDF', function ($request, $response) {
-                                        
-                                        $pdf = new TablaPDF();
-                                        // Títulos de las columnas
-                                        $header = array('Nombre Empleado','Cant Operaciones');
-                                        // Carga de datos
-                                        $data = $pdf->LoadDataReportSumOpEmpleados();
-                                        $pdf->SetFont('Arial','',9);
-                                        $pdf->AddPage();
-                                        $pdf->TablaReportSumOpEmp($header,$data);
-                                        $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
-                                        
-                                        $pdf->Output();
-                                        return $response;
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
-                //COCHERA
-                        //COCHERA MAS UTILIZADA
-                                $app->get('/ReportCocheraMasUtilPDF', function ($request, $response) {
-   
-                                        $pdf = new TablaPDF();
-                                        // Títulos de las columnas
-                                        $header = array('NRO Cochera','Cant Max Operaciones');
-                                        // Carga de datos
-                                        $data = $pdf->LoadDataReportCochMasUt();
-                                        $pdf->SetFont('Arial','',9);
-                                        $pdf->AddPage();
-                                        $pdf->TablaReportCochera($header,$data);
-                                        $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
-                                        
-                                        $pdf->Output();
-                                        return $response;
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');     
-                        //COCHERA MENOS UTILIZADA
-                                $app->get('/ReportCocheraMenosUtilPDF', function ($request, $response) {
-   
-                                        $pdf = new TablaPDF();
-                                        // Títulos de las columnas
-                                        $header = array('NRO Cochera','Cant Operaciones');
-                                        // Carga de datos
-                                        $data = $pdf->LoadDataReportCochMenosUt();
-                                        $pdf->SetFont('Arial','',9);
-                                        $pdf->AddPage();
-                                        $pdf->TablaReportCochera($header,$data);
-                                        $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
-                                        
-                                        $pdf->Output();
-                                        return $response;
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');    
+                                //CANTIDAD DE OPERACIONES POR EMPLEADO
+                                        $app->get('/ReportSumOpEmpleadosPDF', function ($request, $response) {
+                                                
+                                                $pdf = new TablaPDF();
+                                                // Títulos de las columnas
+                                                $header = array('Nombre Empleado','Cant Operaciones');
+                                                // Carga de datos
+                                                $data = $pdf->LoadDataReportSumOpEmpleados();
+                                                $pdf->SetFont('Arial','',9);
+                                                $pdf->AddPage();
+                                                $pdf->TablaReportSumOpEmp($header,$data);
+                                                $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
+                                                
+                                                $pdf->Output();
+                                                return $response;
+                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                        //COCHERA
+                                //COCHERA MAS UTILIZADA
+                                        $app->get('/ReportCocheraMasUtilPDF', function ($request, $response) {
+        
+                                                $pdf = new TablaPDF();
+                                                // Títulos de las columnas
+                                                $header = array('NRO Cochera','Cant Max Operaciones');
+                                                // Carga de datos
+                                                $data = $pdf->LoadDataReportCochMasUt();
+                                                $pdf->SetFont('Arial','',9);
+                                                $pdf->AddPage();
+                                                $pdf->TablaReportCochera($header,$data);
+                                                $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
+                                                
+                                                $pdf->Output();
+                                                return $response;
+                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');     
+                                //COCHERA MENOS UTILIZADA
+                                        $app->get('/ReportCocheraMenosUtilPDF', function ($request, $response) {
+        
+                                                $pdf = new TablaPDF();
+                                                // Títulos de las columnas
+                                                $header = array('NRO Cochera','Cant Operaciones');
+                                                // Carga de datos
+                                                $data = $pdf->LoadDataReportCochMenosUt();
+                                                $pdf->SetFont('Arial','',9);
+                                                $pdf->AddPage();
+                                                $pdf->TablaReportCochera($header,$data);
+                                                $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
+                                                
+                                                $pdf->Output();
+                                                return $response;
+                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');    
 
-                        //COCHERAS SIN UTILIZAR
-                                $app->get('/ReportCocheraSinUtilPDF', function ($request, $response) {
-   
-                                        $pdf = new TablaPDF();
-                                        // Títulos de las columnas
-                                        $header = array('NRO Cochera','Cant Operaciones');
-                                        // Carga de datos
-                                        $data = $pdf->LoadDataReportCocheraSinUtil();
-                                        $pdf->SetFont('Arial','',9);
-                                        $pdf->AddPage();
-                                        $pdf->TablaReportCochera($header,$data);
-                                        $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
-                                        
-                                        $pdf->Output();
-                                        return $response;
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');         
-                //VEHICULOS
+                                //COCHERAS SIN UTILIZAR
+                                        $app->get('/ReportCocheraSinUtilPDF', function ($request, $response) {
+        
+                                                $pdf = new TablaPDF();
+                                                // Títulos de las columnas
+                                                $header = array('NRO Cochera','Cant Operaciones');
+                                                // Carga de datos
+                                                $data = $pdf->LoadDataReportCocheraSinUtil();
+                                                $pdf->SetFont('Arial','',9);
+                                                $pdf->AddPage();
+                                                $pdf->TablaReportCochera($header,$data);
+                                                $response = $this->response->withHeader( 'Content-type', 'application/pdf' );
+                                                
+                                                $pdf->Output();
+                                                return $response;
+                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');         
+                        //VEHICULOS
                          $app->get('/ReportVehiculosPDF', function ($request, $response) {
                                 $pdf = new TablaPDF();
                                 // Títulos de las columnas
@@ -594,165 +599,165 @@ $app = new \Slim\App(["settings" => $config]);
                                 return $response;
                         })->add(\MWparaAutentificar::class . ':VerificarUsuario');
         //////////////////////////////////////XLS///////////////////////////////////
-        //REPORTES
-                //USUARIO
-                        //DIAS Y HORAS LOGUEO
-                                $app->get('/ReportLogEmpleadosCSV', function ($request, $response) {
-                                
-                                        $sheet = Reportes::ReportLogEmpleados();
-
-                                        $doc = new PHPExcel();
-                                        $doc->setActiveSheetIndex(0);
-                                        $i=2;
-                                        $arrayResp = array();
-                        
-                                        $arrayNomColumnas = array('Nombre Empleado', 'Turno', 'Estado', 'Fecha', 'Hora Entrada','Hora Salida','Cantidad de Horas');
-                                        $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
-                                        foreach($sheet as $row)
-                                        {
-                                                $arrayResp[0] = $row->{'NOMBRE_EMPLEADO'};
-                                                $arrayResp[1] = $row->{'TURNO'};
-                                                $arrayResp[2] = $row->{'ESTADO'};
-                                                $arrayResp[3] = $row->{'FECHA'};
-                                                $arrayResp[4] = $row->{'HORA_ENTRADA'};
-                                                $arrayResp[5] = $row->{'HORA_SALIDA'};
-                                                $arrayResp[6] = $row->{'CANTIDAD_HORAS'};
-        
-                                                $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
-                                                $i++;
-                                        }
-                                        $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
-                                        $response = $response->withHeader('Cache-Control', 'max-age=0');
-                                        $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
-                                        $writer->save('php://output');
+                //REPORTES
+                        //USUARIO
+                                //DIAS Y HORAS LOGUEO
+                                        $app->get('/ReportLogEmpleadosCSV', function ($request, $response) {
                                         
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
-                        //CANTIDAD DE OPERACIONES POR EMPLEADO
-                         $app->get('/ReportSumOpEmpleadosCSV', function ($request, $response) {
+                                                $sheet = Reportes::ReportLogEmpleados();
+
+                                                $doc = new PHPExcel();
+                                                $doc->setActiveSheetIndex(0);
+                                                $i=2;
+                                                $arrayResp = array();
                                 
-                                        $sheet = Reportes::ReportSumOpEmpleados();
+                                                $arrayNomColumnas = array('Nombre Empleado', 'Turno', 'Estado', 'Fecha', 'Hora Entrada','Hora Salida','Cantidad de Horas');
+                                                $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
+                                                foreach($sheet as $row)
+                                                {
+                                                        $arrayResp[0] = $row->{'NOMBRE_EMPLEADO'};
+                                                        $arrayResp[1] = $row->{'TURNO'};
+                                                        $arrayResp[2] = $row->{'ESTADO'};
+                                                        $arrayResp[3] = $row->{'FECHA'};
+                                                        $arrayResp[4] = $row->{'HORA_ENTRADA'};
+                                                        $arrayResp[5] = $row->{'HORA_SALIDA'};
+                                                        $arrayResp[6] = $row->{'CANTIDAD_HORAS'};
+                
+                                                        $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
+                                                        $i++;
+                                                }
+                                                $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
+                                                $response = $response->withHeader('Cache-Control', 'max-age=0');
+                                                $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
+                                                $writer->save('php://output');
+                                                
+                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                                //CANTIDAD DE OPERACIONES POR EMPLEADO
+                                        $app->get('/ReportSumOpEmpleadosCSV', function ($request, $response) {
+                                                
+                                                        $sheet = Reportes::ReportSumOpEmpleados();
 
-                                        $doc = new PHPExcel();
-                                        $doc->setActiveSheetIndex(0);
-                                        $i=2;
-                                        $arrayResp = array();
-                        
-                                        $arrayNomColumnas = array('Nombre Empleado', 'Cantidad De Operaciones');
-                                        $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
-                                        foreach($sheet as $row)
-                                        {
-                                                $arrayResp[0] = $row->{'NOMBRE_EMPLEADO'};
-                                                $arrayResp[1] = $row->{'CANTIDAD_OPERACIONES'};
-                                                $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
-                                                $i++;
-                                        }
-                                        $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
-                                        $response = $response->withHeader('Cache-Control', 'max-age=0');
-                                        $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
-                                        $writer->save('php://output');
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
-                       
-                //COCHERA
-                        //COCHERA MAS UTILIZADA
-                                $app->get('/ReportCocheraMasUtilCSV', function ($request, $response) {
+                                                        $doc = new PHPExcel();
+                                                        $doc->setActiveSheetIndex(0);
+                                                        $i=2;
+                                                        $arrayResp = array();
+                                        
+                                                        $arrayNomColumnas = array('Nombre Empleado', 'Cantidad De Operaciones');
+                                                        $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
+                                                        foreach($sheet as $row)
+                                                        {
+                                                                $arrayResp[0] = $row->{'NOMBRE_EMPLEADO'};
+                                                                $arrayResp[1] = $row->{'CANTIDAD_OPERACIONES'};
+                                                                $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
+                                                                $i++;
+                                                        }
+                                                        $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
+                                                        $response = $response->withHeader('Cache-Control', 'max-age=0');
+                                                        $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
+                                                        $writer->save('php://output');
+                                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
                                 
-                                        $sheet = Reportes::ReportCocheraMasUtil();
+                        //COCHERA
+                                //COCHERA MAS UTILIZADA
+                                        $app->get('/ReportCocheraMasUtilCSV', function ($request, $response) {
+                                        
+                                                $sheet = Reportes::ReportCocheraMasUtil();
 
-                                        $doc = new PHPExcel();
-                                        $doc->setActiveSheetIndex(0);
-                                        $i=2;
-                                        $arrayResp = array();
-                        
-                                        $arrayNomColumnas = array('Nro Cochera', 'Cantidad de Operaciones');
-                                        $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
-                                        foreach($sheet as $row)
-                                        {
-                                                $arrayResp[0] = $row->{'NRO_COCHERA'};
-                                                $arrayResp[1] = $row->{'CANTIDAD_OPERACIONES'};
-                                                $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
-                                                $i++;
-                                        }
-                                       $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
-                                        $response = $response->withHeader('Cache-Control', 'max-age=0');
-                                        $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
-                                        $writer->save('php://output');
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
-                        //COCHERA MENOS UTILIZADA
-                                $app->get('/ReportCocheraMenosUtilCSV', function ($request, $response) {
+                                                $doc = new PHPExcel();
+                                                $doc->setActiveSheetIndex(0);
+                                                $i=2;
+                                                $arrayResp = array();
                                 
-                                        $sheet = Reportes::ReportCocheraMenosUtil();
-
-                                        $doc = new PHPExcel();
-                                        $doc->setActiveSheetIndex(0);
-                                        $i=2;
-                                        $arrayResp = array();
-                        
-                                        $arrayNomColumnas = array('Nro Cochera', 'Cantidad de Operaciones');
-                                        $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
-                                        foreach($sheet as $row)
-                                        {
-                                                $arrayResp[0] = $row->{'NRO_COCHERA'};
-                                                $arrayResp[1] = $row->{'CANTIDAD_OPERACIONES'};
-                                                $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
-                                                $i++;
-                                        }
+                                                $arrayNomColumnas = array('Nro Cochera', 'Cantidad de Operaciones');
+                                                $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
+                                                foreach($sheet as $row)
+                                                {
+                                                        $arrayResp[0] = $row->{'NRO_COCHERA'};
+                                                        $arrayResp[1] = $row->{'CANTIDAD_OPERACIONES'};
+                                                        $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
+                                                        $i++;
+                                                }
                                         $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
-                                        $response = $response->withHeader('Cache-Control', 'max-age=0');
-                                        $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
-                                        $writer->save('php://output');
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
-                        //COCHERA SIN UTILIZAR
-                                $app->get('/ReportCocheraSinUtilCSV', function ($request, $response) {
-                        
-                                        $sheet = Reportes::ReportCocheraSinUtil();
+                                                $response = $response->withHeader('Cache-Control', 'max-age=0');
+                                                $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
+                                                $writer->save('php://output');
+                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                                //COCHERA MENOS UTILIZADA
+                                        $app->get('/ReportCocheraMenosUtilCSV', function ($request, $response) {
+                                        
+                                                $sheet = Reportes::ReportCocheraMenosUtil();
 
-                                        $doc = new PHPExcel();
-                                        $doc->setActiveSheetIndex(0);
-                                        $i=2;
-                                        $arrayResp = array();
-                        
-                                        $arrayNomColumnas = array('Nro Cochera', 'Cantidad de Operaciones');
-                                        $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
-                                        foreach($sheet as $row)
-                                        {
-                                                $arrayResp[0] = $row->{'NRO_COCHERA'};
-                                                $arrayResp[1] = $row->{'CANTIDAD_OPERACIONES'};
-                                                $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
-                                                $i++;
-                                        }
-                                        $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
-                                        $response = $response->withHeader('Cache-Control', 'max-age=0');
-                                        $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
-                                        $writer->save('php://output');
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
-                //VEHICULOS
-                         $app->get('/ReportVehiculosCSV', function ($request, $response) {
+                                                $doc = new PHPExcel();
+                                                $doc->setActiveSheetIndex(0);
+                                                $i=2;
+                                                $arrayResp = array();
                                 
-                                        $sheet = Reportes::ReportVehiculos();
+                                                $arrayNomColumnas = array('Nro Cochera', 'Cantidad de Operaciones');
+                                                $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
+                                                foreach($sheet as $row)
+                                                {
+                                                        $arrayResp[0] = $row->{'NRO_COCHERA'};
+                                                        $arrayResp[1] = $row->{'CANTIDAD_OPERACIONES'};
+                                                        $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
+                                                        $i++;
+                                                }
+                                                $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
+                                                $response = $response->withHeader('Cache-Control', 'max-age=0');
+                                                $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
+                                                $writer->save('php://output');
+                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                                //COCHERA SIN UTILIZAR
+                                        $app->get('/ReportCocheraSinUtilCSV', function ($request, $response) {
+                                
+                                                $sheet = Reportes::ReportCocheraSinUtil();
 
-                                        $doc = new PHPExcel();
-                                        $doc->setActiveSheetIndex(0);
-                                        $i=2;
-                                        $arrayResp = array();
+                                                $doc = new PHPExcel();
+                                                $doc->setActiveSheetIndex(0);
+                                                $i=2;
+                                                $arrayResp = array();
+                                
+                                                $arrayNomColumnas = array('Nro Cochera', 'Cantidad de Operaciones');
+                                                $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
+                                                foreach($sheet as $row)
+                                                {
+                                                        $arrayResp[0] = $row->{'NRO_COCHERA'};
+                                                        $arrayResp[1] = $row->{'CANTIDAD_OPERACIONES'};
+                                                        $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
+                                                        $i++;
+                                                }
+                                                $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
+                                                $response = $response->withHeader('Cache-Control', 'max-age=0');
+                                                $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
+                                                $writer->save('php://output');
+                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                                //VEHICULOS
+                                        $app->get('/ReportVehiculosCSV', function ($request, $response) {
+                                                
+                                                        $sheet = Reportes::ReportVehiculos();
+
+                                                        $doc = new PHPExcel();
+                                                        $doc->setActiveSheetIndex(0);
+                                                        $i=2;
+                                                        $arrayResp = array();
+                                        
+                                                        $arrayNomColumnas =  array('Nro Cochera', 'Patente', 'Color', 'Marca','Fecha Hora Ingreso','Fecha Hora Salida','Importe');
+                                                        $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
+                                                        foreach($sheet as $row)
+                                                        {
+                                                                $arrayResp[0] = $row->{'NRO_COCHERA'};
+                                                                $arrayResp[1] = $row->{'PATENTE'};
+                                                                $arrayResp[2] = $row->{'COLOR'};
+                                                                $arrayResp[3] = $row->{'MARCA'};
+                                                                $arrayResp[4] = $row->{'FECHA_INGRESO'};
+                                                                $arrayResp[5] = $row->{'FECHA_SALIDA'};
+                                                                $arrayResp[6] = $row->{'IMPORTE'};
                         
-                                        $arrayNomColumnas =  array('Nro Cochera', 'Patente', 'Color', 'Marca','Fecha Hora Ingreso','Fecha Hora Salida','Importe');
-                                        $doc->getActiveSheet()->fromArray(array($arrayNomColumnas), null, 'A1');
-                                        foreach($sheet as $row)
-                                        {
-                                                $arrayResp[0] = $row->{'NRO_COCHERA'};
-                                                $arrayResp[1] = $row->{'PATENTE'};
-                                                $arrayResp[2] = $row->{'COLOR'};
-                                                $arrayResp[3] = $row->{'MARCA'};
-                                                $arrayResp[4] = $row->{'FECHA_INGRESO'};
-                                                $arrayResp[5] = $row->{'FECHA_SALIDA'};
-                                                $arrayResp[6] = $row->{'IMPORTE'};
-        
-                                                $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
-                                                $i++;
-                                        }
-                                        $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
-                                        $response = $response->withHeader('Cache-Control', 'max-age=0');
-                                        $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
-                                        $writer->save('php://output');
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');  
+                                                                $doc->getActiveSheet()->fromArray(array($arrayResp), null, 'A'.$i);
+                                                                $i++;
+                                                        }
+                                                        $response = $response->withHeader('Content-Disposition', 'attachment','filename="Reporte de Empleados.xls"');
+                                                        $response = $response->withHeader('Cache-Control', 'max-age=0');
+                                                        $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
+                                                        $writer->save('php://output');
+                                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');  
 $app->run();
