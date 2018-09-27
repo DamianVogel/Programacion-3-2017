@@ -15,6 +15,8 @@ require __DIR__.'/clases/TablaPDF.php';
 require __DIR__.'/clases/PHPReport.php';
 require __DIR__.'/clases/PHPExcel/PHPExcel.php';
 require __DIR__.'/clases/MWparaAutentificar.php';
+require __DIR__.'/clases/helados.php';
+
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -38,7 +40,86 @@ $app->add(function ($req, $res, $next) {
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     });
 
+//<---------------------------------HELADO-------------------------------------->
 
+        //////////////////////////////////////ABM///////////////////////////////////////
+
+                //Alta de Helado
+                               
+                       
+                $app->post('/altaHelado',function (Request $request, Response $response,$args) {
+                        
+                        try	
+                        {
+
+                                $ArrayDeParametros = $request->getParsedBody();  
+                                
+                                $resultado = Helado::AltaHelado($ArrayDeParametros);
+
+                                if($resultado)
+                                {
+                                        $rta = "El Helado fue dado de alta correctamente";
+                                }
+                                else
+                                {
+                                        $rta = "No se ha dado de alta el Helado";
+                                }
+
+
+                                
+                        }                                        
+                        catch (Exception $e)
+                        {
+                                $rta = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
+                        }
+                
+                return $response->withJson($rta);
+
+                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+
+        
+
+        
+
+//////////////////////////////////////ACCIONES///////////////////////////////////
+       
+
+
+
+
+        //Loggearse e indica que tipo es //INGRESA CON FORM-URLENCODED 
+                $app->post('/validarusuario', function ($request, $response, $args) {
+                        try	
+                        {
+                                $ArrayDeParametros = $request->getParsedBody();    
+                                $resultado = Usuario::SignIn($ArrayDeParametros);
+                        }
+                        catch (Exception $e)
+                        {
+                                $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
+                        }
+                                return $response->withJson($resultado);
+                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+        
+
+        
+                
+        /*****************************   TRAER BD   *******************************/
+                //Traer todos los helados
+                        $app->get('/TraerTodosLosHelados', function ($request, $response) {
+                        $helados = Helado::TraerTodosLosHelados();
+                        return $response->withJson($helados);
+                        });
+                
+                       // ->add(\MWparaAutentificar::class . ':VerificarUsuario')
+
+                //Traer un Usuario 
+                        $app->get('/TraerUnHelado/[{id}]', function ($request, $response, $args) {
+                        $uno = Helado::TraerUnHelado($args['id']);
+                        return $response->withJson($uno);
+                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+
+       
 
 
 
@@ -141,6 +222,7 @@ $app->add(function ($req, $res, $next) {
 
 
                 //Loggearse e indica que tipo es //INGRESA CON FORM-URLENCODED 
+                        /*
                         $app->post('/validarusuario', function ($request, $response, $args) {
                                 try	
                                 {
@@ -153,7 +235,7 @@ $app->add(function ($req, $res, $next) {
                                 }
                                         return $response->withJson($resultado);
                         })->add(\MWparaAutentificar::class . ':VerificarUsuario');
-                
+                        */
 
                 //Indica que tipo es 
                         $app->get('/tipoempleado/[{id}]', function ($request, $response, $args) {
