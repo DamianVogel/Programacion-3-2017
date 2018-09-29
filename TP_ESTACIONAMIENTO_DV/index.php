@@ -75,9 +75,9 @@ $app->add(function ($req, $res, $next) {
                 
                 return $response->withJson($rta);
 
-                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                });
 
-        
+               // ->add(\MWparaAutentificar::class . ':VerificarUsuario')
 
         
 
