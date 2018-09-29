@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jul 30, 2017 at 05:36 PM
--- Server version: 10.1.24-MariaDB
--- PHP Version: 7.0.8
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 30-09-2018 a las 00:58:16
+-- Versión del servidor: 10.1.32-MariaDB
+-- Versión de PHP: 7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `id2356315_tp_estacionamiento`
+-- Base de datos: `tp_estacionamiento`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cocheras`
+-- Estructura de tabla para la tabla `cocheras`
 --
 
 CREATE TABLE `cocheras` (
@@ -34,7 +36,7 @@ CREATE TABLE `cocheras` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Dumping data for table `cocheras`
+-- Volcado de datos para la tabla `cocheras`
 --
 
 INSERT INTO `cocheras` (`ID_COCHERA`, `NRO_COCHERA`, `RESERVADO`, `HABILITADA`) VALUES
@@ -55,7 +57,39 @@ INSERT INTO `cocheras` (`ID_COCHERA`, `NRO_COCHERA`, `RESERVADO`, `HABILITADA`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logs_empleados`
+-- Estructura de tabla para la tabla `helados`
+--
+
+CREATE TABLE `helados` (
+  `id_helado` int(3) NOT NULL,
+  `Sabor` varchar(50) COLLATE utf16_spanish_ci NOT NULL,
+  `Tipo` varchar(50) COLLATE utf16_spanish_ci NOT NULL,
+  `Kilos` varchar(50) COLLATE utf16_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `helados`
+--
+
+INSERT INTO `helados` (`id_helado`, `Sabor`, `Tipo`, `Kilos`) VALUES
+(1, 'Menta', 'Crema', '5'),
+(2, 'Chocolate', 'Crema', '2'),
+(3, 'pruebaPost', 'pruebaPost', 'pruebaPost'),
+(4, 'PruebaPost2', 'PruebaPost2', 'PruebaPost2'),
+(5, 'Dulce de leche', 'Crema', '6'),
+(6, 'Dulce de leche', 'Crema', '6'),
+(7, 'Dulce de leche', 'Crema', '6'),
+(8, 'Mascarpoe', 'Crema', '1'),
+(9, 'Mascarpoe', 'Crema', '1'),
+(10, 'Mascarpoe', 'Crema', '1'),
+(11, 'Mascarpoe', 'Crema', '1'),
+(12, 'Mascarpoe', 'Crema', '1'),
+(13, 'Mascarpoe', 'Crema', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `logs_empleados`
 --
 
 CREATE TABLE `logs_empleados` (
@@ -67,7 +101,7 @@ CREATE TABLE `logs_empleados` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Dumping data for table `logs_empleados`
+-- Volcado de datos para la tabla `logs_empleados`
 --
 
 INSERT INTO `logs_empleados` (`ID_LOG_EMPLEADO`, `ID_EMPLEADO`, `FECHA`, `HORA_ENTRADA`, `HORA_SALIDA`) VALUES
@@ -95,7 +129,7 @@ INSERT INTO `logs_empleados` (`ID_LOG_EMPLEADO`, `ID_EMPLEADO`, `FECHA`, `HORA_E
 -- --------------------------------------------------------
 
 --
--- Table structure for table `operaciones`
+-- Estructura de tabla para la tabla `operaciones`
 --
 
 CREATE TABLE `operaciones` (
@@ -110,7 +144,7 @@ CREATE TABLE `operaciones` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Dumping data for table `operaciones`
+-- Volcado de datos para la tabla `operaciones`
 --
 
 INSERT INTO `operaciones` (`ID_OPERACION`, `ID_COCHERA`, `ID_VEHICULO`, `ID_EMPLEADO`, `FECHA_HORA_INGRESO`, `FECHA_HORA_SALIDA`, `CANT_HORAS`, `IMPORTE`) VALUES
@@ -126,7 +160,7 @@ INSERT INTO `operaciones` (`ID_OPERACION`, `ID_COCHERA`, `ID_VEHICULO`, `ID_EMPL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tarifas`
+-- Estructura de tabla para la tabla `tarifas`
 --
 
 CREATE TABLE `tarifas` (
@@ -136,7 +170,7 @@ CREATE TABLE `tarifas` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Dumping data for table `tarifas`
+-- Volcado de datos para la tabla `tarifas`
 --
 
 INSERT INTO `tarifas` (`ID_TARIFA`, `DESC_TARIFA`, `IMPORTE`) VALUES
@@ -147,7 +181,7 @@ INSERT INTO `tarifas` (`ID_TARIFA`, `DESC_TARIFA`, `IMPORTE`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuarios`
+-- Estructura de tabla para la tabla `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -161,7 +195,7 @@ CREATE TABLE `usuarios` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Dumping data for table `usuarios`
+-- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`ID_EMPLEADO`, `NOMBRE`, `TURNO`, `PASSWORD`, `TIPO`, `ESTADO`, `ESTADO_BASE`) VALUES
@@ -178,7 +212,7 @@ INSERT INTO `usuarios` (`ID_EMPLEADO`, `NOMBRE`, `TURNO`, `PASSWORD`, `TIPO`, `E
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vehiculos`
+-- Estructura de tabla para la tabla `vehiculos`
 --
 
 CREATE TABLE `vehiculos` (
@@ -190,7 +224,7 @@ CREATE TABLE `vehiculos` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Dumping data for table `vehiculos`
+-- Volcado de datos para la tabla `vehiculos`
 --
 
 INSERT INTO `vehiculos` (`ID_VEHICULO`, `PATENTE`, `COLOR`, `MARCA`, `ESTADO`) VALUES
@@ -210,79 +244,98 @@ INSERT INTO `vehiculos` (`ID_VEHICULO`, `PATENTE`, `COLOR`, `MARCA`, `ESTADO`) V
 (134, 'PRIMEROWEB', 'color1', 'google', '1');
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `cocheras`
+-- Indices de la tabla `cocheras`
 --
 ALTER TABLE `cocheras`
   ADD PRIMARY KEY (`ID_COCHERA`);
 
 --
--- Indexes for table `logs_empleados`
+-- Indices de la tabla `helados`
+--
+ALTER TABLE `helados`
+  ADD PRIMARY KEY (`id_helado`);
+
+--
+-- Indices de la tabla `logs_empleados`
 --
 ALTER TABLE `logs_empleados`
   ADD PRIMARY KEY (`ID_LOG_EMPLEADO`);
 
 --
--- Indexes for table `operaciones`
+-- Indices de la tabla `operaciones`
 --
 ALTER TABLE `operaciones`
   ADD PRIMARY KEY (`ID_OPERACION`);
 
 --
--- Indexes for table `tarifas`
+-- Indices de la tabla `tarifas`
 --
 ALTER TABLE `tarifas`
   ADD PRIMARY KEY (`ID_TARIFA`);
 
 --
--- Indexes for table `usuarios`
+-- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`ID_EMPLEADO`);
 
 --
--- Indexes for table `vehiculos`
+-- Indices de la tabla `vehiculos`
 --
 ALTER TABLE `vehiculos`
   ADD PRIMARY KEY (`ID_VEHICULO`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `cocheras`
+-- AUTO_INCREMENT de la tabla `cocheras`
 --
 ALTER TABLE `cocheras`
   MODIFY `ID_COCHERA` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
 --
--- AUTO_INCREMENT for table `logs_empleados`
+-- AUTO_INCREMENT de la tabla `helados`
+--
+ALTER TABLE `helados`
+  MODIFY `id_helado` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT de la tabla `logs_empleados`
 --
 ALTER TABLE `logs_empleados`
   MODIFY `ID_LOG_EMPLEADO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
 --
--- AUTO_INCREMENT for table `operaciones`
+-- AUTO_INCREMENT de la tabla `operaciones`
 --
 ALTER TABLE `operaciones`
   MODIFY `ID_OPERACION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
 --
--- AUTO_INCREMENT for table `tarifas`
+-- AUTO_INCREMENT de la tabla `tarifas`
 --
 ALTER TABLE `tarifas`
   MODIFY `ID_TARIFA` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
--- AUTO_INCREMENT for table `usuarios`
+-- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `ID_EMPLEADO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
 --
--- AUTO_INCREMENT for table `vehiculos`
+-- AUTO_INCREMENT de la tabla `vehiculos`
 --
 ALTER TABLE `vehiculos`
   MODIFY `ID_VEHICULO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

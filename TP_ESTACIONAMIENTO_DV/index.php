@@ -23,13 +23,6 @@ $config['addContentLengthHeader'] = false;
 
 
 
-    
-
-
-
-
-
-
 $app = new \Slim\App(["settings" => $config]);
 
 $app->add(function ($req, $res, $next) {
