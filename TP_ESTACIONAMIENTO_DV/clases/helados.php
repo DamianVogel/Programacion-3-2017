@@ -117,7 +117,7 @@ class Helado
 		public static function TraerUnHelado($id)
 		{
 			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-			$consulta = $objetoAcceso->RetornarConsulta('SELECT id_helado, sabor, tipo, kilos  
+			$consulta = $objetoAcceso->RetornarConsulta('SELECT id_helado, Sabor, Tipo, Kilos  
 														 FROM helados 
 														 WHERE id_helado=:id');
 			$consulta->bindParam("id", $id);

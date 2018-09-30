@@ -110,8 +110,9 @@ $app->add(function ($req, $res, $next) {
                         $app->get('/TraerUnHelado/[{id}]', function ($request, $response, $args) {
                         $uno = Helado::TraerUnHelado($args['id']);
                         return $response->withJson($uno);
-                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                        });
 
+                        //->add(\MWparaAutentificar::class . ':VerificarUsuario')
        
 
 
