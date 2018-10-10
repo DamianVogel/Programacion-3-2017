@@ -38,7 +38,18 @@ $app->add(function ($req, $res, $next) {
         //////////////////////////////////////ABM///////////////////////////////////////
 
                 //Alta de Helado
-                               
+                    
+                $app->get('/traerunVehiculo/[{modelo}]', function ($request, $response, $args) {
+                                                
+                                                
+                        $uno = Vehiculo::TraerUnVehiculo($args['modelo']);
+                        return $response->withJson($uno);
+                });
+
+
+
+
+
                        
                 $app->post('/altaHelado',function (Request $request, Response $response,$args) {
                         
@@ -329,7 +340,7 @@ $app->add(function ($req, $res, $next) {
                                 try	
                                 {
                                         $ArrayDeParametros = $request->getParsedBody();  
-                                        $resultado = Vehiculo::Alta($ArrayDeParametros);               
+                                        $resultado = Vehiculo::AltaVehiculo($ArrayDeParametros);               
                                         if($resultado)
                                         {
                                                 $resultado = "El vehiculo fue dado de Alta";
@@ -340,8 +351,8 @@ $app->add(function ($req, $res, $next) {
                                         $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
                                 }
                                 return $response->withJson($resultado);
-                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
-
+                        });
+                        //->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
                 //Borrar vehiculo //VA POR FORM URLENCODED //NO ANDA SI NO EXISTE 
                         $app->post('/borrarVehic',function (Request $request, Response $response,$args) {
@@ -411,16 +422,10 @@ $app->add(function ($req, $res, $next) {
                         $app->get('/traertodosVehiculos', function ($request, $response) {
                                         $Vehiculos = Vehiculo::TraerTodosLosVehiculos();
                                         return $response->withJson($Vehiculos);
-                                        })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                                        });
 
                                         //Funciona 17-07 ok!  //FUNCIONA OK, VALIDA SI ESTA Y SI NO
-                                        $app->get('/traerunVehiculo/[{id}]', function ($request, $response, $args) {
-                                                
-                                                
-                                        $uno = Vehiculo::TraerUnVehiculo($args['id']);
-                                        return $response->withJson($uno);
-                                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
-
+                                       
                 /***********************RELACIONADO - ESTACIONAMIENTO****************/
                         $app->get('/vehiculoEstacionado/[{id}]', function ($request, $response, $args) {
                                 $uno = Vehiculo::TraerUnVehiculoOperaciones($args['id']);

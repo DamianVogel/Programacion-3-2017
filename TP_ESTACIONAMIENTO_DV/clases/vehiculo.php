@@ -4,15 +4,19 @@ class Vehiculo
 {
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
-	private $Id_vehiculo;
-	private $Marca;
- 	private $Patente;
-  	private $Color;
-	private $Estado;
+private $Id_vehiculo;
+private $Modelo;
+private $Marca;
+private $CantidadPuertas; 
+private $Patente;
+  private $Color;
+private $Estado;
+private $RutaDeFoto;
 //--------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
-	public function __construct($Id_vehiculo=NULL, $Marca=NULL, $Patente=NULL, $Color=NULL, $Estado=NULL)
+/*	
+public function __construct($Id_vehiculo=NULL, $Marca=NULL, $Patente=NULL, $Color=NULL, $Estado=NULL)
 	{
 		if($Id_vehiculo !== NULL && $Marca !== NULL && $Patente !== NULL && $Color !== NULL && $Estado !== NULL ){
 			
@@ -23,55 +27,107 @@ class Vehiculo
 			$this->Estado = $Estado;
 		}
 	}
+*/
+	public function __construct($Id_vehiculo=NULL, $Modelo=NULL, $Marca=NULL, $CantidadPuertas=NULL, $Patente=NULL, $Color=NULL, $Estado=NULL, $RutaDeFoto=NULL)
+	{
+		if($Id_vehiculo !== NULL && $Modelo !== NULL && $Marca !== NULL && $CantidadPuertas !== NULL && $Patente !== NULL && $Color !== NULL && $Estado !== NULL && $RutaDeFoto !== NULL ){
+			
+			$this->Id_vehiculo = $Id_vehiculo;
+			$this->Modelo = $Modelo;
+			$this->Marca = $Marca;
+			$this->CantidadPuertas = $CantidadPuertas;
+			$this->Patente = $Patente;
+			$this->Color = $Color;
+			$this->Estado = $Estado;
+			$this->RutaDeFoto = $RutaDeFoto;
+		}
+	}
+
+
+
 
 //--------------------------------------------------------------------------------//
 
 
 
 //--GETTERS Y SETTERS
-	public function GetId_vehiculo()
-	{
-		return $this->Id_vehiculo;
-	}
-	
-	public function GetMarca()
-	{
-		return $this->Marca;
-	}
-	public function GetPatente()
-	{
-		return $this->Patente;
-	}
-	public function GetColor()
-	{
-		return $this->Color;
-	}
-	public function GetEstado()
-	{
-		return $this->Estado;
-	}
+public function GetId_vehiculo()
+{
+	return $this->Id_vehiculo;
+}
 
-	public function SetId_vehiculo($valor)
-	{
-		$this->Id_vehiculo = $valor;
-	}
-	
-	public function SetMarca($valor)
-	{
-		$this->marca = $valor;
-	}
-	public function SetPatente($valor)
-	{
-		$this->patente = $valor;
-	}
-	public function SetColor($valor)
-	{
-		$this->color = $valor;
-	}
-	public function SetEstado($valor)
-	{
-		$this->estado = $valor;
-	}
+public function GetModelo()
+{
+	return $this->Modelo;
+}
+
+public function GetMarca()
+{
+	return $this->Marca;
+}
+
+public function GetCantidadDePuertas()
+{
+	return $this->CantidadPuertas;
+}
+
+public function GetPatente()
+{
+	return $this->Patente;
+}
+public function GetColor()
+{
+	return $this->Color;
+}
+public function GetEstado()
+{
+	return $this->Estado;
+}
+public function GetRutaDeFoto()
+{
+	return $this->RutaDeFoto;
+}
+
+
+public function SetId_vehiculo($valor)
+{
+	$this->Id_vehiculo = $valor;
+}
+
+public function SetModelo($valor)
+{
+	$this->Modelo = $valor;
+}
+
+public function SetMarca($valor)
+{
+	$this->Marca = $valor;
+}
+
+public function SetCantidadDePuertas($valor)
+{
+	$this->CantidadPuertas = $valor;
+}
+
+public function SetPatente($valor)
+{
+	$this->patente = $valor;
+}
+
+public function SetColor($valor)
+{
+	$this->color = $valor;
+}
+public function SetEstado($valor)
+{
+	$this->estado = $valor;
+}
+
+public function SetRutaDeFoto($valor)
+{
+	$this->RutaDeFoto = $valor;
+}
+
 
 
 
@@ -89,18 +145,18 @@ class Vehiculo
 //--METODOS DE CLASE
 
 	//--METODOS DE CLASE
-	public static function Alta($ArrayDeParametros)
+	public static function AltaVehiculo($ArrayDeParametros)
 	{			
 		if( sizeof($ArrayDeParametros) ==3 ||sizeof($ArrayDeParametros) ==4  )
 		{	
 			$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-			$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `vehiculos`(`Patente`, `Color`, `Marca`,`Estado`) VALUES (:patente,:color,:marca,:estado)');
+			$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO `vehiculos`(`MODELO`, `MARCA`, `CANTIDADDEPUERTAS`) VALUES (:modelo,:marca,:cantidadDePuertas)');
 			
 				//parametros
-				$consulta->bindvalue(':patente', $ArrayDeParametros['patente'], PDO::PARAM_STR);
-				$consulta->bindvalue(':color', $ArrayDeParametros['color'] , PDO::PARAM_STR);
+				$consulta->bindvalue(':modelo', $ArrayDeParametros['modelo'], PDO::PARAM_STR);
 				$consulta->bindvalue(':marca', $ArrayDeParametros['marca'] , PDO::PARAM_STR);
-				$consulta->bindvalue(':estado', 1 , PDO::PARAM_INT);
+				$consulta->bindvalue(':cantidadDePuertas', $ArrayDeParametros['cantidadDePuertas'] , PDO::PARAM_STR);
+	//$consulta->bindvalue(':RutaDeFoto',PDO::PARAM_STR);
 
 				$resultado = $consulta->Execute();
 		}		
@@ -110,6 +166,7 @@ class Vehiculo
 		}
 		return $resultado;
 	}
+
 
 	
 	public static function Baja($aux)
@@ -173,8 +230,8 @@ class Vehiculo
     {
     
 		$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAcceso->RetornarConsulta('SELECT id_vehiculo, patente,  color, marca, estado FROM vehiculos WHERE patente=:patente');
-        $consulta->bindParam("patente", $aux);
+        $consulta = $objetoAcceso->RetornarConsulta('SELECT * FROM vehiculos WHERE MODELO=:modelo');
+        $consulta->bindParam("modelo", $aux);
 		
 		$consulta->execute();
 
@@ -187,8 +244,9 @@ class Vehiculo
           }
 		  else 
 		  {
-			return true;			  
-		  }
+			//return true;			  
+			return $uno;
+		}
     }
 
 	public static function ConstruirVehiculo($aux)
