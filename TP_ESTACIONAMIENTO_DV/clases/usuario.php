@@ -222,7 +222,7 @@ class Usuario
 		public static function SignIn($arrayParametros)
 		{
 				$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
-				if(sizeof($arrayParametros)==3)
+				if(sizeof($arrayParametros)==2)
 				{
 					$consulta = $objetoAcceso->RetornarConsulta('SELECT id_empleado, nombre, password, tipo, turno, estado  FROM `usuarios` WHERE nombre=:nombre and password=:password');
 					$consulta->bindvalue(':nombre', $arrayParametros['nombre'], PDO::PARAM_STR);
@@ -237,7 +237,8 @@ class Usuario
 
 					if($uno==true)
 					{
-					if($arrayParametros['recordarme']=="true")
+						/*
+						if($arrayParametros['recordarme']=="true")
 							{
 								setcookie("registro",$arrayParametros['nombre'],  time()+36000 , '/');
 								
@@ -246,8 +247,8 @@ class Usuario
 								setcookie("registro",$arrayParametros['nombre'],  time()-36000 , '/');
 								
 							}
-								session_start();
-
+								//session_start();
+						*/
 								$_SESSION['registrado']=$uno;						
 								
 								Usuario::LogInEmp($uno->id_empleado);

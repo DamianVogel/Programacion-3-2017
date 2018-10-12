@@ -95,14 +95,22 @@ $app->add(function ($req, $res, $next) {
                 $app->post('/validarusuario', function ($request, $response, $args) {
                         try	
                         {
+                                
+                                
                                 $ArrayDeParametros = $request->getParsedBody();    
+                                
                                 $resultado = Usuario::SignIn($ArrayDeParametros);
+                                
+                                
+                                //return $response->withJson($resultado); //nuevo
+                        
                         }
                         catch (Exception $e)
                         {
                                 $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
                         }
                                 return $response->withJson($resultado);
+                
                 })->add(\MWparaAutentificar::class . ':VerificarUsuario');
         
 

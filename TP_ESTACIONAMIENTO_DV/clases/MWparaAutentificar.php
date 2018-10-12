@@ -26,7 +26,11 @@ class MWparaAutentificar
 
 		// echo $ArrayDeParametros['nombre'];
 
-		$datosLogIn = $request->getParsedBody();
+		//$datosLogIn = $request->getParsedBody();
+
+		//echo $datosLogIn['nombre'];
+
+		//echo $next;
 
 		if($request->isGet())
 		{
@@ -62,6 +66,7 @@ class MWparaAutentificar
 				$token= AutentificadorJWT::CrearToken($_SESSION['registrado']);
 				
 				$objDelaRespuesta->esValido=true; 
+			
 			}
 			
 	
@@ -81,22 +86,18 @@ class MWparaAutentificar
 			{						
 				if($request->isPost())
 				{		
-					// el post sirve para todos los logeados			    
-					
-					
+								    									
 					$response = $next($request, $response);
 					
-				//	$response = $request->getParsedBody();
-					//var_dump($response);
+					
 				}
 				else
 				{
 					$payload=AutentificadorJWT::ObtenerData($token);
-					//var_dump($payload);
-					// DELETE,PUT y DELETE sirve para todos los logeados y admin
+					
 					if($payload->tipo=="ADMIN")
 					{
-						$response = $next($request, $response);
+						$response = $next($request, $response, "PRUEBA");
 					}		           	
 					else
 					{	
@@ -118,9 +119,9 @@ class MWparaAutentificar
 			return $nueva;
 		}
 		  
-		 //$response->getBody()->write('<p>vuelvo del verificador de credenciales</p>');
+		
+		 //return $response;
+		 return $response->withJson($token);
 		 
-		 return $response;   
-		  // return $respuesta; 
 	}
 }
