@@ -26,7 +26,7 @@ class MWparaAutentificar
 
 		// echo $ArrayDeParametros['nombre'];
 
-		//$datosLogIn = $request->getParsedBody();
+		$datosLogIn = $request->getParsedBody();
 
 		//echo $datosLogIn['nombre'];
 
@@ -34,14 +34,11 @@ class MWparaAutentificar
 
 		if($request->isGet())
 		{
-		 //$response->getBody()->write('<p>NO necesita credenciales para los get </p>');
-		 $response = $next($request, $response);
+		 	$response = $next($request, $response);
 		}
 		else
 		{
-			//$response->getBody()->write('<p>verifico credenciales</p>');
-
-
+			
 			session_start();
 
 			if(!isset($_SESSION['registrado']))
@@ -57,16 +54,17 @@ class MWparaAutentificar
 				{
 					$token= AutentificadorJWT::CrearToken($_SESSION['registrado']);
 					$objDelaRespuesta->esValido=true; 
-				
+					
+					//20181012
+					$objDelaRespuesta->token = $token;
 				}			
 			}
 			else
-			{
-				
+			{				
 				$token= AutentificadorJWT::CrearToken($_SESSION['registrado']);
 				
 				$objDelaRespuesta->esValido=true; 
-			
+				$objDelaRespuesta->token = $token;
 			}
 			
 	
@@ -87,9 +85,17 @@ class MWparaAutentificar
 				if($request->isPost())
 				{		
 								    									
-					$response = $next($request, $response);
+					//$response = $next($request, $response);
 					
+        			//20181013
+					$response = $response->withJson( $objDelaRespuesta,200);
 					
+					/*
+					$response
+					->withHeader('Access-Control-Allow-Origin', 'http://localhost')
+					->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+           			->withHeader('Access-Control-Allow-Methods',  'POST');
+					*/
 				}
 				else
 				{
@@ -97,7 +103,7 @@ class MWparaAutentificar
 					
 					if($payload->tipo=="ADMIN")
 					{
-						$response = $next($request, $response, "PRUEBA");
+						$response = $next($request, $response);
 					}		           	
 					else
 					{	
@@ -120,8 +126,10 @@ class MWparaAutentificar
 		}
 		  
 		
-		 //return $response;
-		 return $response->withJson($token);
+		 return $response;
+		
+		 
+		 //return $response->withJson($token); //<-- Esto funciona
 		 
 	}
 }

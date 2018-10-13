@@ -37,7 +37,7 @@ $app->add(function ($req, $res, $next) {
 
         //////////////////////////////////////ABM///////////////////////////////////////
 
-                //Alta de Helado
+                
                     
                 $app->get('/traerunVehiculo/[{modelo}]', function ($request, $response, $args) {
                                                 
@@ -94,22 +94,17 @@ $app->add(function ($req, $res, $next) {
         //Loggearse e indica que tipo es //INGRESA CON FORM-URLENCODED 
                 $app->post('/validarusuario', function ($request, $response, $args) {
                         try	
-                        {
-                                
-                                
+                        {                           
                                 $ArrayDeParametros = $request->getParsedBody();    
                                 
-                                $resultado = Usuario::SignIn($ArrayDeParametros);
-                                
-                                
-                                //return $response->withJson($resultado); //nuevo
-                        
+                                $resultado = Usuario::SignIn($ArrayDeParametros);                        
                         }
                         catch (Exception $e)
-                        {
-                                $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
-                        }
-                                return $response->withJson($resultado);
+                                {
+                                        $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
+                                }
+                                
+                        return $response->withJson($resultado);
                 
                 })->add(\MWparaAutentificar::class . ':VerificarUsuario');
         
