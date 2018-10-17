@@ -224,7 +224,7 @@ class Usuario
 				$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 				if(sizeof($arrayParametros)==2)
 				{
-					$consulta = $objetoAcceso->RetornarConsulta('SELECT id_empleado, nombre, password, tipo, turno, estado  FROM `usuarios` WHERE nombre=:nombre and password=:password');
+					$consulta = $objetoAcceso->RetornarConsulta('SELECT id_empleado, nombre, tipo, turno, estado  FROM `usuarios` WHERE nombre=:nombre and password=:password');
 					$consulta->bindvalue(':nombre', $arrayParametros['nombre'], PDO::PARAM_STR);
 					$consulta->bindvalue(':password', $arrayParametros['password'] , PDO::PARAM_STR);
 					

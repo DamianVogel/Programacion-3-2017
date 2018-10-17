@@ -27,8 +27,9 @@ class MWparaAutentificar
 		// echo $ArrayDeParametros['nombre'];
 
 		$datosLogIn = $request->getParsedBody();
+		//$datosHeader = $request->get_headers($request);
 
-		//echo $datosLogIn['nombre'];
+		//echo $datosLogIn['Usuario']['nombre'];
 
 		//echo $next;
 
@@ -57,6 +58,8 @@ class MWparaAutentificar
 					
 					//20181012
 					$objDelaRespuesta->token = $token;
+				
+					//return $datosLogIn;
 				}			
 			}
 			else
@@ -117,8 +120,11 @@ class MWparaAutentificar
 				$objDelaRespuesta->respuesta="Solo usuarios registrados";
 				$objDelaRespuesta->elToken=$token;
 
+				return $objDelaRespuesta->respuesta;
 			}  
 		}		  
+		
+		
 		if($objDelaRespuesta->respuesta!="")
 		{
 			$nueva=$response->withJson($objDelaRespuesta, 401);  
@@ -129,7 +135,110 @@ class MWparaAutentificar
 		 return $response;
 		
 		 
-		 //return $response->withJson($token); //<-- Esto funciona
+		 //return $response->withJson($datosHeader); //<-- Esto funciona
 		 
 	}
+
+	public function VerificarUsuarioHelado($request, $response, $next) {
+         
+		$objDelaRespuesta= new stdclass();
+		$objDelaRespuesta->respuesta="";
+	   
+		// $ArrayDeParametros = $request->getParsedBody();
+
+		// echo $ArrayDeParametros['nombre'];
+
+		$datosLogIn = $request->getParsedBody();
+		//$datosHeader = $request->get_headers($request);
+
+		//echo $datosLogIn['Usuario']['nombre'];
+
+		//echo $next;
+
+		if($request->isGet())
+		{
+		 	$response = $next($request, $response);
+		}
+		else
+		{
+			
+	
+			try 
+			{
+				//$token="";
+				AutentificadorJWT::verificarToken($datosLogIn[1]);
+				$objDelaRespuesta->esValido=true;      
+			}
+			catch (Exception $e) {      
+				//guardar en un log
+				$objDelaRespuesta->excepcion=$e->getMessage();
+				$objDelaRespuesta->esValido=false;     
+			}
+
+			if($objDelaRespuesta->esValido && $request->isPost())
+			{											    									
+					$response = $next($request, $response);					          
+			}    
+			else
+			{
+			
+				$objDelaRespuesta->respuesta="Solo usuarios registrados";
+		
+				return $objDelaRespuesta->respuesta;
+			}  
+		}		  
+		
+		/*
+		if($objDelaRespuesta->respuesta!="")
+		{
+			$nueva=$response->withJson($objDelaRespuesta, 401);  
+			return $nueva;
+		}
+		  */
+		
+		 return $response;
+		
+		 
+		 //return $response->withJson($datosHeader); //<-- Esto funciona
+		 
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

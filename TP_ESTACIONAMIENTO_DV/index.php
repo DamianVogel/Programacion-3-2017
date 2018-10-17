@@ -50,7 +50,7 @@ $app->add(function ($req, $res, $next) {
 
 
 
-                       
+                /*       
                 $app->post('/altaHelado',function (Request $request, Response $response,$args) {
                         
                         try	
@@ -80,8 +80,36 @@ $app->add(function ($req, $res, $next) {
                 return $response->withJson($rta);
 
                 });
+                */
+                $app->post('/altaHelado',function (Request $request, Response $response,$args) {
+                        
+                        try	
+                        {
 
-               // ->add(\MWparaAutentificar::class . ':VerificarUsuario')
+                                $ArrayDeParametros = $request->getParsedBody();  
+                                
+                                $resultado = Helado::AltaHelado($ArrayDeParametros[0]);
+
+                                if($resultado)
+                                {
+                                        $rta = "El Helado fue dado de alta correctamente";
+                                }
+                                else
+                                {
+                                        $rta = "No se ha dado de alta el Helado";
+                                }
+
+
+                                
+                        }                                        
+                        catch (Exception $e)
+                        {
+                                $rta = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
+                        }
+                
+                return $response->withJson($rta);
+
+                })->add(\MWparaAutentificar::class . ':VerificarUsuarioHelado');
 
         
 

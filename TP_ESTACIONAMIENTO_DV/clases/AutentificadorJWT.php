@@ -69,7 +69,7 @@ class AutentificadorJWT
 
             'data' => $datos,
 
-            'app'=> "TP POLLOLA VOGEL API PRO 2017 DELUXE EDITION"
+            'app'=> "VOGEL API LABORATORIO 4 2018"
 
         );
 
