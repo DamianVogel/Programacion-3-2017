@@ -132,9 +132,10 @@ $app->add(function ($req, $res, $next) {
                                         $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
                                 }
                                 
-                        return $response->withJson($resultado);
+                        return $response->withJson($ArrayDeParametros);
                 
-                })->add(\MWparaAutentificar::class . ':VerificarUsuario');
+                //})->add(\MWparaAutentificar::class . ':VerificarUsuario');
+        })->add(\MWparaAutentificar::class . ':VerificarUsuarioTP');
         
 
         
