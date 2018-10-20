@@ -139,7 +139,7 @@ $app->add(function ($req, $res, $next) {
 
 
 /////////////////////////////////////TP JUEGOS///////////////////////////////////////        
-        $app->get('/traertodosjugadores', function ($request, $response) {
+        $app->get('/traerpartidas', function ($request, $response) {
                 $juegos = Juegos::TraerTodosLosJuegos();
                 return $response->withJson($juegos);
                 });
