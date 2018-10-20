@@ -1,5 +1,6 @@
 <?php
 //Incluimos la clase AccesoDatos.php que no estaba. La copiamos desde la Carpeta Clases de Clase06
+require_once "AutentificadorJWT.php";
 
 class UsuarioJuegos{
 //--------------------------------------------------------------------------------//
@@ -87,7 +88,7 @@ class UsuarioJuegos{
 	///////////////////////////////////ABM//////////////////////////////////////
 		public static function Alta($usuario)
 		{
-			
+			try{
 					$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 					$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO usuarios(EMAIL,PASSWORD) VALUES (:email,:password)');
 			
@@ -95,12 +96,73 @@ class UsuarioJuegos{
 					$consulta->bindvalue(':email', $usuario['email'], PDO::PARAM_STR);
 					$consulta->bindvalue(':password', $usuario['password'] , PDO::PARAM_STR);
 					
-					
-
 
 					$resultado = $consulta->Execute();			
-			
+				}
+				catch (Exception $e)
+                        {
+                                $resultado = "Error al ejecutar la sentencia en Alta. Clase UsuarioJuegos (detalle del error:".$e->getMessage();
+                        }
+
+
+
+
 			return $resultado;	
 		}
+
+		public static function SignIn($arrayParametros)
+		{
+				$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
+				if(sizeof($arrayParametros)==2)
+				{
+					$consulta = $objetoAcceso->RetornarConsulta('SELECT ID_EMPLEADO, EMAIL, PASSWORD   FROM `usuarios` WHERE email=:email and password=:password');
+					$consulta->bindvalue(':email', $arrayParametros['email'], PDO::PARAM_STR);
+					$consulta->bindvalue(':password', $arrayParametros['password'] , PDO::PARAM_STR);
+					
+					$consulta->execute();
+
+					
+					$uno = $consulta->fetchObject("UsuarioJuegos");
+					
+				
+
+					if($uno==true)
+					{
+						/*
+						if($arrayParametros['recordarme']=="true")
+							{
+								setcookie("registro",$arrayParametros['nombre'],  time()+36000 , '/');
+								
+							}else
+							{
+								setcookie("registro",$arrayParametros['nombre'],  time()-36000 , '/');
+								
+							}
+								//session_start();
+						*/
+								$_SESSION['registrado']=$uno;						
+								
+								//Usuario::LogInEmp($uno->id_empleado);
+							
+								$retorno = $uno;
+
+					}
+					else
+					{
+						$retorno= "No-esta";
+					}
+					
+				}
+				else
+				{
+						$retorno ="Debe completar todos los parametros";
+				}
+				return $retorno;
+		}
+
+
+
+
+
 }
 		

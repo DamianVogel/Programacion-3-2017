@@ -141,7 +141,7 @@ class MWparaAutentificar
 
 
 
-
+	
 	public function VerificarUsuarioHelado($request, $response, $next) {
          
 		$objDelaRespuesta= new stdclass();
@@ -205,7 +205,7 @@ class MWparaAutentificar
 		 //return $response->withJson($datosHeader); //<-- Esto funciona
 		 
 	}
-
+	
 	public function VerificarUsuarioTP($request, $response, $next) {
 		$objDelaRespuesta= new stdclass();
 		$objDelaRespuesta->respuesta="";
@@ -232,7 +232,7 @@ class MWparaAutentificar
 
 			if(!isset($_SESSION['registrado']))
 			{
-				$respuesta = Usuario::SignIn($datosLogIn);
+				$respuesta = UsuarioJuegos::SignIn($datosLogIn);
 				
 				if($respuesta == "No-esta")
 				{
@@ -241,7 +241,10 @@ class MWparaAutentificar
 				}			
 				else
 				{
-					$token= AutentificadorJWT::CrearToken($_SESSION['registrado']);
+					//$token= AutentificadorJWT::CrearToken($_SESSION['registrado']);
+					$token= AutentificadorJWT::CrearToken($respuesta);
+					
+					
 					$objDelaRespuesta->esValido=true; 
 					
 					//20181012

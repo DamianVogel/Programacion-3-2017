@@ -127,7 +127,7 @@ $app->add(function ($req, $res, $next) {
                         {                           
                                 $ArrayDeParametros = $request->getParsedBody();    
                                 
-                                $resultado = Usuario::SignIn($ArrayDeParametros);                        
+                                $resultado = UsuarioJuegos::SignIn($ArrayDeParametros);                        
                         }
                         catch (Exception $e)
                                 {
@@ -159,6 +159,7 @@ $app->add(function ($req, $res, $next) {
                                 
                                 $resultado = UsuarioJuegos::Alta($ArrayDeParametros);
 
+                                /*
                                 if($resultado)
                                 {
                                         $rta = "El Empleado fue dado de alta correctamente";
@@ -167,17 +168,17 @@ $app->add(function ($req, $res, $next) {
                                 {
                                         $rta = "No se ha dado de alta el empleado";
                                 }
-
+                                */
 
                                 
                         }                                        
                         catch (Exception $e)
                         {
-                                $rta = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
+                                $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
                         }
                 
 //                return $response->withJson($rta);
-                return $response->withJson($ArrayDeParametros);
+                return $response->withJson($resultado);
                         
         });
         //->add(\MWparaAutentificar::class . ':VerificarUsuario');
