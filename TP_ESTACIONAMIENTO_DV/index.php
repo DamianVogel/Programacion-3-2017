@@ -16,7 +16,7 @@ require __DIR__.'/clases/PHPReport.php';
 require __DIR__.'/clases/PHPExcel/PHPExcel.php';
 require __DIR__.'/clases/MWparaAutentificar.php';
 require __DIR__.'/clases/helados.php';
-
+require __DIR__.'/clases/juegos.php';
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -136,7 +136,16 @@ $app->add(function ($req, $res, $next) {
                 
                 //})->add(\MWparaAutentificar::class . ':VerificarUsuario');
         })->add(\MWparaAutentificar::class . ':VerificarUsuarioTP');
+
+
+/////////////////////////////////////TP JUEGOS///////////////////////////////////////        
+        $app->get('/traertodosjugadores', function ($request, $response) {
+                $juegos = Juegos::TraerTodosLosJuegos();
+                return $response->withJson($juegos);
+                });
         
+                //->add(\MWparaAutentificar::class . ':VerificarUsuario');
+
 
         
                 
