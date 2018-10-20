@@ -17,6 +17,8 @@ require __DIR__.'/clases/PHPExcel/PHPExcel.php';
 require __DIR__.'/clases/MWparaAutentificar.php';
 require __DIR__.'/clases/helados.php';
 require __DIR__.'/clases/juegos.php';
+require __DIR__.'/clases/usuarioJuegos.php';
+
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -147,7 +149,44 @@ $app->add(function ($req, $res, $next) {
                 //->add(\MWparaAutentificar::class . ':VerificarUsuario');
 
 
+
+        $app->post('/altaUsuarioJuegos',function (Request $request, Response $response,$args) {
+                        
+                        try	
+                        {
+
+                                $ArrayDeParametros = $request->getParsedBody();  
+                                
+                                $resultado = UsuarioJuegos::Alta($ArrayDeParametros);
+
+                                if($resultado)
+                                {
+                                        $rta = "El Empleado fue dado de alta correctamente";
+                                }
+                                else
+                                {
+                                        $rta = "No se ha dado de alta el empleado";
+                                }
+
+
+                                
+                        }                                        
+                        catch (Exception $e)
+                        {
+                                $rta = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
+                        }
+                
+//                return $response->withJson($rta);
+                return $response->withJson($ArrayDeParametros);
+                        
+        });
+        //->add(\MWparaAutentificar::class . ':VerificarUsuario');
+
         
+
+
+
+
                 
         /*****************************   TRAER BD   *******************************/
                 //Traer todos los helados
