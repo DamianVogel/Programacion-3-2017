@@ -5,71 +5,53 @@ require_once "AutentificadorJWT.php";
 class UsuarioJuegos{
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
-	public $Id_usuario;
-	public $email;
-  	public $password;
+	private $Id_usuario;
+	private $Email;
+  	private $Password;
 	
 //--------------------------------------------------------------------------------//
 //--GETTERS Y SETTERS
-	public function GetId_empleado()
+	public function GetId_usuario()
 	{
-		return $this->Id_empleado;
+		return $this->Id_usuario;
 	}
 	
-	public function GetNombre()
+	public function GetEmail()
 	{
-		return $this->Nombre;
-	}
-	public function GetTurno()
-	{
-		return $this->Turno;
+		return $this->Email;
 	}
 	public function GetPassword()
 	{
 		return $this->Password;
 	}
-	public function GetTipo()
-	{
-		return $this->Tipo;
-	}
-	public function GetEstado()
-	{
-		return $this->Estado;
-	}
+	
 
 
-	public function SetNombre($valor)
+	public function SetId_usuario($valor)
 	{
-		$this->Nombre = $valor;
+		$this->Id_usuario = $valor;
 	}
-	public function SetTurno($valor)
+	public function SetEmail($valor)
 	{
-		$this->Turno = $valor;
+		$this->Email = $valor;
 	}
 	public function SetPassword($valor)
 	{
 		$this->Password = $valor;
 	}
-	public function SetTipo($valor)
-	{
-		$this->Tipo = $valor;
-	}
-	public function SetEstado($valor)
-	{
-		$this->Estado = $valor;
-	}
+	
 
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
 	
-	public function __construct( $Id_usuario=NULL,$email=NULL, $password=NULL)
+	public function __construct( $Id_usuario=NULL,$Email=NULL, $Password=NULL)
 	{
-		if( $Id_usuario !== NULL && $email !== NULL && $password !== NULL ){
+		if( $Id_usuario !== NULL && $Email !== NULL && $Password !== NULL ){
 			
 			$this->Id_usuario = $Id_usuario;
-			$this->email = $email;
-			$this->password = $password;
+			$this->Email = $Email;
+			$this->Password = $Password;
 		
 		}
 	}
@@ -115,48 +97,39 @@ class UsuarioJuegos{
 				$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 				if(sizeof($arrayParametros)==2)
 				{
-					$consulta = $objetoAcceso->RetornarConsulta('SELECT ID_EMPLEADO, EMAIL, PASSWORD   FROM `usuarios` WHERE email=:email and password=:password');
+					$consulta = $objetoAcceso->RetornarConsulta('SELECT id_usuario, email, password   FROM `usuarios` WHERE email=:email and password=:password');
 					$consulta->bindvalue(':email', $arrayParametros['email'], PDO::PARAM_STR);
-					$consulta->bindvalue(':password', $arrayParametros['password'] , PDO::PARAM_STR);
+					$consulta->bindvalue(':password', $arrayParametros['password'] , PDO::PARAM_STR);					
 					
 					$consulta->execute();
-
 					
 					$uno = $consulta->fetchObject("UsuarioJuegos");
 					
-				
+					$objDelaRespuesta= new stdclass();
 
-					if($uno==true)
-					{
-						/*
-						if($arrayParametros['recordarme']=="true")
-							{
-								setcookie("registro",$arrayParametros['nombre'],  time()+36000 , '/');
-								
-							}else
-							{
-								setcookie("registro",$arrayParametros['nombre'],  time()-36000 , '/');
-								
-							}
-								//session_start();
-						*/
-								$_SESSION['registrado']=$uno;						
-								
-								//Usuario::LogInEmp($uno->id_empleado);
-							
-								$retorno = $uno;
+					if($uno == true){
+						$token= AutentificadorJWT::CrearToken($uno);						
 
-					}
+						$objDelaRespuesta->token = $token;
+						$objDelaRespuesta->respuesta = "Bienvenido";						
+						$objDelaRespuesta->status = true;
+
+						$retorno = $objDelaRespuesta;
+					}	
 					else
-					{
-						$retorno= "No-esta";
-					}
+						{
+							$objDelaRespuesta->respuesta = "Password Incorrecto";
+							$objDelaRespuesta->token = false;
+							$objDelaRespuesta->status = false;
+							
+							$retorno = $objDelaRespuesta;														
+						}
 					
 				}
-				else
-				{
-						$retorno ="Debe completar todos los parametros";
+				else{
+					$retorno = false;
 				}
+								
 				return $retorno;
 		}
 
