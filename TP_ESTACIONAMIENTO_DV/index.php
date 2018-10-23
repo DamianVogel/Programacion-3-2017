@@ -82,6 +82,26 @@ $app->add(function ($req, $res, $next) {
                 return $response->withJson($resultado);
                         
         });
+
+        $app->post('/altaJuegos',function (Request $request, Response $response,$args) {
+                        
+                try	
+                {
+
+                        $ArrayDeParametros = $request->getParsedBody();  
+                        
+                        $resultado = Juegos::AltaJuego($ArrayDeParametros);
+                      
+                }                                        
+                catch (Exception $e)
+                {
+                        $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
+                }
+        
+    
+        return $response->withJson($resultado);
+                
+});
         
 
 

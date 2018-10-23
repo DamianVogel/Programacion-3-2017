@@ -94,8 +94,7 @@ class Juegos
 		public static function AltaJuego($juego)
 		{
 			
-			if( sizeof($juego) ==3 )
-			{
+		
 					$objetoAcceso = AccesoDatos::DameUnObjetoAcceso();
 					$consulta = $objetoAcceso->RetornarConsulta('INSERT INTO juegos (JUEGO,JUGADOR,GANO) VALUES (:juego,:jugador,:gano)');
 			
@@ -105,11 +104,9 @@ class Juegos
 					$consulta->bindvalue(':gano', $juego['gano'] , PDO::PARAM_BOOL);
 					
 					$resultado = $consulta->Execute();			
-			}		
-			else
-			{
-					$resultado = false;
-			}
+			
+					//$resultado = false;
+			
 
 
 			return $resultado;	
