@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-10-2018 a las 02:39:03
+-- Tiempo de generación: 24-10-2018 a las 04:14:26
 -- Versión del servidor: 10.1.32-MariaDB
 -- Versión de PHP: 7.2.5
 
@@ -100,23 +100,35 @@ CREATE TABLE `juegos` (
 --
 
 INSERT INTO `juegos` (`id_juego`, `juego`, `jugador`, `gano`) VALUES
-(1, 'JuegoAdivina', 'Jugador1', 1),
-(2, 'JuegoAdivina', 'Juan', 0),
-(3, 'JuegoAdivina', 'Pepe', 1),
-(4, 'prueba', 'prueba', 0),
-(5, 'prueba', 'prueba', 1),
-(6, 'prueba', 'prueba', 1),
-(7, 'pruebapost', 'pruebapost', 0),
-(8, 'pruebapost', 'pruebapost', 1),
-(9, 'pruebapost1', 'pruebapost1', 1),
-(10, 'pruebapost2', 'pruebapost2', 1),
-(11, 'AgilidadAritmetica', 'pruebaDV', 1),
-(12, 'AgilidadAritmetica', 'pruebaDV', 0),
-(13, 'AgilidadAritmetica', 'pruebaDV', 0),
-(14, 'AgilidadAritmetica', 'pruebaDV', 0),
-(15, 'AgilidadAritmetica', 'Array', 0),
 (16, 'AgilidadAritmetica', 'asd@asd.com', 0),
-(17, 'AgilidadAritmetica', 'asd@asd.com', 1);
+(17, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(18, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(19, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(20, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(21, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(22, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(23, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(24, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(25, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(26, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(27, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(28, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(29, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(30, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(31, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(32, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(33, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(34, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(35, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(36, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(37, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(38, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(39, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(40, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(41, 'AgilidadAritmetica', 'asd@asd.com', 0),
+(42, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(43, 'AgilidadAritmetica', 'asd@asd.com', 1),
+(44, 'AgilidadAritmetica', 'asd@asd.com', 1);
 
 -- --------------------------------------------------------
 
@@ -477,7 +489,7 @@ ALTER TABLE `helados`
 -- AUTO_INCREMENT de la tabla `juegos`
 --
 ALTER TABLE `juegos`
-  MODIFY `id_juego` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_juego` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `logs_empleados`
