@@ -38,19 +38,19 @@ $app->add(function ($req, $res, $next) {
 
 
         //Loggearse e indica que tipo es //INGRESA CON FORM-URLENCODED 
-                $app->post('/login', function ($request, $response, $args) {
-                        try	
-                        {                           
-                                $ArrayDeParametros = $request->getParsedBody();    
-                                
-                                $resultado = UsuarioJuegos::SignIn($ArrayDeParametros);                        
+        $app->post('/login', function ($request, $response, $args) {
+                try	
+                {                           
+                        $ArrayDeParametros = $request->getParsedBody();    
+                        
+                        $resultado = UsuarioJuegos::SignIn($ArrayDeParametros);                        
+                }
+                catch (Exception $e)
+                        {
+                                $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
                         }
-                        catch (Exception $e)
-                                {
-                                        $resultado = "Error al ejecutar la sentencia (detalle del error:".$e->getMessage();
-                                }
-                                
-                        return $response->withJson($resultado);
+                        
+                return $response->withJson($resultado);
                             
         });
         
@@ -60,7 +60,7 @@ $app->add(function ($req, $res, $next) {
         $app->get('/traerpartidas', function ($request, $response) {
                 $juegos = Juegos::TraerTodosLosJuegos();
                 return $response->withJson($juegos);
-                });
+        });
         
 
         $app->post('/altaUsuarioJuegos',function (Request $request, Response $response,$args) {
@@ -101,7 +101,7 @@ $app->add(function ($req, $res, $next) {
     
         return $response->withJson($resultado);
                 
-});
+        });
         
 
 
